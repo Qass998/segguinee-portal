@@ -1,0 +1,14 @@
+{
+  "/_global-error/page": "app/_global-error/page.js",
+  "/_not-found/page": "app/_not-found/page.js",
+  "/api/health/route": "app/api/health/route.js",
+  "/api/webhook/whatsapp/route": "app/api/webhook/whatsapp/route.js",
+  "/auth/callback/route": "app/auth/callback/route.js",
+  "/dashboard/page": "app/dashboard/page.js",
+  "/debug/page": "app/debug/page.js",
+  "/favicon.ico/route": "app/favicon.ico/route.js",
+  "/login/page": "app/login/page.js",
+  "/page": "app/page.js",
+  "/privacy/page": "app/privacy/page.js",
+  "/terms/page": "app/terms/page.js"
+}
