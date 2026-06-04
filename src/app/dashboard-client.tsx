@@ -223,7 +223,7 @@ function CommandBar(){
     }finally{setBusy(false);}
   };
 
-  const suggestions=["Résume l'activité d'aujourd'hui","Envoie un rappel aux clients en retard","Quel est l'état des incidents ouverts?"];
+  const suggestions=["Briefing du jour","Envoie les rappels de paiement","Déploie l'équipe à Kaloum","Rapport conseil d'administration","Résume la situation"];
 
   return(
     <div style={{borderBottom:`1px solid ${T.border}`,background:T.surface,flexShrink:0}}>
