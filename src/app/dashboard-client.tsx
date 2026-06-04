@@ -7,6 +7,7 @@ interface Invoice { id:string;customer_phone:string;customer_name:string;amount_
 interface Incident { id:string;type:string;description:string;zone:string;station:string;status:"open"|"in_progress"|"resolved"|"closed";reported_by:string;created_at:string; }
 interface Agent { id:string;agent:string;icon:string;statut:string;insight:string;heure_execution:string; }
 interface Projet { id:string;nom:string;type:string;zone:string;statut:string;budget_gnf:number;depense_gnf:number;date_debut:string;date_fin:string;chef_projet:string;description:string; }
+interface Task { id:string;command:string;status:"pending"|"executing"|"done"|"failed";result:string;action_taken:string;created_at:string;executed_at:string; }
 
 type Tab = "overview"|"production"|"invoices"|"incidents"|"projets"|"agents";
 
@@ -164,6 +165,7 @@ export function DashboardContent(){
 
       {/* ── CONTENT ──────────────────────────────────────────────────── */}
       <div style={{flex:1,display:"flex",flexDirection:"column",overflow:"hidden",minWidth:0}}>
+        {/* Header */}
         <div style={{padding:"12px 24px",borderBottom:`1px solid ${T.border}`,display:"flex",alignItems:"center",justifyContent:"space-between",background:T.surface,flexShrink:0}}>
           <span style={{fontSize:12,fontWeight:600,letterSpacing:"0.01em",color:T.text}}>{TABS.find(t=>t.key===tab)?.label}</span>
           <div style={{display:"flex",alignItems:"center",gap:6}}>
@@ -171,6 +173,9 @@ export function DashboardContent(){
             <span style={{fontSize:11,color:T.t3,fontFamily:T.mono}}>{new Date().toLocaleDateString("fr-FR",{day:"numeric",month:"short",year:"numeric"})}</span>
           </div>
         </div>
+        {/* Command Bar */}
+        <CommandBar/>
+        {/* Tab content */}
         <div style={{flex:1,overflowY:"auto",padding:"24px"}}>
           {tab==="overview"   && <Overview go={go}/>}
           {tab==="production" && <Production/>}
@@ -187,6 +192,99 @@ export function DashboardContent(){
 /* ╔══════════════════════════════════════════════════════════════════════╗
    ║ OVERVIEW                                                             ║
    ╚══════════════════════════════════════════════════════════════════════╝ */
+/* ╔══════════════════════════════════════════════════════════════════════╗
+   ║ COMMAND BAR — Director gives instructions, AI executes              ║
+   ╚══════════════════════════════════════════════════════════════════════╝ */
+function CommandBar(){
+  const [cmd,setCmd]=useState("");
+  const [busy,setBusy]=useState(false);
+  const [result,setResult]=useState<{text:string;status:"done"|"failed"}|null>(null);
+  const [tasks,setTasks]=useState<Task[]>([]);
+  const [showHistory,setShowHistory]=useState(false);
+
+  const loadTasks=useCallback(async()=>{
+    const d=await fetch("/api/command").then(r=>r.json());
+    setTasks(d||[]);
+  },[]);
+
+  useEffect(()=>{loadTasks();},[loadTasks]);
+
+  const execute=async()=>{
+    if(!cmd.trim()||busy)return;
+    setBusy(true);setResult(null);
+    try{
+      const res=await fetch("/api/command",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({command:cmd})});
+      const d=await res.json();
+      setResult({text:d.result||"Exécuté",status:d.status==="done"?"done":"failed"});
+      setCmd("");
+      await loadTasks();
+    }catch(e:any){
+      setResult({text:e.message,status:"failed"});
+    }finally{setBusy(false);}
+  };
+
+  const suggestions=["Résume l'activité d'aujourd'hui","Envoie un rappel aux clients en retard","Quel est l'état des incidents ouverts?"];
+
+  return(
+    <div style={{borderBottom:`1px solid ${T.border}`,background:T.surface,flexShrink:0}}>
+      {/* Input row */}
+      <div style={{padding:"10px 16px",display:"flex",gap:8,alignItems:"center"}}>
+        <div style={{width:6,height:6,borderRadius:"50%",background:busy?T.amber:T.blue,flexShrink:0,boxShadow:busy?`0 0 8px ${T.amber}`:`0 0 6px ${T.blue}`}}/>
+        <input
+          value={cmd}
+          onChange={e=>setCmd(e.target.value)}
+          onKeyDown={e=>{if(e.key==="Enter"&&!e.shiftKey){e.preventDefault();execute();}}}
+          placeholder="Donnez une instruction... ex: Crée une facture pour Alpha Corp, 200 000 GNF"
+          disabled={busy}
+          style={{flex:1,background:"transparent",border:"none",color:T.text,fontSize:13,fontFamily:T.font,outline:"none",opacity:busy?.5:1}}
+        />
+        <button onClick={execute} disabled={busy||!cmd.trim()} style={{padding:"5px 14px",background:T.blue,color:"#fff",border:"none",borderRadius:4,fontSize:12,fontWeight:600,cursor:"pointer",fontFamily:T.font,opacity:busy||!cmd.trim()?.4:1,flexShrink:0}}>
+          {busy?"...":"Exécuter"}
+        </button>
+        <button onClick={()=>setShowHistory(!showHistory)} style={{padding:"5px 10px",background:"none",border:`1px solid ${T.border}`,borderRadius:4,fontSize:11,color:T.t3,cursor:"pointer",fontFamily:T.mono,flexShrink:0}}>
+          {tasks.length} tâches
+        </button>
+      </div>
+
+      {/* Result feedback */}
+      {result&&(
+        <div style={{padding:"6px 36px",fontSize:12,color:result.status==="done"?T.green:T.red,fontFamily:T.mono,borderTop:`1px solid ${T.border}`}}>
+          {result.status==="done"?"✓":"✗"} {result.text}
+        </div>
+      )}
+
+      {/* Quick suggestions */}
+      {!cmd&&!busy&&!result&&(
+        <div style={{padding:"0 36px 8px",display:"flex",gap:6,flexWrap:"wrap"}}>
+          {suggestions.map(s=>(
+            <button key={s} onClick={()=>setCmd(s)} style={{padding:"3px 10px",background:"none",border:`1px solid ${T.border}`,borderRadius:3,fontSize:11,color:T.t3,cursor:"pointer",fontFamily:T.font}}>
+              {s}
+            </button>
+          ))}
+        </div>
+      )}
+
+      {/* Task history */}
+      {showHistory&&tasks.length>0&&(
+        <div style={{borderTop:`1px solid ${T.border}`,maxHeight:200,overflowY:"auto"}}>
+          {tasks.map(t=>(
+            <div key={t.id} style={{padding:"8px 16px",borderBottom:`1px solid ${T.border}`,display:"flex",gap:10,alignItems:"flex-start"}}>
+              <span style={{fontSize:11,fontFamily:T.mono,color:t.status==="done"?T.green:t.status==="failed"?T.red:t.status==="executing"?T.amber:T.t3,flexShrink:0,paddingTop:1}}>
+                {t.status==="done"?"✓":t.status==="failed"?"✗":t.status==="executing"?"⟳":"○"}
+              </span>
+              <div style={{flex:1,minWidth:0}}>
+                <div style={{fontSize:12,color:T.text,fontWeight:500}}>{t.command}</div>
+                {t.result&&<div style={{fontSize:11,color:T.t2,marginTop:2}}>{t.result}</div>}
+              </div>
+              <span style={{fontSize:10,color:T.t3,fontFamily:T.mono,flexShrink:0}}>{ft(t.created_at)}</span>
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
 function Overview({go}:{go:(t:Tab)=>void}){
   const [d,setD]=useState<{production:ProductionEntry[];invoices:Invoice[];incidents:Incident[];agents:Agent[];projets:Projet[];stats:{messages_today:number;total_conversations:number}}|null>(null);
 

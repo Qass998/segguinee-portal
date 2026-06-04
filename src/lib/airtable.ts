@@ -14,6 +14,7 @@ export const TABLES = {
   agents_log:     'tblHXVwNrq1bhY6Qn',
   monthly_reports:'tblCDh8goqrw0LOrp',
   field_reports:  'tblGUdjtu6v6CtGyr',
+  tasks:          'tblmEMnWlhhsQy2sK',
 } as const;
 
 type TableKey = keyof typeof TABLES;
@@ -72,3 +73,5 @@ export async function atUpdate(
   });
   if (!res.ok) throw new Error(`Airtable update ${table}: ${res.status}`);
 }
+
+// tasks table added 2026-06-04

@@ -1,0 +1,3707 @@
+{
+  "directed": false,
+  "multigraph": false,
+  "graph": {},
+  "nodes": [
+    {
+      "label": "route.ts",
+      "file_type": "code",
+      "source_file": "app/api/cron/daily-briefing/route.ts",
+      "source_location": "L1",
+      "id": "daily_briefing_route",
+      "community": 2,
+      "norm_label": "route.ts"
+    },
+    {
+      "label": "GET()",
+      "file_type": "code",
+      "source_file": "app/api/cron/daily-briefing/route.ts",
+      "source_location": "L18",
+      "id": "daily_briefing_route_get",
+      "community": 2,
+      "norm_label": "get()"
+    },
+    {
+      "label": "generateBriefing()",
+      "file_type": "code",
+      "source_file": "app/api/cron/daily-briefing/route.ts",
+      "source_location": "L56",
+      "id": "daily_briefing_route_generatebriefing",
+      "community": 2,
+      "norm_label": "generatebriefing()"
+    },
+    {
+      "label": "route.ts",
+      "file_type": "code",
+      "source_file": "app/api/cron/field-summary/route.ts",
+      "source_location": "L1",
+      "id": "field_summary_route",
+      "community": 2,
+      "norm_label": "route.ts"
+    },
+    {
+      "label": "GET()",
+      "file_type": "code",
+      "source_file": "app/api/cron/field-summary/route.ts",
+      "source_location": "L9",
+      "id": "field_summary_route_get",
+      "community": 2,
+      "norm_label": "get()"
+    },
+    {
+      "label": "route.ts",
+      "file_type": "code",
+      "source_file": "app/api/cron/monthly-report/route.ts",
+      "source_location": "L1",
+      "id": "monthly_report_route",
+      "community": 12,
+      "norm_label": "route.ts"
+    },
+    {
+      "label": "GET()",
+      "file_type": "code",
+      "source_file": "app/api/cron/monthly-report/route.ts",
+      "source_location": "L3",
+      "id": "monthly_report_route_get",
+      "community": 12,
+      "norm_label": "get()"
+    },
+    {
+      "label": "route.ts",
+      "file_type": "code",
+      "source_file": "app/api/data/agents/analyse/route.ts",
+      "source_location": "L1",
+      "id": "analyse_route",
+      "community": 0,
+      "norm_label": "route.ts"
+    },
+    {
+      "label": "POST()",
+      "file_type": "code",
+      "source_file": "app/api/data/agents/analyse/route.ts",
+      "source_location": "L4",
+      "id": "analyse_route_post",
+      "community": 0,
+      "norm_label": "post()"
+    },
+    {
+      "label": "route.ts",
+      "file_type": "code",
+      "source_file": "app/api/data/agents/route.ts",
+      "source_location": "L1",
+      "id": "agents_route",
+      "community": 0,
+      "norm_label": "route.ts"
+    },
+    {
+      "label": "GET()",
+      "file_type": "code",
+      "source_file": "app/api/data/agents/route.ts",
+      "source_location": "L4",
+      "id": "agents_route_get",
+      "community": 0,
+      "norm_label": "get()"
+    },
+    {
+      "label": "route.ts",
+      "file_type": "code",
+      "source_file": "app/api/data/conversations/route.ts",
+      "source_location": "L1",
+      "id": "conversations_route",
+      "community": 0,
+      "norm_label": "route.ts"
+    },
+    {
+      "label": "GET()",
+      "file_type": "code",
+      "source_file": "app/api/data/conversations/route.ts",
+      "source_location": "L4",
+      "id": "conversations_route_get",
+      "community": 0,
+      "norm_label": "get()"
+    },
+    {
+      "label": "PATCH()",
+      "file_type": "code",
+      "source_file": "app/api/data/conversations/route.ts",
+      "source_location": "L25",
+      "id": "conversations_route_patch",
+      "community": 0,
+      "norm_label": "patch()"
+    },
+    {
+      "label": "route.ts",
+      "file_type": "code",
+      "source_file": "app/api/data/field-reports/route.ts",
+      "source_location": "L1",
+      "id": "field_reports_route",
+      "community": 0,
+      "norm_label": "route.ts"
+    },
+    {
+      "label": "GET()",
+      "file_type": "code",
+      "source_file": "app/api/data/field-reports/route.ts",
+      "source_location": "L4",
+      "id": "field_reports_route_get",
+      "community": 0,
+      "norm_label": "get()"
+    },
+    {
+      "label": "POST()",
+      "file_type": "code",
+      "source_file": "app/api/data/field-reports/route.ts",
+      "source_location": "L30",
+      "id": "field_reports_route_post",
+      "community": 0,
+      "norm_label": "post()"
+    },
+    {
+      "label": "route.ts",
+      "file_type": "code",
+      "source_file": "app/api/data/incidents/route.ts",
+      "source_location": "L1",
+      "id": "incidents_route",
+      "community": 0,
+      "norm_label": "route.ts"
+    },
+    {
+      "label": "GET()",
+      "file_type": "code",
+      "source_file": "app/api/data/incidents/route.ts",
+      "source_location": "L4",
+      "id": "incidents_route_get",
+      "community": 0,
+      "norm_label": "get()"
+    },
+    {
+      "label": "POST()",
+      "file_type": "code",
+      "source_file": "app/api/data/incidents/route.ts",
+      "source_location": "L25",
+      "id": "incidents_route_post",
+      "community": 0,
+      "norm_label": "post()"
+    },
+    {
+      "label": "route.ts",
+      "file_type": "code",
+      "source_file": "app/api/data/invoices/route.ts",
+      "source_location": "L1",
+      "id": "invoices_route",
+      "community": 2,
+      "norm_label": "route.ts"
+    },
+    {
+      "label": "GET()",
+      "file_type": "code",
+      "source_file": "app/api/data/invoices/route.ts",
+      "source_location": "L8",
+      "id": "invoices_route_get",
+      "community": 2,
+      "norm_label": "get()"
+    },
+    {
+      "label": "POST()",
+      "file_type": "code",
+      "source_file": "app/api/data/invoices/route.ts",
+      "source_location": "L35",
+      "id": "invoices_route_post",
+      "community": 2,
+      "norm_label": "post()"
+    },
+    {
+      "label": "route.ts",
+      "file_type": "code",
+      "source_file": "app/api/data/messages/route.ts",
+      "source_location": "L1",
+      "id": "messages_route",
+      "community": 0,
+      "norm_label": "route.ts"
+    },
+    {
+      "label": "GET()",
+      "file_type": "code",
+      "source_file": "app/api/data/messages/route.ts",
+      "source_location": "L4",
+      "id": "messages_route_get",
+      "community": 0,
+      "norm_label": "get()"
+    },
+    {
+      "label": "route.ts",
+      "file_type": "code",
+      "source_file": "app/api/data/production/route.ts",
+      "source_location": "L1",
+      "id": "production_route",
+      "community": 0,
+      "norm_label": "route.ts"
+    },
+    {
+      "label": "GET()",
+      "file_type": "code",
+      "source_file": "app/api/data/production/route.ts",
+      "source_location": "L4",
+      "id": "production_route_get",
+      "community": 0,
+      "norm_label": "get()"
+    },
+    {
+      "label": "POST()",
+      "file_type": "code",
+      "source_file": "app/api/data/production/route.ts",
+      "source_location": "L23",
+      "id": "production_route_post",
+      "community": 0,
+      "norm_label": "post()"
+    },
+    {
+      "label": "route.ts",
+      "file_type": "code",
+      "source_file": "app/api/data/projects/route.ts",
+      "source_location": "L1",
+      "id": "projects_route",
+      "community": 0,
+      "norm_label": "route.ts"
+    },
+    {
+      "label": "GET()",
+      "file_type": "code",
+      "source_file": "app/api/data/projects/route.ts",
+      "source_location": "L4",
+      "id": "projects_route_get",
+      "community": 0,
+      "norm_label": "get()"
+    },
+    {
+      "label": "POST()",
+      "file_type": "code",
+      "source_file": "app/api/data/projects/route.ts",
+      "source_location": "L29",
+      "id": "projects_route_post",
+      "community": 0,
+      "norm_label": "post()"
+    },
+    {
+      "label": "route.ts",
+      "file_type": "code",
+      "source_file": "app/api/health/route.ts",
+      "source_location": "L1",
+      "id": "health_route",
+      "community": 0,
+      "norm_label": "route.ts"
+    },
+    {
+      "label": "GET()",
+      "file_type": "code",
+      "source_file": "app/api/health/route.ts",
+      "source_location": "L4",
+      "id": "health_route_get",
+      "community": 0,
+      "norm_label": "get()"
+    },
+    {
+      "label": "route.ts",
+      "file_type": "code",
+      "source_file": "app/api/invoices/sign/route.ts",
+      "source_location": "L1",
+      "id": "sign_route",
+      "community": 0,
+      "norm_label": "route.ts"
+    },
+    {
+      "label": "POST()",
+      "file_type": "code",
+      "source_file": "app/api/invoices/sign/route.ts",
+      "source_location": "L5",
+      "id": "sign_route_post",
+      "community": 0,
+      "norm_label": "post()"
+    },
+    {
+      "label": "route.ts",
+      "file_type": "code",
+      "source_file": "app/api/reports/monthly/route.ts",
+      "source_location": "L1",
+      "id": "monthly_route",
+      "community": 2,
+      "norm_label": "route.ts"
+    },
+    {
+      "label": "POST()",
+      "file_type": "code",
+      "source_file": "app/api/reports/monthly/route.ts",
+      "source_location": "L13",
+      "id": "monthly_route_post",
+      "community": 2,
+      "norm_label": "post()"
+    },
+    {
+      "label": "route.ts",
+      "file_type": "code",
+      "source_file": "app/api/webhook/whatsapp/route.ts",
+      "source_location": "L1",
+      "id": "whatsapp_route",
+      "community": 3,
+      "norm_label": "route.ts"
+    },
+    {
+      "label": "GET()",
+      "file_type": "code",
+      "source_file": "app/api/webhook/whatsapp/route.ts",
+      "source_location": "L15",
+      "id": "whatsapp_route_get",
+      "community": 3,
+      "norm_label": "get()"
+    },
+    {
+      "label": "POST()",
+      "file_type": "code",
+      "source_file": "app/api/webhook/whatsapp/route.ts",
+      "source_location": "L28",
+      "id": "whatsapp_route_post",
+      "community": 3,
+      "norm_label": "post()"
+    },
+    {
+      "label": "routeMessage()",
+      "file_type": "code",
+      "source_file": "app/api/webhook/whatsapp/route.ts",
+      "source_location": "L50",
+      "id": "whatsapp_route_routemessage",
+      "community": 3,
+      "norm_label": "routemessage()"
+    },
+    {
+      "label": "classifyAndHandle()",
+      "file_type": "code",
+      "source_file": "app/api/webhook/whatsapp/route.ts",
+      "source_location": "L123",
+      "id": "whatsapp_route_classifyandhandle",
+      "community": 3,
+      "norm_label": "classifyandhandle()"
+    },
+    {
+      "label": "tryParseOperationalData()",
+      "file_type": "code",
+      "source_file": "app/api/webhook/whatsapp/route.ts",
+      "source_location": "L171",
+      "id": "whatsapp_route_tryparseoperationaldata",
+      "community": 3,
+      "norm_label": "tryparseoperationaldata()"
+    },
+    {
+      "label": "storeOperationalData()",
+      "file_type": "code",
+      "source_file": "app/api/webhook/whatsapp/route.ts",
+      "source_location": "L221",
+      "id": "whatsapp_route_storeoperationaldata",
+      "community": 3,
+      "norm_label": "storeoperationaldata()"
+    },
+    {
+      "label": "handleCustomerInquiry()",
+      "file_type": "code",
+      "source_file": "app/api/webhook/whatsapp/route.ts",
+      "source_location": "L245",
+      "id": "whatsapp_route_handlecustomerinquiry",
+      "community": 3,
+      "norm_label": "handlecustomerinquiry()"
+    },
+    {
+      "label": "handleBillingReminders()",
+      "file_type": "code",
+      "source_file": "app/api/webhook/whatsapp/route.ts",
+      "source_location": "L328",
+      "id": "whatsapp_route_handlebillingreminders",
+      "community": 3,
+      "norm_label": "handlebillingreminders()"
+    },
+    {
+      "label": "compileBriefingFromDB()",
+      "file_type": "code",
+      "source_file": "app/api/webhook/whatsapp/route.ts",
+      "source_location": "L355",
+      "id": "whatsapp_route_compilebriefingfromdb",
+      "community": 3,
+      "norm_label": "compilebriefingfromdb()"
+    },
+    {
+      "label": "handleFieldCommand()",
+      "file_type": "code",
+      "source_file": "app/api/webhook/whatsapp/route.ts",
+      "source_location": "L387",
+      "id": "whatsapp_route_handlefieldcommand",
+      "community": 3,
+      "norm_label": "handlefieldcommand()"
+    },
+    {
+      "label": "normalizeIncidentType()",
+      "file_type": "code",
+      "source_file": "app/api/webhook/whatsapp/route.ts",
+      "source_location": "L441",
+      "id": "whatsapp_route_normalizeincidenttype",
+      "community": 3,
+      "norm_label": "normalizeincidenttype()"
+    },
+    {
+      "label": "extractZone()",
+      "file_type": "code",
+      "source_file": "app/api/webhook/whatsapp/route.ts",
+      "source_location": "L445",
+      "id": "whatsapp_route_extractzone",
+      "community": 3,
+      "norm_label": "extractzone()"
+    },
+    {
+      "label": "dashboard-client.tsx",
+      "file_type": "code",
+      "source_file": "app/dashboard-client.tsx",
+      "source_location": "L1",
+      "id": "app_dashboard_client",
+      "community": 1,
+      "norm_label": "dashboard-client.tsx"
+    },
+    {
+      "label": "ProductionEntry",
+      "file_type": "code",
+      "source_file": "app/dashboard-client.tsx",
+      "source_location": "L5",
+      "id": "app_dashboard_client_productionentry",
+      "community": 1,
+      "norm_label": "productionentry"
+    },
+    {
+      "label": "Invoice",
+      "file_type": "code",
+      "source_file": "app/dashboard-client.tsx",
+      "source_location": "L6",
+      "id": "app_dashboard_client_invoice",
+      "community": 1,
+      "norm_label": "invoice"
+    },
+    {
+      "label": "Incident",
+      "file_type": "code",
+      "source_file": "app/dashboard-client.tsx",
+      "source_location": "L7",
+      "id": "app_dashboard_client_incident",
+      "community": 1,
+      "norm_label": "incident"
+    },
+    {
+      "label": "Agent",
+      "file_type": "code",
+      "source_file": "app/dashboard-client.tsx",
+      "source_location": "L8",
+      "id": "app_dashboard_client_agent",
+      "community": 1,
+      "norm_label": "agent"
+    },
+    {
+      "label": "Projet",
+      "file_type": "code",
+      "source_file": "app/dashboard-client.tsx",
+      "source_location": "L9",
+      "id": "app_dashboard_client_projet",
+      "community": 1,
+      "norm_label": "projet"
+    },
+    {
+      "label": "Tab",
+      "file_type": "code",
+      "source_file": "app/dashboard-client.tsx",
+      "source_location": "L11",
+      "id": "app_dashboard_client_tab",
+      "community": 1,
+      "norm_label": "tab"
+    },
+    {
+      "label": "T",
+      "file_type": "code",
+      "source_file": "app/dashboard-client.tsx",
+      "source_location": "L16",
+      "id": "app_dashboard_client_t",
+      "community": 1,
+      "norm_label": "t"
+    },
+    {
+      "label": "ZONES",
+      "file_type": "code",
+      "source_file": "app/dashboard-client.tsx",
+      "source_location": "L39",
+      "id": "app_dashboard_client_zones",
+      "community": 1,
+      "norm_label": "zones"
+    },
+    {
+      "label": "INC_TYPES",
+      "file_type": "code",
+      "source_file": "app/dashboard-client.tsx",
+      "source_location": "L40",
+      "id": "app_dashboard_client_inc_types",
+      "community": 1,
+      "norm_label": "inc_types"
+    },
+    {
+      "label": "PROJ_TYPES",
+      "file_type": "code",
+      "source_file": "app/dashboard-client.tsx",
+      "source_location": "L41",
+      "id": "app_dashboard_client_proj_types",
+      "community": 1,
+      "norm_label": "proj_types"
+    },
+    {
+      "label": "PROJ_STATUS",
+      "file_type": "code",
+      "source_file": "app/dashboard-client.tsx",
+      "source_location": "L42",
+      "id": "app_dashboard_client_proj_status",
+      "community": 1,
+      "norm_label": "proj_status"
+    },
+    {
+      "label": "TABS",
+      "file_type": "code",
+      "source_file": "app/dashboard-client.tsx",
+      "source_location": "L44",
+      "id": "app_dashboard_client_tabs",
+      "community": 1,
+      "norm_label": "tabs"
+    },
+    {
+      "label": "fd()",
+      "file_type": "code",
+      "source_file": "app/dashboard-client.tsx",
+      "source_location": "L54",
+      "id": "app_dashboard_client_fd",
+      "community": 1,
+      "norm_label": "fd()"
+    },
+    {
+      "label": "ft()",
+      "file_type": "code",
+      "source_file": "app/dashboard-client.tsx",
+      "source_location": "L55",
+      "id": "app_dashboard_client_ft",
+      "community": 1,
+      "norm_label": "ft()"
+    },
+    {
+      "label": "fg()",
+      "file_type": "code",
+      "source_file": "app/dashboard-client.tsx",
+      "source_location": "L56",
+      "id": "app_dashboard_client_fg",
+      "community": 1,
+      "norm_label": "fg()"
+    },
+    {
+      "label": "fp()",
+      "file_type": "code",
+      "source_file": "app/dashboard-client.tsx",
+      "source_location": "L57",
+      "id": "app_dashboard_client_fp",
+      "community": 1,
+      "norm_label": "fp()"
+    },
+    {
+      "label": "inp",
+      "file_type": "code",
+      "source_file": "app/dashboard-client.tsx",
+      "source_location": "L60",
+      "id": "app_dashboard_client_inp",
+      "community": 1,
+      "norm_label": "inp"
+    },
+    {
+      "label": "lbl",
+      "file_type": "code",
+      "source_file": "app/dashboard-client.tsx",
+      "source_location": "L61",
+      "id": "app_dashboard_client_lbl",
+      "community": 1,
+      "norm_label": "lbl"
+    },
+    {
+      "label": "Btn()",
+      "file_type": "code",
+      "source_file": "app/dashboard-client.tsx",
+      "source_location": "L64",
+      "id": "app_dashboard_client_btn",
+      "community": 1,
+      "norm_label": "btn()"
+    },
+    {
+      "label": "Pill()",
+      "file_type": "code",
+      "source_file": "app/dashboard-client.tsx",
+      "source_location": "L70",
+      "id": "app_dashboard_client_pill",
+      "community": 1,
+      "norm_label": "pill()"
+    },
+    {
+      "label": "Stat()",
+      "file_type": "code",
+      "source_file": "app/dashboard-client.tsx",
+      "source_location": "L85",
+      "id": "app_dashboard_client_stat",
+      "community": 1,
+      "norm_label": "stat()"
+    },
+    {
+      "label": "ProgressBar()",
+      "file_type": "code",
+      "source_file": "app/dashboard-client.tsx",
+      "source_location": "L96",
+      "id": "app_dashboard_client_progressbar",
+      "community": 1,
+      "norm_label": "progressbar()"
+    },
+    {
+      "label": "TH()",
+      "file_type": "code",
+      "source_file": "app/dashboard-client.tsx",
+      "source_location": "L102",
+      "id": "app_dashboard_client_th",
+      "community": 1,
+      "norm_label": "th()"
+    },
+    {
+      "label": "Empty()",
+      "file_type": "code",
+      "source_file": "app/dashboard-client.tsx",
+      "source_location": "L106",
+      "id": "app_dashboard_client_empty",
+      "community": 1,
+      "norm_label": "empty()"
+    },
+    {
+      "label": "Spin()",
+      "file_type": "code",
+      "source_file": "app/dashboard-client.tsx",
+      "source_location": "L107",
+      "id": "app_dashboard_client_spin",
+      "community": 1,
+      "norm_label": "spin()"
+    },
+    {
+      "label": "DashboardContent()",
+      "file_type": "code",
+      "source_file": "app/dashboard-client.tsx",
+      "source_location": "L112",
+      "id": "app_dashboard_client_dashboardcontent",
+      "community": 9,
+      "norm_label": "dashboardcontent()"
+    },
+    {
+      "label": "Overview()",
+      "file_type": "code",
+      "source_file": "app/dashboard-client.tsx",
+      "source_location": "L190",
+      "id": "app_dashboard_client_overview",
+      "community": 1,
+      "norm_label": "overview()"
+    },
+    {
+      "label": "Production()",
+      "file_type": "code",
+      "source_file": "app/dashboard-client.tsx",
+      "source_location": "L324",
+      "id": "app_dashboard_client_production",
+      "community": 1,
+      "norm_label": "production()"
+    },
+    {
+      "label": "Invoices()",
+      "file_type": "code",
+      "source_file": "app/dashboard-client.tsx",
+      "source_location": "L377",
+      "id": "app_dashboard_client_invoices",
+      "community": 1,
+      "norm_label": "invoices()"
+    },
+    {
+      "label": "Incidents()",
+      "file_type": "code",
+      "source_file": "app/dashboard-client.tsx",
+      "source_location": "L450",
+      "id": "app_dashboard_client_incidents",
+      "community": 1,
+      "norm_label": "incidents()"
+    },
+    {
+      "label": "Projets()",
+      "file_type": "code",
+      "source_file": "app/dashboard-client.tsx",
+      "source_location": "L508",
+      "id": "app_dashboard_client_projets",
+      "community": 1,
+      "norm_label": "projets()"
+    },
+    {
+      "label": "Agents()",
+      "file_type": "code",
+      "source_file": "app/dashboard-client.tsx",
+      "source_location": "L585",
+      "id": "app_dashboard_client_agents",
+      "community": 1,
+      "norm_label": "agents()"
+    },
+    {
+      "label": "page.tsx",
+      "file_type": "code",
+      "source_file": "app/dashboard/page.tsx",
+      "source_location": "L1",
+      "id": "dashboard_page",
+      "community": 9,
+      "norm_label": "page.tsx"
+    },
+    {
+      "label": "DashboardPage()",
+      "file_type": "code",
+      "source_file": "app/dashboard/page.tsx",
+      "source_location": "L6",
+      "id": "dashboard_page_dashboardpage",
+      "community": 9,
+      "norm_label": "dashboardpage()"
+    },
+    {
+      "label": "layout.tsx",
+      "file_type": "code",
+      "source_file": "app/layout.tsx",
+      "source_location": "L1",
+      "id": "app_layout",
+      "community": 6,
+      "norm_label": "layout.tsx"
+    },
+    {
+      "label": "dmSans",
+      "file_type": "code",
+      "source_file": "app/layout.tsx",
+      "source_location": "L5",
+      "id": "app_layout_dmsans",
+      "community": 6,
+      "norm_label": "dmsans"
+    },
+    {
+      "label": "jetbrainsMono",
+      "file_type": "code",
+      "source_file": "app/layout.tsx",
+      "source_location": "L12",
+      "id": "app_layout_jetbrainsmono",
+      "community": 6,
+      "norm_label": "jetbrainsmono"
+    },
+    {
+      "label": "metadata",
+      "file_type": "code",
+      "source_file": "app/layout.tsx",
+      "source_location": "L19",
+      "id": "app_layout_metadata",
+      "community": 6,
+      "norm_label": "metadata"
+    },
+    {
+      "label": "RootLayout()",
+      "file_type": "code",
+      "source_file": "app/layout.tsx",
+      "source_location": "L24",
+      "id": "app_layout_rootlayout",
+      "community": 6,
+      "norm_label": "rootlayout()"
+    },
+    {
+      "label": "actions.ts",
+      "file_type": "code",
+      "source_file": "app/login/actions.ts",
+      "source_location": "L1",
+      "id": "login_actions",
+      "community": 8,
+      "norm_label": "actions.ts"
+    },
+    {
+      "label": "pinLogin()",
+      "file_type": "code",
+      "source_file": "app/login/actions.ts",
+      "source_location": "L6",
+      "id": "login_actions_pinlogin",
+      "community": 8,
+      "norm_label": "pinlogin()"
+    },
+    {
+      "label": "page.tsx",
+      "file_type": "code",
+      "source_file": "app/login/page.tsx",
+      "source_location": "L1",
+      "id": "login_page",
+      "community": 8,
+      "norm_label": "page.tsx"
+    },
+    {
+      "label": "LoginPage()",
+      "file_type": "code",
+      "source_file": "app/login/page.tsx",
+      "source_location": "L3",
+      "id": "login_page_loginpage",
+      "community": 8,
+      "norm_label": "loginpage()"
+    },
+    {
+      "label": "page.tsx",
+      "file_type": "code",
+      "source_file": "app/page.tsx",
+      "source_location": "L1",
+      "id": "app_page",
+      "community": 11,
+      "norm_label": "page.tsx"
+    },
+    {
+      "label": "Home()",
+      "file_type": "code",
+      "source_file": "app/page.tsx",
+      "source_location": "L3",
+      "id": "app_page_home",
+      "community": 11,
+      "norm_label": "home()"
+    },
+    {
+      "label": "page.tsx",
+      "file_type": "code",
+      "source_file": "app/privacy/page.tsx",
+      "source_location": "L1",
+      "id": "privacy_page",
+      "community": 13,
+      "norm_label": "page.tsx"
+    },
+    {
+      "label": "PrivacyPage()",
+      "file_type": "code",
+      "source_file": "app/privacy/page.tsx",
+      "source_location": "L6",
+      "id": "privacy_page_privacypage",
+      "community": 13,
+      "norm_label": "privacypage()"
+    },
+    {
+      "label": "page.tsx",
+      "file_type": "code",
+      "source_file": "app/reports/[id]/page.tsx",
+      "source_location": "L1",
+      "id": "id_page",
+      "community": 4,
+      "norm_label": "page.tsx"
+    },
+    {
+      "label": "metadata",
+      "file_type": "code",
+      "source_file": "app/reports/[id]/page.tsx",
+      "source_location": "L12",
+      "id": "id_page_metadata",
+      "community": 4,
+      "norm_label": "metadata"
+    },
+    {
+      "label": "fmtGNF()",
+      "file_type": "code",
+      "source_file": "app/reports/[id]/page.tsx",
+      "source_location": "L17",
+      "id": "id_page_fmtgnf",
+      "community": 4,
+      "norm_label": "fmtgnf()"
+    },
+    {
+      "label": "pct()",
+      "file_type": "code",
+      "source_file": "app/reports/[id]/page.tsx",
+      "source_location": "L18",
+      "id": "id_page_pct",
+      "community": 4,
+      "norm_label": "pct()"
+    },
+    {
+      "label": "ProgressBar()",
+      "file_type": "code",
+      "source_file": "app/reports/[id]/page.tsx",
+      "source_location": "L20",
+      "id": "id_page_progressbar",
+      "community": 4,
+      "norm_label": "progressbar()"
+    },
+    {
+      "label": "StatRow()",
+      "file_type": "code",
+      "source_file": "app/reports/[id]/page.tsx",
+      "source_location": "L30",
+      "id": "id_page_statrow",
+      "community": 4,
+      "norm_label": "statrow()"
+    },
+    {
+      "label": "ReportPage()",
+      "file_type": "code",
+      "source_file": "app/reports/[id]/page.tsx",
+      "source_location": "L43",
+      "id": "id_page_reportpage",
+      "community": 4,
+      "norm_label": "reportpage()"
+    },
+    {
+      "label": "Section()",
+      "file_type": "code",
+      "source_file": "app/reports/[id]/page.tsx",
+      "source_location": "L234",
+      "id": "id_page_section",
+      "community": 4,
+      "norm_label": "section()"
+    },
+    {
+      "label": "SignButton.tsx",
+      "file_type": "code",
+      "source_file": "app/sign/[token]/SignButton.tsx",
+      "source_location": "L1",
+      "id": "token_signbutton",
+      "community": 5,
+      "norm_label": "signbutton.tsx"
+    },
+    {
+      "label": "SignButton()",
+      "file_type": "code",
+      "source_file": "app/sign/[token]/SignButton.tsx",
+      "source_location": "L5",
+      "id": "token_signbutton_signbutton",
+      "community": 5,
+      "norm_label": "signbutton()"
+    },
+    {
+      "label": "page.tsx",
+      "file_type": "code",
+      "source_file": "app/sign/[token]/page.tsx",
+      "source_location": "L1",
+      "id": "token_page",
+      "community": 5,
+      "norm_label": "page.tsx"
+    },
+    {
+      "label": "metadata",
+      "file_type": "code",
+      "source_file": "app/sign/[token]/page.tsx",
+      "source_location": "L19",
+      "id": "token_page_metadata",
+      "community": 5,
+      "norm_label": "metadata"
+    },
+    {
+      "label": "fmt()",
+      "file_type": "code",
+      "source_file": "app/sign/[token]/page.tsx",
+      "source_location": "L24",
+      "id": "token_page_fmt",
+      "community": 5,
+      "norm_label": "fmt()"
+    },
+    {
+      "label": "fmtGNF()",
+      "file_type": "code",
+      "source_file": "app/sign/[token]/page.tsx",
+      "source_location": "L31",
+      "id": "token_page_fmtgnf",
+      "community": 5,
+      "norm_label": "fmtgnf()"
+    },
+    {
+      "label": "SignPage()",
+      "file_type": "code",
+      "source_file": "app/sign/[token]/page.tsx",
+      "source_location": "L35",
+      "id": "token_page_signpage",
+      "community": 5,
+      "norm_label": "signpage()"
+    },
+    {
+      "label": "page.tsx",
+      "file_type": "code",
+      "source_file": "app/terms/page.tsx",
+      "source_location": "L1",
+      "id": "terms_page",
+      "community": 14,
+      "norm_label": "page.tsx"
+    },
+    {
+      "label": "TermsPage()",
+      "file_type": "code",
+      "source_file": "app/terms/page.tsx",
+      "source_location": "L6",
+      "id": "terms_page_termspage",
+      "community": 14,
+      "norm_label": "termspage()"
+    },
+    {
+      "label": "agent.ts",
+      "file_type": "code",
+      "source_file": "lib/agent.ts",
+      "source_location": "L1",
+      "id": "lib_agent",
+      "community": 7,
+      "norm_label": "agent.ts"
+    },
+    {
+      "label": "generateReply()",
+      "file_type": "code",
+      "source_file": "lib/agent.ts",
+      "source_location": "L29",
+      "id": "lib_agent_generatereply",
+      "community": 7,
+      "norm_label": "generatereply()"
+    },
+    {
+      "label": "fallbackReply()",
+      "file_type": "code",
+      "source_file": "lib/agent.ts",
+      "source_location": "L58",
+      "id": "lib_agent_fallbackreply",
+      "community": 7,
+      "norm_label": "fallbackreply()"
+    },
+    {
+      "label": "quickReply()",
+      "file_type": "code",
+      "source_file": "lib/agent.ts",
+      "source_location": "L66",
+      "id": "lib_agent_quickreply",
+      "community": 7,
+      "norm_label": "quickreply()"
+    },
+    {
+      "label": "compileBriefing()",
+      "file_type": "code",
+      "source_file": "lib/agent.ts",
+      "source_location": "L84",
+      "id": "lib_agent_compilebriefing",
+      "community": 7,
+      "norm_label": "compilebriefing()"
+    },
+    {
+      "label": "airtable.ts",
+      "file_type": "code",
+      "source_file": "lib/airtable.ts",
+      "source_location": "L1",
+      "id": "lib_airtable",
+      "community": 0,
+      "norm_label": "airtable.ts"
+    },
+    {
+      "label": "TABLES",
+      "file_type": "code",
+      "source_file": "lib/airtable.ts",
+      "source_location": "L5",
+      "id": "lib_airtable_tables",
+      "community": 0,
+      "norm_label": "tables"
+    },
+    {
+      "label": "TableKey",
+      "file_type": "code",
+      "source_file": "lib/airtable.ts",
+      "source_location": "L19",
+      "id": "lib_airtable_tablekey",
+      "community": 0,
+      "norm_label": "tablekey"
+    },
+    {
+      "label": "AirtableRecord",
+      "file_type": "code",
+      "source_file": "lib/airtable.ts",
+      "source_location": "L20",
+      "id": "lib_airtable_airtablerecord",
+      "community": 0,
+      "norm_label": "airtablerecord"
+    },
+    {
+      "label": "headers()",
+      "file_type": "code",
+      "source_file": "lib/airtable.ts",
+      "source_location": "L22",
+      "id": "lib_airtable_headers",
+      "community": 0,
+      "norm_label": "headers()"
+    },
+    {
+      "label": "atList()",
+      "file_type": "code",
+      "source_file": "lib/airtable.ts",
+      "source_location": "L26",
+      "id": "lib_airtable_atlist",
+      "community": 0,
+      "norm_label": "atlist()"
+    },
+    {
+      "label": "atCreate()",
+      "file_type": "code",
+      "source_file": "lib/airtable.ts",
+      "source_location": "L50",
+      "id": "lib_airtable_atcreate",
+      "community": 3,
+      "norm_label": "atcreate()"
+    },
+    {
+      "label": "atUpdate()",
+      "file_type": "code",
+      "source_file": "lib/airtable.ts",
+      "source_location": "L63",
+      "id": "lib_airtable_atupdate",
+      "community": 0,
+      "norm_label": "atupdate()"
+    },
+    {
+      "label": "whatsapp.ts",
+      "file_type": "code",
+      "source_file": "lib/whatsapp.ts",
+      "source_location": "L1",
+      "id": "lib_whatsapp",
+      "community": 2,
+      "norm_label": "whatsapp.ts"
+    },
+    {
+      "label": "SendResult",
+      "file_type": "code",
+      "source_file": "lib/whatsapp.ts",
+      "source_location": "L12",
+      "id": "lib_whatsapp_sendresult",
+      "community": 2,
+      "norm_label": "sendresult"
+    },
+    {
+      "label": "sendMessage()",
+      "file_type": "code",
+      "source_file": "lib/whatsapp.ts",
+      "source_location": "L21",
+      "id": "lib_whatsapp_sendmessage",
+      "community": 2,
+      "norm_label": "sendmessage()"
+    },
+    {
+      "label": "isDirector()",
+      "file_type": "code",
+      "source_file": "lib/whatsapp.ts",
+      "source_location": "L59",
+      "id": "lib_whatsapp_isdirector",
+      "community": 2,
+      "norm_label": "isdirector()"
+    },
+    {
+      "label": "proxy.ts",
+      "file_type": "code",
+      "source_file": "proxy.ts",
+      "source_location": "L1",
+      "id": "proxy",
+      "community": 10,
+      "norm_label": "proxy.ts"
+    },
+    {
+      "label": "proxy()",
+      "file_type": "code",
+      "source_file": "proxy.ts",
+      "source_location": "L4",
+      "id": "proxy_proxy",
+      "community": 10,
+      "norm_label": "proxy()"
+    },
+    {
+      "label": "config",
+      "file_type": "code",
+      "source_file": "proxy.ts",
+      "source_location": "L27",
+      "id": "proxy_config",
+      "community": 10,
+      "norm_label": "config"
+    }
+  ],
+  "links": [
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/api/cron/daily-briefing/route.ts",
+      "source_location": "L56",
+      "weight": 1.0,
+      "source": "daily_briefing_route",
+      "target": "daily_briefing_route_generatebriefing",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/api/cron/daily-briefing/route.ts",
+      "source_location": "L18",
+      "weight": 1.0,
+      "source": "daily_briefing_route",
+      "target": "daily_briefing_route_get",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/api/cron/daily-briefing/route.ts",
+      "source_location": "L15",
+      "weight": 1.0,
+      "source": "daily_briefing_route",
+      "target": "lib_airtable",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/api/cron/daily-briefing/route.ts",
+      "source_location": "L15",
+      "weight": 1.0,
+      "source": "daily_briefing_route",
+      "target": "lib_airtable_atcreate",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/api/cron/daily-briefing/route.ts",
+      "source_location": "L15",
+      "weight": 1.0,
+      "source": "daily_briefing_route",
+      "target": "lib_airtable_atlist",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/api/cron/daily-briefing/route.ts",
+      "source_location": "L16",
+      "weight": 1.0,
+      "source": "daily_briefing_route",
+      "target": "lib_whatsapp",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/api/cron/daily-briefing/route.ts",
+      "source_location": "L16",
+      "weight": 1.0,
+      "source": "daily_briefing_route",
+      "target": "lib_whatsapp_sendmessage",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "app/api/cron/daily-briefing/route.ts",
+      "source_location": "L31",
+      "weight": 1.0,
+      "source": "daily_briefing_route_get",
+      "target": "daily_briefing_route_generatebriefing",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/api/cron/daily-briefing/route.ts",
+      "source_location": "L38",
+      "weight": 1.0,
+      "source": "daily_briefing_route_get",
+      "target": "lib_airtable_atcreate"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/api/cron/daily-briefing/route.ts",
+      "source_location": "L34",
+      "weight": 1.0,
+      "source": "daily_briefing_route_get",
+      "target": "lib_whatsapp_sendmessage"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "app/api/cron/daily-briefing/route.ts",
+      "source_location": "L61",
+      "weight": 1.0,
+      "source": "daily_briefing_route_generatebriefing",
+      "target": "lib_airtable_atlist",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/api/cron/field-summary/route.ts",
+      "source_location": "L9",
+      "weight": 1.0,
+      "source": "field_summary_route",
+      "target": "field_summary_route_get",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/api/cron/field-summary/route.ts",
+      "source_location": "L6",
+      "weight": 1.0,
+      "source": "field_summary_route",
+      "target": "lib_airtable",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/api/cron/field-summary/route.ts",
+      "source_location": "L6",
+      "weight": 1.0,
+      "source": "field_summary_route",
+      "target": "lib_airtable_atlist",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/api/cron/field-summary/route.ts",
+      "source_location": "L7",
+      "weight": 1.0,
+      "source": "field_summary_route",
+      "target": "lib_whatsapp",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/api/cron/field-summary/route.ts",
+      "source_location": "L7",
+      "weight": 1.0,
+      "source": "field_summary_route",
+      "target": "lib_whatsapp_sendmessage",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/api/cron/field-summary/route.ts",
+      "source_location": "L18",
+      "weight": 1.0,
+      "source": "field_summary_route_get",
+      "target": "lib_airtable_atlist"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/api/cron/field-summary/route.ts",
+      "source_location": "L27",
+      "weight": 1.0,
+      "source": "field_summary_route_get",
+      "target": "lib_whatsapp_sendmessage"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/api/cron/monthly-report/route.ts",
+      "source_location": "L3",
+      "weight": 1.0,
+      "source": "monthly_report_route",
+      "target": "monthly_report_route_get",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/api/data/agents/analyse/route.ts",
+      "source_location": "L4",
+      "weight": 1.0,
+      "source": "analyse_route",
+      "target": "analyse_route_post",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/api/data/agents/analyse/route.ts",
+      "source_location": "L2",
+      "weight": 1.0,
+      "source": "analyse_route",
+      "target": "lib_airtable",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/api/data/agents/analyse/route.ts",
+      "source_location": "L2",
+      "weight": 1.0,
+      "source": "analyse_route",
+      "target": "lib_airtable_atcreate",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/api/data/agents/analyse/route.ts",
+      "source_location": "L2",
+      "weight": 1.0,
+      "source": "analyse_route",
+      "target": "lib_airtable_atlist",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/api/data/agents/analyse/route.ts",
+      "source_location": "L82",
+      "weight": 1.0,
+      "source": "analyse_route_post",
+      "target": "lib_airtable_atcreate"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/api/data/agents/analyse/route.ts",
+      "source_location": "L10",
+      "weight": 1.0,
+      "source": "analyse_route_post",
+      "target": "lib_airtable_atlist"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/api/data/agents/route.ts",
+      "source_location": "L4",
+      "weight": 1.0,
+      "source": "agents_route",
+      "target": "agents_route_get",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/api/data/agents/route.ts",
+      "source_location": "L2",
+      "weight": 1.0,
+      "source": "agents_route",
+      "target": "lib_airtable",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/api/data/agents/route.ts",
+      "source_location": "L2",
+      "weight": 1.0,
+      "source": "agents_route",
+      "target": "lib_airtable_atlist",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/api/data/agents/route.ts",
+      "source_location": "L7",
+      "weight": 1.0,
+      "source": "agents_route_get",
+      "target": "lib_airtable_atlist"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/api/data/conversations/route.ts",
+      "source_location": "L4",
+      "weight": 1.0,
+      "source": "conversations_route",
+      "target": "conversations_route_get",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/api/data/conversations/route.ts",
+      "source_location": "L25",
+      "weight": 1.0,
+      "source": "conversations_route",
+      "target": "conversations_route_patch",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/api/data/conversations/route.ts",
+      "source_location": "L2",
+      "weight": 1.0,
+      "source": "conversations_route",
+      "target": "lib_airtable",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/api/data/conversations/route.ts",
+      "source_location": "L2",
+      "weight": 1.0,
+      "source": "conversations_route",
+      "target": "lib_airtable_atlist",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/api/data/conversations/route.ts",
+      "source_location": "L2",
+      "weight": 1.0,
+      "source": "conversations_route",
+      "target": "lib_airtable_atupdate",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/api/data/conversations/route.ts",
+      "source_location": "L6",
+      "weight": 1.0,
+      "source": "conversations_route_get",
+      "target": "lib_airtable_atlist"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/api/data/conversations/route.ts",
+      "source_location": "L28",
+      "weight": 1.0,
+      "source": "conversations_route_patch",
+      "target": "lib_airtable_atupdate"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/api/data/field-reports/route.ts",
+      "source_location": "L4",
+      "weight": 1.0,
+      "source": "field_reports_route",
+      "target": "field_reports_route_get",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/api/data/field-reports/route.ts",
+      "source_location": "L30",
+      "weight": 1.0,
+      "source": "field_reports_route",
+      "target": "field_reports_route_post",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/api/data/field-reports/route.ts",
+      "source_location": "L2",
+      "weight": 1.0,
+      "source": "field_reports_route",
+      "target": "lib_airtable",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/api/data/field-reports/route.ts",
+      "source_location": "L2",
+      "weight": 1.0,
+      "source": "field_reports_route",
+      "target": "lib_airtable_atcreate",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/api/data/field-reports/route.ts",
+      "source_location": "L2",
+      "weight": 1.0,
+      "source": "field_reports_route",
+      "target": "lib_airtable_atlist",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/api/data/field-reports/route.ts",
+      "source_location": "L10",
+      "weight": 1.0,
+      "source": "field_reports_route_get",
+      "target": "lib_airtable_atlist"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/api/data/field-reports/route.ts",
+      "source_location": "L33",
+      "weight": 1.0,
+      "source": "field_reports_route_post",
+      "target": "lib_airtable_atcreate"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/api/data/incidents/route.ts",
+      "source_location": "L4",
+      "weight": 1.0,
+      "source": "incidents_route",
+      "target": "incidents_route_get",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/api/data/incidents/route.ts",
+      "source_location": "L25",
+      "weight": 1.0,
+      "source": "incidents_route",
+      "target": "incidents_route_post",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/api/data/incidents/route.ts",
+      "source_location": "L2",
+      "weight": 1.0,
+      "source": "incidents_route",
+      "target": "lib_airtable",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/api/data/incidents/route.ts",
+      "source_location": "L2",
+      "weight": 1.0,
+      "source": "incidents_route",
+      "target": "lib_airtable_atcreate",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/api/data/incidents/route.ts",
+      "source_location": "L2",
+      "weight": 1.0,
+      "source": "incidents_route",
+      "target": "lib_airtable_atlist",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/api/data/incidents/route.ts",
+      "source_location": "L6",
+      "weight": 1.0,
+      "source": "incidents_route_get",
+      "target": "lib_airtable_atlist"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/api/data/incidents/route.ts",
+      "source_location": "L28",
+      "weight": 1.0,
+      "source": "incidents_route_post",
+      "target": "lib_airtable_atcreate"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/api/data/invoices/route.ts",
+      "source_location": "L8",
+      "weight": 1.0,
+      "source": "invoices_route",
+      "target": "invoices_route_get",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/api/data/invoices/route.ts",
+      "source_location": "L35",
+      "weight": 1.0,
+      "source": "invoices_route",
+      "target": "invoices_route_post",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/api/data/invoices/route.ts",
+      "source_location": "L2",
+      "weight": 1.0,
+      "source": "invoices_route",
+      "target": "lib_airtable",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/api/data/invoices/route.ts",
+      "source_location": "L2",
+      "weight": 1.0,
+      "source": "invoices_route",
+      "target": "lib_airtable_atcreate",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/api/data/invoices/route.ts",
+      "source_location": "L2",
+      "weight": 1.0,
+      "source": "invoices_route",
+      "target": "lib_airtable_atlist",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/api/data/invoices/route.ts",
+      "source_location": "L3",
+      "weight": 1.0,
+      "source": "invoices_route",
+      "target": "lib_whatsapp",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/api/data/invoices/route.ts",
+      "source_location": "L3",
+      "weight": 1.0,
+      "source": "invoices_route",
+      "target": "lib_whatsapp_sendmessage",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/api/data/invoices/route.ts",
+      "source_location": "L12",
+      "weight": 1.0,
+      "source": "invoices_route_get",
+      "target": "lib_airtable_atlist"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/api/data/invoices/route.ts",
+      "source_location": "L41",
+      "weight": 1.0,
+      "source": "invoices_route_post",
+      "target": "lib_airtable_atcreate"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/api/data/invoices/route.ts",
+      "source_location": "L78",
+      "weight": 1.0,
+      "source": "invoices_route_post",
+      "target": "lib_whatsapp_sendmessage"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/api/data/messages/route.ts",
+      "source_location": "L2",
+      "weight": 1.0,
+      "source": "messages_route",
+      "target": "lib_airtable",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/api/data/messages/route.ts",
+      "source_location": "L2",
+      "weight": 1.0,
+      "source": "messages_route",
+      "target": "lib_airtable_atlist",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/api/data/messages/route.ts",
+      "source_location": "L4",
+      "weight": 1.0,
+      "source": "messages_route",
+      "target": "messages_route_get",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/api/data/messages/route.ts",
+      "source_location": "L8",
+      "weight": 1.0,
+      "source": "messages_route_get",
+      "target": "lib_airtable_atlist"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/api/data/production/route.ts",
+      "source_location": "L2",
+      "weight": 1.0,
+      "source": "production_route",
+      "target": "lib_airtable",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/api/data/production/route.ts",
+      "source_location": "L2",
+      "weight": 1.0,
+      "source": "production_route",
+      "target": "lib_airtable_atcreate",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/api/data/production/route.ts",
+      "source_location": "L2",
+      "weight": 1.0,
+      "source": "production_route",
+      "target": "lib_airtable_atlist",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/api/data/production/route.ts",
+      "source_location": "L4",
+      "weight": 1.0,
+      "source": "production_route",
+      "target": "production_route_get",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/api/data/production/route.ts",
+      "source_location": "L23",
+      "weight": 1.0,
+      "source": "production_route",
+      "target": "production_route_post",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/api/data/production/route.ts",
+      "source_location": "L6",
+      "weight": 1.0,
+      "source": "production_route_get",
+      "target": "lib_airtable_atlist"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/api/data/production/route.ts",
+      "source_location": "L26",
+      "weight": 1.0,
+      "source": "production_route_post",
+      "target": "lib_airtable_atcreate"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/api/data/projects/route.ts",
+      "source_location": "L2",
+      "weight": 1.0,
+      "source": "projects_route",
+      "target": "lib_airtable",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/api/data/projects/route.ts",
+      "source_location": "L2",
+      "weight": 1.0,
+      "source": "projects_route",
+      "target": "lib_airtable_atcreate",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/api/data/projects/route.ts",
+      "source_location": "L2",
+      "weight": 1.0,
+      "source": "projects_route",
+      "target": "lib_airtable_atlist",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/api/data/projects/route.ts",
+      "source_location": "L4",
+      "weight": 1.0,
+      "source": "projects_route",
+      "target": "projects_route_get",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/api/data/projects/route.ts",
+      "source_location": "L29",
+      "weight": 1.0,
+      "source": "projects_route",
+      "target": "projects_route_post",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/api/data/projects/route.ts",
+      "source_location": "L6",
+      "weight": 1.0,
+      "source": "projects_route_get",
+      "target": "lib_airtable_atlist"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/api/data/projects/route.ts",
+      "source_location": "L32",
+      "weight": 1.0,
+      "source": "projects_route_post",
+      "target": "lib_airtable_atcreate"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/api/health/route.ts",
+      "source_location": "L4",
+      "weight": 1.0,
+      "source": "health_route",
+      "target": "health_route_get",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/api/health/route.ts",
+      "source_location": "L2",
+      "weight": 1.0,
+      "source": "health_route",
+      "target": "lib_airtable",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/api/health/route.ts",
+      "source_location": "L2",
+      "weight": 1.0,
+      "source": "health_route",
+      "target": "lib_airtable_atlist",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/api/health/route.ts",
+      "source_location": "L12",
+      "weight": 1.0,
+      "source": "health_route_get",
+      "target": "lib_airtable_atlist"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/api/invoices/sign/route.ts",
+      "source_location": "L2",
+      "weight": 1.0,
+      "source": "sign_route",
+      "target": "lib_airtable",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/api/invoices/sign/route.ts",
+      "source_location": "L2",
+      "weight": 1.0,
+      "source": "sign_route",
+      "target": "lib_airtable_atlist",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/api/invoices/sign/route.ts",
+      "source_location": "L2",
+      "weight": 1.0,
+      "source": "sign_route",
+      "target": "lib_airtable_atupdate",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/api/invoices/sign/route.ts",
+      "source_location": "L3",
+      "weight": 1.0,
+      "source": "sign_route",
+      "target": "lib_whatsapp",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/api/invoices/sign/route.ts",
+      "source_location": "L3",
+      "weight": 1.0,
+      "source": "sign_route",
+      "target": "lib_whatsapp_sendmessage",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/api/invoices/sign/route.ts",
+      "source_location": "L5",
+      "weight": 1.0,
+      "source": "sign_route",
+      "target": "sign_route_post",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/api/invoices/sign/route.ts",
+      "source_location": "L10",
+      "weight": 1.0,
+      "source": "sign_route_post",
+      "target": "lib_airtable_atlist"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/api/invoices/sign/route.ts",
+      "source_location": "L26",
+      "weight": 1.0,
+      "source": "sign_route_post",
+      "target": "lib_airtable_atupdate"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/api/invoices/sign/route.ts",
+      "source_location": "L38",
+      "weight": 1.0,
+      "source": "sign_route_post",
+      "target": "lib_whatsapp_sendmessage"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/api/reports/monthly/route.ts",
+      "source_location": "L7",
+      "weight": 1.0,
+      "source": "monthly_route",
+      "target": "lib_airtable",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/api/reports/monthly/route.ts",
+      "source_location": "L7",
+      "weight": 1.0,
+      "source": "monthly_route",
+      "target": "lib_airtable_atcreate",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/api/reports/monthly/route.ts",
+      "source_location": "L7",
+      "weight": 1.0,
+      "source": "monthly_route",
+      "target": "lib_airtable_atlist",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/api/reports/monthly/route.ts",
+      "source_location": "L8",
+      "weight": 1.0,
+      "source": "monthly_route",
+      "target": "lib_whatsapp",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/api/reports/monthly/route.ts",
+      "source_location": "L8",
+      "weight": 1.0,
+      "source": "monthly_route",
+      "target": "lib_whatsapp_sendmessage",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/api/reports/monthly/route.ts",
+      "source_location": "L13",
+      "weight": 1.0,
+      "source": "monthly_route",
+      "target": "monthly_route_post",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/api/reports/monthly/route.ts",
+      "source_location": "L113",
+      "weight": 1.0,
+      "source": "monthly_route_post",
+      "target": "lib_airtable_atcreate"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/api/reports/monthly/route.ts",
+      "source_location": "L35",
+      "weight": 1.0,
+      "source": "monthly_route_post",
+      "target": "lib_airtable_atlist"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/api/reports/monthly/route.ts",
+      "source_location": "L132",
+      "weight": 1.0,
+      "source": "monthly_route_post",
+      "target": "lib_whatsapp_sendmessage"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/api/webhook/whatsapp/route.ts",
+      "source_location": "L9",
+      "weight": 1.0,
+      "source": "whatsapp_route",
+      "target": "lib_airtable",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/api/webhook/whatsapp/route.ts",
+      "source_location": "L9",
+      "weight": 1.0,
+      "source": "whatsapp_route",
+      "target": "lib_airtable_atcreate",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/api/webhook/whatsapp/route.ts",
+      "source_location": "L9",
+      "weight": 1.0,
+      "source": "whatsapp_route",
+      "target": "lib_airtable_atlist",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/api/webhook/whatsapp/route.ts",
+      "source_location": "L9",
+      "weight": 1.0,
+      "source": "whatsapp_route",
+      "target": "lib_airtable_atupdate",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/api/webhook/whatsapp/route.ts",
+      "source_location": "L9",
+      "weight": 1.0,
+      "source": "whatsapp_route",
+      "target": "lib_airtable_tables",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/api/webhook/whatsapp/route.ts",
+      "source_location": "L10",
+      "weight": 1.0,
+      "source": "whatsapp_route",
+      "target": "lib_whatsapp",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/api/webhook/whatsapp/route.ts",
+      "source_location": "L10",
+      "weight": 1.0,
+      "source": "whatsapp_route",
+      "target": "lib_whatsapp_sendmessage",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/api/webhook/whatsapp/route.ts",
+      "source_location": "L123",
+      "weight": 1.0,
+      "source": "whatsapp_route",
+      "target": "whatsapp_route_classifyandhandle",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/api/webhook/whatsapp/route.ts",
+      "source_location": "L355",
+      "weight": 1.0,
+      "source": "whatsapp_route",
+      "target": "whatsapp_route_compilebriefingfromdb",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/api/webhook/whatsapp/route.ts",
+      "source_location": "L445",
+      "weight": 1.0,
+      "source": "whatsapp_route",
+      "target": "whatsapp_route_extractzone",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/api/webhook/whatsapp/route.ts",
+      "source_location": "L15",
+      "weight": 1.0,
+      "source": "whatsapp_route",
+      "target": "whatsapp_route_get",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/api/webhook/whatsapp/route.ts",
+      "source_location": "L328",
+      "weight": 1.0,
+      "source": "whatsapp_route",
+      "target": "whatsapp_route_handlebillingreminders",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/api/webhook/whatsapp/route.ts",
+      "source_location": "L245",
+      "weight": 1.0,
+      "source": "whatsapp_route",
+      "target": "whatsapp_route_handlecustomerinquiry",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/api/webhook/whatsapp/route.ts",
+      "source_location": "L387",
+      "weight": 1.0,
+      "source": "whatsapp_route",
+      "target": "whatsapp_route_handlefieldcommand",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/api/webhook/whatsapp/route.ts",
+      "source_location": "L441",
+      "weight": 1.0,
+      "source": "whatsapp_route",
+      "target": "whatsapp_route_normalizeincidenttype",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/api/webhook/whatsapp/route.ts",
+      "source_location": "L28",
+      "weight": 1.0,
+      "source": "whatsapp_route",
+      "target": "whatsapp_route_post",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/api/webhook/whatsapp/route.ts",
+      "source_location": "L50",
+      "weight": 1.0,
+      "source": "whatsapp_route",
+      "target": "whatsapp_route_routemessage",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/api/webhook/whatsapp/route.ts",
+      "source_location": "L221",
+      "weight": 1.0,
+      "source": "whatsapp_route",
+      "target": "whatsapp_route_storeoperationaldata",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/api/webhook/whatsapp/route.ts",
+      "source_location": "L171",
+      "weight": 1.0,
+      "source": "whatsapp_route",
+      "target": "whatsapp_route_tryparseoperationaldata",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "app/api/webhook/whatsapp/route.ts",
+      "source_location": "L38",
+      "weight": 1.0,
+      "source": "whatsapp_route_post",
+      "target": "whatsapp_route_routemessage",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "app/api/webhook/whatsapp/route.ts",
+      "source_location": "L70",
+      "weight": 1.0,
+      "source": "whatsapp_route_routemessage",
+      "target": "lib_airtable_atcreate",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "app/api/webhook/whatsapp/route.ts",
+      "source_location": "L56",
+      "weight": 1.0,
+      "source": "whatsapp_route_routemessage",
+      "target": "lib_airtable_atlist",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "app/api/webhook/whatsapp/route.ts",
+      "source_location": "L64",
+      "weight": 1.0,
+      "source": "whatsapp_route_routemessage",
+      "target": "lib_airtable_atupdate",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "app/api/webhook/whatsapp/route.ts",
+      "source_location": "L100",
+      "weight": 1.0,
+      "source": "whatsapp_route_routemessage",
+      "target": "lib_whatsapp_sendmessage",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "app/api/webhook/whatsapp/route.ts",
+      "source_location": "L93",
+      "weight": 1.0,
+      "source": "whatsapp_route_routemessage",
+      "target": "whatsapp_route_classifyandhandle",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "app/api/webhook/whatsapp/route.ts",
+      "source_location": "L96",
+      "weight": 1.0,
+      "source": "whatsapp_route_routemessage",
+      "target": "whatsapp_route_storeoperationaldata",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "app/api/webhook/whatsapp/route.ts",
+      "source_location": "L132",
+      "weight": 1.0,
+      "source": "whatsapp_route_classifyandhandle",
+      "target": "whatsapp_route_compilebriefingfromdb",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "app/api/webhook/whatsapp/route.ts",
+      "source_location": "L130",
+      "weight": 1.0,
+      "source": "whatsapp_route_classifyandhandle",
+      "target": "whatsapp_route_handlebillingreminders",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "app/api/webhook/whatsapp/route.ts",
+      "source_location": "L167",
+      "weight": 1.0,
+      "source": "whatsapp_route_classifyandhandle",
+      "target": "whatsapp_route_handlecustomerinquiry",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "app/api/webhook/whatsapp/route.ts",
+      "source_location": "L151",
+      "weight": 1.0,
+      "source": "whatsapp_route_classifyandhandle",
+      "target": "whatsapp_route_handlefieldcommand",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "app/api/webhook/whatsapp/route.ts",
+      "source_location": "L137",
+      "weight": 1.0,
+      "source": "whatsapp_route_classifyandhandle",
+      "target": "whatsapp_route_tryparseoperationaldata",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "app/api/webhook/whatsapp/route.ts",
+      "source_location": "L199",
+      "weight": 1.0,
+      "source": "whatsapp_route_tryparseoperationaldata",
+      "target": "whatsapp_route_extractzone",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "app/api/webhook/whatsapp/route.ts",
+      "source_location": "L197",
+      "weight": 1.0,
+      "source": "whatsapp_route_tryparseoperationaldata",
+      "target": "whatsapp_route_normalizeincidenttype",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "app/api/webhook/whatsapp/route.ts",
+      "source_location": "L224",
+      "weight": 1.0,
+      "source": "whatsapp_route_storeoperationaldata",
+      "target": "lib_airtable_atcreate",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "app/api/webhook/whatsapp/route.ts",
+      "source_location": "L230",
+      "weight": 1.0,
+      "source": "whatsapp_route_storeoperationaldata",
+      "target": "lib_airtable_atlist",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "app/api/webhook/whatsapp/route.ts",
+      "source_location": "L235",
+      "weight": 1.0,
+      "source": "whatsapp_route_storeoperationaldata",
+      "target": "lib_airtable_atupdate",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "app/api/webhook/whatsapp/route.ts",
+      "source_location": "L285",
+      "weight": 1.0,
+      "source": "whatsapp_route_handlecustomerinquiry",
+      "target": "lib_airtable_atcreate",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "app/api/webhook/whatsapp/route.ts",
+      "source_location": "L255",
+      "weight": 1.0,
+      "source": "whatsapp_route_handlecustomerinquiry",
+      "target": "lib_airtable_atlist",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "app/api/webhook/whatsapp/route.ts",
+      "source_location": "L284",
+      "weight": 1.0,
+      "source": "whatsapp_route_handlecustomerinquiry",
+      "target": "whatsapp_route_extractzone",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "app/api/webhook/whatsapp/route.ts",
+      "source_location": "L342",
+      "weight": 1.0,
+      "source": "whatsapp_route_handlebillingreminders",
+      "target": "lib_airtable_atcreate",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "app/api/webhook/whatsapp/route.ts",
+      "source_location": "L329",
+      "weight": 1.0,
+      "source": "whatsapp_route_handlebillingreminders",
+      "target": "lib_airtable_atlist",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "app/api/webhook/whatsapp/route.ts",
+      "source_location": "L337",
+      "weight": 1.0,
+      "source": "whatsapp_route_handlebillingreminders",
+      "target": "lib_whatsapp_sendmessage",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "app/api/webhook/whatsapp/route.ts",
+      "source_location": "L359",
+      "weight": 1.0,
+      "source": "whatsapp_route_compilebriefingfromdb",
+      "target": "lib_airtable_atlist",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "app/api/webhook/whatsapp/route.ts",
+      "source_location": "L419",
+      "weight": 1.0,
+      "source": "whatsapp_route_handlefieldcommand",
+      "target": "lib_airtable_atcreate",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "app/api/webhook/whatsapp/route.ts",
+      "source_location": "L432",
+      "weight": 1.0,
+      "source": "whatsapp_route_handlefieldcommand",
+      "target": "lib_whatsapp_sendmessage",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "app/api/webhook/whatsapp/route.ts",
+      "source_location": "L401",
+      "weight": 1.0,
+      "source": "whatsapp_route_handlefieldcommand",
+      "target": "whatsapp_route_extractzone",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/dashboard-client.tsx",
+      "source_location": "L8",
+      "weight": 1.0,
+      "source": "app_dashboard_client",
+      "target": "app_dashboard_client_agent",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/dashboard-client.tsx",
+      "source_location": "L585",
+      "weight": 1.0,
+      "source": "app_dashboard_client",
+      "target": "app_dashboard_client_agents",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/dashboard-client.tsx",
+      "source_location": "L64",
+      "weight": 1.0,
+      "source": "app_dashboard_client",
+      "target": "app_dashboard_client_btn",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/dashboard-client.tsx",
+      "source_location": "L112",
+      "weight": 1.0,
+      "source": "app_dashboard_client",
+      "target": "app_dashboard_client_dashboardcontent",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/dashboard-client.tsx",
+      "source_location": "L106",
+      "weight": 1.0,
+      "source": "app_dashboard_client",
+      "target": "app_dashboard_client_empty",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/dashboard-client.tsx",
+      "source_location": "L54",
+      "weight": 1.0,
+      "source": "app_dashboard_client",
+      "target": "app_dashboard_client_fd",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/dashboard-client.tsx",
+      "source_location": "L56",
+      "weight": 1.0,
+      "source": "app_dashboard_client",
+      "target": "app_dashboard_client_fg",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/dashboard-client.tsx",
+      "source_location": "L57",
+      "weight": 1.0,
+      "source": "app_dashboard_client",
+      "target": "app_dashboard_client_fp",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/dashboard-client.tsx",
+      "source_location": "L55",
+      "weight": 1.0,
+      "source": "app_dashboard_client",
+      "target": "app_dashboard_client_ft",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/dashboard-client.tsx",
+      "source_location": "L40",
+      "weight": 1.0,
+      "source": "app_dashboard_client",
+      "target": "app_dashboard_client_inc_types",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/dashboard-client.tsx",
+      "source_location": "L7",
+      "weight": 1.0,
+      "source": "app_dashboard_client",
+      "target": "app_dashboard_client_incident",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/dashboard-client.tsx",
+      "source_location": "L450",
+      "weight": 1.0,
+      "source": "app_dashboard_client",
+      "target": "app_dashboard_client_incidents",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/dashboard-client.tsx",
+      "source_location": "L60",
+      "weight": 1.0,
+      "source": "app_dashboard_client",
+      "target": "app_dashboard_client_inp",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/dashboard-client.tsx",
+      "source_location": "L6",
+      "weight": 1.0,
+      "source": "app_dashboard_client",
+      "target": "app_dashboard_client_invoice",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/dashboard-client.tsx",
+      "source_location": "L377",
+      "weight": 1.0,
+      "source": "app_dashboard_client",
+      "target": "app_dashboard_client_invoices",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/dashboard-client.tsx",
+      "source_location": "L61",
+      "weight": 1.0,
+      "source": "app_dashboard_client",
+      "target": "app_dashboard_client_lbl",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/dashboard-client.tsx",
+      "source_location": "L190",
+      "weight": 1.0,
+      "source": "app_dashboard_client",
+      "target": "app_dashboard_client_overview",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/dashboard-client.tsx",
+      "source_location": "L70",
+      "weight": 1.0,
+      "source": "app_dashboard_client",
+      "target": "app_dashboard_client_pill",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/dashboard-client.tsx",
+      "source_location": "L324",
+      "weight": 1.0,
+      "source": "app_dashboard_client",
+      "target": "app_dashboard_client_production",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/dashboard-client.tsx",
+      "source_location": "L5",
+      "weight": 1.0,
+      "source": "app_dashboard_client",
+      "target": "app_dashboard_client_productionentry",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/dashboard-client.tsx",
+      "source_location": "L96",
+      "weight": 1.0,
+      "source": "app_dashboard_client",
+      "target": "app_dashboard_client_progressbar",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/dashboard-client.tsx",
+      "source_location": "L42",
+      "weight": 1.0,
+      "source": "app_dashboard_client",
+      "target": "app_dashboard_client_proj_status",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/dashboard-client.tsx",
+      "source_location": "L41",
+      "weight": 1.0,
+      "source": "app_dashboard_client",
+      "target": "app_dashboard_client_proj_types",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/dashboard-client.tsx",
+      "source_location": "L9",
+      "weight": 1.0,
+      "source": "app_dashboard_client",
+      "target": "app_dashboard_client_projet",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/dashboard-client.tsx",
+      "source_location": "L508",
+      "weight": 1.0,
+      "source": "app_dashboard_client",
+      "target": "app_dashboard_client_projets",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/dashboard-client.tsx",
+      "source_location": "L107",
+      "weight": 1.0,
+      "source": "app_dashboard_client",
+      "target": "app_dashboard_client_spin",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/dashboard-client.tsx",
+      "source_location": "L85",
+      "weight": 1.0,
+      "source": "app_dashboard_client",
+      "target": "app_dashboard_client_stat",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/dashboard-client.tsx",
+      "source_location": "L16",
+      "weight": 1.0,
+      "source": "app_dashboard_client",
+      "target": "app_dashboard_client_t",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/dashboard-client.tsx",
+      "source_location": "L11",
+      "weight": 1.0,
+      "source": "app_dashboard_client",
+      "target": "app_dashboard_client_tab",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/dashboard-client.tsx",
+      "source_location": "L44",
+      "weight": 1.0,
+      "source": "app_dashboard_client",
+      "target": "app_dashboard_client_tabs",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/dashboard-client.tsx",
+      "source_location": "L102",
+      "weight": 1.0,
+      "source": "app_dashboard_client",
+      "target": "app_dashboard_client_th",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/dashboard-client.tsx",
+      "source_location": "L39",
+      "weight": 1.0,
+      "source": "app_dashboard_client",
+      "target": "app_dashboard_client_zones",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/dashboard/page.tsx",
+      "source_location": "L2",
+      "weight": 1.0,
+      "source": "dashboard_page",
+      "target": "app_dashboard_client",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/dashboard/page.tsx",
+      "source_location": "L2",
+      "weight": 1.0,
+      "source": "dashboard_page",
+      "target": "app_dashboard_client_dashboardcontent",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/dashboard/page.tsx",
+      "source_location": "L6",
+      "weight": 1.0,
+      "source": "dashboard_page",
+      "target": "dashboard_page_dashboardpage",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/layout.tsx",
+      "source_location": "L5",
+      "weight": 1.0,
+      "source": "app_layout",
+      "target": "app_layout_dmsans",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/layout.tsx",
+      "source_location": "L12",
+      "weight": 1.0,
+      "source": "app_layout",
+      "target": "app_layout_jetbrainsmono",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/layout.tsx",
+      "source_location": "L19",
+      "weight": 1.0,
+      "source": "app_layout",
+      "target": "app_layout_metadata",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/layout.tsx",
+      "source_location": "L24",
+      "weight": 1.0,
+      "source": "app_layout",
+      "target": "app_layout_rootlayout",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/login/actions.ts",
+      "source_location": "L6",
+      "weight": 1.0,
+      "source": "login_actions",
+      "target": "login_actions_pinlogin",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/login/page.tsx",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "login_page",
+      "target": "login_actions",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/login/page.tsx",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "login_page",
+      "target": "login_actions_pinlogin",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/login/page.tsx",
+      "source_location": "L3",
+      "weight": 1.0,
+      "source": "login_page",
+      "target": "login_page_loginpage",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/page.tsx",
+      "source_location": "L3",
+      "weight": 1.0,
+      "source": "app_page",
+      "target": "app_page_home",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/privacy/page.tsx",
+      "source_location": "L6",
+      "weight": 1.0,
+      "source": "privacy_page",
+      "target": "privacy_page_privacypage",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/reports/[id]/page.tsx",
+      "source_location": "L17",
+      "weight": 1.0,
+      "source": "id_page",
+      "target": "id_page_fmtgnf",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/reports/[id]/page.tsx",
+      "source_location": "L12",
+      "weight": 1.0,
+      "source": "id_page",
+      "target": "id_page_metadata",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/reports/[id]/page.tsx",
+      "source_location": "L18",
+      "weight": 1.0,
+      "source": "id_page",
+      "target": "id_page_pct",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/reports/[id]/page.tsx",
+      "source_location": "L20",
+      "weight": 1.0,
+      "source": "id_page",
+      "target": "id_page_progressbar",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/reports/[id]/page.tsx",
+      "source_location": "L43",
+      "weight": 1.0,
+      "source": "id_page",
+      "target": "id_page_reportpage",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/reports/[id]/page.tsx",
+      "source_location": "L234",
+      "weight": 1.0,
+      "source": "id_page",
+      "target": "id_page_section",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/reports/[id]/page.tsx",
+      "source_location": "L30",
+      "weight": 1.0,
+      "source": "id_page",
+      "target": "id_page_statrow",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/reports/[id]/page.tsx",
+      "source_location": "L8",
+      "weight": 1.0,
+      "source": "id_page",
+      "target": "lib_airtable",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/reports/[id]/page.tsx",
+      "source_location": "L8",
+      "weight": 1.0,
+      "source": "id_page",
+      "target": "lib_airtable_atlist",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "app/reports/[id]/page.tsx",
+      "source_location": "L158",
+      "weight": 1.0,
+      "source": "id_page_reportpage",
+      "target": "id_page_fmtgnf",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "app/reports/[id]/page.tsx",
+      "source_location": "L58",
+      "weight": 1.0,
+      "source": "id_page_reportpage",
+      "target": "id_page_pct",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/reports/[id]/page.tsx",
+      "source_location": "L46",
+      "weight": 1.0,
+      "source": "id_page_reportpage",
+      "target": "lib_airtable_atlist"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/sign/[token]/page.tsx",
+      "source_location": "L15",
+      "weight": 1.0,
+      "source": "token_page",
+      "target": "token_signbutton",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/sign/[token]/SignButton.tsx",
+      "source_location": "L5",
+      "weight": 1.0,
+      "source": "token_signbutton",
+      "target": "token_signbutton_signbutton",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/sign/[token]/page.tsx",
+      "source_location": "L14",
+      "weight": 1.0,
+      "source": "token_page",
+      "target": "lib_airtable",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/sign/[token]/page.tsx",
+      "source_location": "L14",
+      "weight": 1.0,
+      "source": "token_page",
+      "target": "lib_airtable_atlist",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/sign/[token]/page.tsx",
+      "source_location": "L24",
+      "weight": 1.0,
+      "source": "token_page",
+      "target": "token_page_fmt",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/sign/[token]/page.tsx",
+      "source_location": "L31",
+      "weight": 1.0,
+      "source": "token_page",
+      "target": "token_page_fmtgnf",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/sign/[token]/page.tsx",
+      "source_location": "L19",
+      "weight": 1.0,
+      "source": "token_page",
+      "target": "token_page_metadata",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/sign/[token]/page.tsx",
+      "source_location": "L35",
+      "weight": 1.0,
+      "source": "token_page",
+      "target": "token_page_signpage",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "app/sign/[token]/page.tsx",
+      "source_location": "L477",
+      "weight": 1.0,
+      "source": "token_page_signpage",
+      "target": "token_page_fmt",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "app/sign/[token]/page.tsx",
+      "source_location": "L437",
+      "weight": 1.0,
+      "source": "token_page_signpage",
+      "target": "token_page_fmtgnf",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/sign/[token]/page.tsx",
+      "source_location": "L42",
+      "weight": 1.0,
+      "source": "token_page_signpage",
+      "target": "lib_airtable_atlist"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/terms/page.tsx",
+      "source_location": "L6",
+      "weight": 1.0,
+      "source": "terms_page",
+      "target": "terms_page_termspage",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "lib/agent.ts",
+      "source_location": "L84",
+      "weight": 1.0,
+      "source": "lib_agent",
+      "target": "lib_agent_compilebriefing",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "lib/agent.ts",
+      "source_location": "L58",
+      "weight": 1.0,
+      "source": "lib_agent",
+      "target": "lib_agent_fallbackreply",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "lib/agent.ts",
+      "source_location": "L29",
+      "weight": 1.0,
+      "source": "lib_agent",
+      "target": "lib_agent_generatereply",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "lib/agent.ts",
+      "source_location": "L66",
+      "weight": 1.0,
+      "source": "lib_agent",
+      "target": "lib_agent_quickreply",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "lib/agent.ts",
+      "source_location": "L52",
+      "weight": 1.0,
+      "source": "lib_agent_generatereply",
+      "target": "lib_agent_fallbackreply",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "lib/airtable.ts",
+      "source_location": "L20",
+      "weight": 1.0,
+      "source": "lib_airtable",
+      "target": "lib_airtable_airtablerecord",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "lib/airtable.ts",
+      "source_location": "L50",
+      "weight": 1.0,
+      "source": "lib_airtable",
+      "target": "lib_airtable_atcreate",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "lib/airtable.ts",
+      "source_location": "L26",
+      "weight": 1.0,
+      "source": "lib_airtable",
+      "target": "lib_airtable_atlist",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "lib/airtable.ts",
+      "source_location": "L63",
+      "weight": 1.0,
+      "source": "lib_airtable",
+      "target": "lib_airtable_atupdate",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "lib/airtable.ts",
+      "source_location": "L22",
+      "weight": 1.0,
+      "source": "lib_airtable",
+      "target": "lib_airtable_headers",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "lib/airtable.ts",
+      "source_location": "L19",
+      "weight": 1.0,
+      "source": "lib_airtable",
+      "target": "lib_airtable_tablekey",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "lib/airtable.ts",
+      "source_location": "L5",
+      "weight": 1.0,
+      "source": "lib_airtable",
+      "target": "lib_airtable_tables",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "lib/airtable.ts",
+      "source_location": "L56",
+      "weight": 1.0,
+      "source": "lib_airtable_atcreate",
+      "target": "lib_airtable_headers",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "lib/airtable.ts",
+      "source_location": "L42",
+      "weight": 1.0,
+      "source": "lib_airtable_atlist",
+      "target": "lib_airtable_headers",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "lib/airtable.ts",
+      "source_location": "L70",
+      "weight": 1.0,
+      "source": "lib_airtable_atupdate",
+      "target": "lib_airtable_headers",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "lib/whatsapp.ts",
+      "source_location": "L59",
+      "weight": 1.0,
+      "source": "lib_whatsapp",
+      "target": "lib_whatsapp_isdirector",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "lib/whatsapp.ts",
+      "source_location": "L21",
+      "weight": 1.0,
+      "source": "lib_whatsapp",
+      "target": "lib_whatsapp_sendmessage",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "lib/whatsapp.ts",
+      "source_location": "L12",
+      "weight": 1.0,
+      "source": "lib_whatsapp",
+      "target": "lib_whatsapp_sendresult",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "proxy.ts",
+      "source_location": "L27",
+      "weight": 1.0,
+      "source": "proxy",
+      "target": "proxy_config",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "proxy.ts",
+      "source_location": "L4",
+      "weight": 1.0,
+      "source": "proxy",
+      "target": "proxy_proxy",
+      "confidence_score": 1.0
+    }
+  ],
+  "hyperedges": [],
+  "built_at_commit": "38c7676258f5b41388675eac612aa7278111a138"
+}

@@ -1,0 +1,327 @@
+{
+  "communities": {
+    "0": [
+      "agents_route",
+      "agents_route_get",
+      "analyse_route",
+      "analyse_route_post",
+      "conversations_route",
+      "conversations_route_get",
+      "conversations_route_patch",
+      "field_reports_route",
+      "field_reports_route_get",
+      "field_reports_route_post",
+      "health_route",
+      "health_route_get",
+      "incidents_route",
+      "incidents_route_get",
+      "incidents_route_post",
+      "lib_airtable",
+      "lib_airtable_airtablerecord",
+      "lib_airtable_atlist",
+      "lib_airtable_atupdate",
+      "lib_airtable_headers",
+      "lib_airtable_tablekey",
+      "lib_airtable_tables",
+      "messages_route",
+      "messages_route_get",
+      "production_route",
+      "production_route_get",
+      "production_route_post",
+      "projects_route",
+      "projects_route_get",
+      "projects_route_post",
+      "sign_route",
+      "sign_route_post"
+    ],
+    "1": [
+      "app_dashboard_client",
+      "app_dashboard_client_agent",
+      "app_dashboard_client_agents",
+      "app_dashboard_client_btn",
+      "app_dashboard_client_empty",
+      "app_dashboard_client_fd",
+      "app_dashboard_client_fg",
+      "app_dashboard_client_fp",
+      "app_dashboard_client_ft",
+      "app_dashboard_client_inc_types",
+      "app_dashboard_client_incident",
+      "app_dashboard_client_incidents",
+      "app_dashboard_client_inp",
+      "app_dashboard_client_invoice",
+      "app_dashboard_client_invoices",
+      "app_dashboard_client_lbl",
+      "app_dashboard_client_overview",
+      "app_dashboard_client_pill",
+      "app_dashboard_client_production",
+      "app_dashboard_client_productionentry",
+      "app_dashboard_client_progressbar",
+      "app_dashboard_client_proj_status",
+      "app_dashboard_client_proj_types",
+      "app_dashboard_client_projet",
+      "app_dashboard_client_projets",
+      "app_dashboard_client_spin",
+      "app_dashboard_client_stat",
+      "app_dashboard_client_t",
+      "app_dashboard_client_tab",
+      "app_dashboard_client_tabs",
+      "app_dashboard_client_th",
+      "app_dashboard_client_zones"
+    ],
+    "2": [
+      "daily_briefing_route",
+      "daily_briefing_route_generatebriefing",
+      "daily_briefing_route_get",
+      "field_summary_route",
+      "field_summary_route_get",
+      "invoices_route",
+      "invoices_route_get",
+      "invoices_route_post",
+      "lib_whatsapp",
+      "lib_whatsapp_isdirector",
+      "lib_whatsapp_sendmessage",
+      "lib_whatsapp_sendresult",
+      "monthly_route",
+      "monthly_route_post"
+    ],
+    "3": [
+      "lib_airtable_atcreate",
+      "whatsapp_route",
+      "whatsapp_route_classifyandhandle",
+      "whatsapp_route_compilebriefingfromdb",
+      "whatsapp_route_extractzone",
+      "whatsapp_route_get",
+      "whatsapp_route_handlebillingreminders",
+      "whatsapp_route_handlecustomerinquiry",
+      "whatsapp_route_handlefieldcommand",
+      "whatsapp_route_normalizeincidenttype",
+      "whatsapp_route_post",
+      "whatsapp_route_routemessage",
+      "whatsapp_route_storeoperationaldata",
+      "whatsapp_route_tryparseoperationaldata"
+    ],
+    "4": [
+      "id_page",
+      "id_page_fmtgnf",
+      "id_page_metadata",
+      "id_page_pct",
+      "id_page_progressbar",
+      "id_page_reportpage",
+      "id_page_section",
+      "id_page_statrow"
+    ],
+    "5": [
+      "token_page",
+      "token_page_fmt",
+      "token_page_fmtgnf",
+      "token_page_metadata",
+      "token_page_signpage",
+      "token_signbutton",
+      "token_signbutton_signbutton"
+    ],
+    "6": [
+      "app_layout",
+      "app_layout_dmsans",
+      "app_layout_jetbrainsmono",
+      "app_layout_metadata",
+      "app_layout_rootlayout"
+    ],
+    "7": [
+      "lib_agent",
+      "lib_agent_compilebriefing",
+      "lib_agent_fallbackreply",
+      "lib_agent_generatereply",
+      "lib_agent_quickreply"
+    ],
+    "8": [
+      "login_actions",
+      "login_actions_pinlogin",
+      "login_page",
+      "login_page_loginpage"
+    ],
+    "9": [
+      "app_dashboard_client_dashboardcontent",
+      "dashboard_page",
+      "dashboard_page_dashboardpage"
+    ],
+    "10": [
+      "proxy",
+      "proxy_config",
+      "proxy_proxy"
+    ],
+    "11": [
+      "app_page",
+      "app_page_home"
+    ],
+    "12": [
+      "monthly_report_route",
+      "monthly_report_route_get"
+    ],
+    "13": [
+      "privacy_page",
+      "privacy_page_privacypage"
+    ],
+    "14": [
+      "terms_page",
+      "terms_page_termspage"
+    ]
+  },
+  "cohesion": {
+    "0": 0.11491935483870967,
+    "1": 0.0625,
+    "2": 0.24175824175824176,
+    "3": 0.32967032967032966,
+    "4": 0.32142857142857145,
+    "5": 0.38095238095238093,
+    "6": 0.4,
+    "7": 0.5,
+    "8": 0.6666666666666666,
+    "9": 0.6666666666666666,
+    "10": 0.6666666666666666,
+    "11": 1.0,
+    "12": 1.0,
+    "13": 1.0,
+    "14": 1.0
+  },
+  "gods": [
+    {
+      "id": "lib_airtable_atlist",
+      "label": "atList()",
+      "degree": 40
+    },
+    {
+      "id": "lib_airtable_atcreate",
+      "label": "atCreate()",
+      "degree": 24
+    },
+    {
+      "id": "lib_whatsapp_sendmessage",
+      "label": "sendMessage()",
+      "degree": 15
+    },
+    {
+      "id": "lib_airtable_atupdate",
+      "label": "atUpdate()",
+      "degree": 9
+    },
+    {
+      "id": "whatsapp_route_routemessage",
+      "label": "routeMessage()",
+      "degree": 8
+    },
+    {
+      "id": "whatsapp_route_classifyandhandle",
+      "label": "classifyAndHandle()",
+      "degree": 7
+    },
+    {
+      "id": "whatsapp_route_storeoperationaldata",
+      "label": "storeOperationalData()",
+      "degree": 5
+    },
+    {
+      "id": "whatsapp_route_handlecustomerinquiry",
+      "label": "handleCustomerInquiry()",
+      "degree": 5
+    },
+    {
+      "id": "whatsapp_route_handlebillingreminders",
+      "label": "handleBillingReminders()",
+      "degree": 5
+    },
+    {
+      "id": "whatsapp_route_handlefieldcommand",
+      "label": "handleFieldCommand()",
+      "degree": 5
+    }
+  ],
+  "surprises": [
+    {
+      "source": "POST()",
+      "target": "atCreate()",
+      "source_files": [
+        "app/api/data/field-reports/route.ts",
+        "lib/airtable.ts"
+      ],
+      "confidence": "EXTRACTED",
+      "relation": "calls",
+      "why": "connects across different repos/directories; bridges separate communities; peripheral node `POST()` unexpectedly reaches hub `atCreate()`"
+    },
+    {
+      "source": "POST()",
+      "target": "atCreate()",
+      "source_files": [
+        "app/api/data/incidents/route.ts",
+        "lib/airtable.ts"
+      ],
+      "confidence": "EXTRACTED",
+      "relation": "calls",
+      "why": "connects across different repos/directories; bridges separate communities; peripheral node `POST()` unexpectedly reaches hub `atCreate()`"
+    },
+    {
+      "source": "GET()",
+      "target": "atList()",
+      "source_files": [
+        "app/api/data/invoices/route.ts",
+        "lib/airtable.ts"
+      ],
+      "confidence": "EXTRACTED",
+      "relation": "calls",
+      "why": "connects across different repos/directories; bridges separate communities; peripheral node `GET()` unexpectedly reaches hub `atList()`"
+    },
+    {
+      "source": "POST()",
+      "target": "atCreate()",
+      "source_files": [
+        "app/api/data/production/route.ts",
+        "lib/airtable.ts"
+      ],
+      "confidence": "EXTRACTED",
+      "relation": "calls",
+      "why": "connects across different repos/directories; bridges separate communities; peripheral node `POST()` unexpectedly reaches hub `atCreate()`"
+    },
+    {
+      "source": "POST()",
+      "target": "atCreate()",
+      "source_files": [
+        "app/api/data/projects/route.ts",
+        "lib/airtable.ts"
+      ],
+      "confidence": "EXTRACTED",
+      "relation": "calls",
+      "why": "connects across different repos/directories; bridges separate communities; peripheral node `POST()` unexpectedly reaches hub `atCreate()`"
+    }
+  ],
+  "questions": [
+    {
+      "type": "bridge_node",
+      "question": "Why does `atList()` connect `Community 0` to `Community 2`, `Community 3`, `Community 4`, `Community 5`?",
+      "why": "High betweenness centrality (0.155) - this node is a cross-community bridge."
+    },
+    {
+      "type": "bridge_node",
+      "question": "Why does `atCreate()` connect `Community 3` to `Community 0`, `Community 2`?",
+      "why": "High betweenness centrality (0.036) - this node is a cross-community bridge."
+    },
+    {
+      "type": "bridge_node",
+      "question": "Why does `sendMessage()` connect `Community 2` to `Community 0`, `Community 3`?",
+      "why": "High betweenness centrality (0.009) - this node is a cross-community bridge."
+    },
+    {
+      "type": "isolated_nodes",
+      "question": "What connects `ProductionEntry`, `Invoice`, `Incident` to the rest of the system?",
+      "why": "23 weakly-connected nodes found - possible documentation gaps or missing edges."
+    },
+    {
+      "type": "low_cohesion",
+      "question": "Should `Community 0` be split into smaller, more focused modules?",
+      "why": "Cohesion score 0.11491935483870967 - nodes in this community are weakly interconnected."
+    },
+    {
+      "type": "low_cohesion",
+      "question": "Should `Community 1` be split into smaller, more focused modules?",
+      "why": "Cohesion score 0.0625 - nodes in this community are weakly interconnected."
+    }
+  ]
+}
