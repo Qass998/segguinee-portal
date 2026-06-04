@@ -680,33 +680,149 @@ function Projets(){
 /* ╔══════════════════════════════════════════════════════════════════════╗
    ║ AGENTS                                                               ║
    ╚══════════════════════════════════════════════════════════════════════╝ */
+// Static capability map per agent_id — defines function, capabilities, and suggested prompts
+const AGENT_META: Record<string, { role: string; caps: string[]; prompts: string[]; color: string }> = {
+  recouvrement: { role: "Gestion des créances et recouvrement", caps: ["Rappels WhatsApp", "Suivi paiements", "Liens de signature", "Alertes retards"], prompts: ["Envoie les rappels de paiement", "Envoie le lien de signature à [client]", "Combien de GNF en retard?"], color: T.amber },
+  croissance:   { role: "Développement commercial et expansion", caps: ["Analyse marchés", "Appels d'offres", "Nouveaux territoires", "ROI projections"], prompts: ["Quels sont les marchés à fort potentiel?", "Statut appel d'offres SONAGUI", "Analyse la zone Coyah"], color: T.blue },
+  briefing:     { role: "Coordination et dispatches urgents", caps: ["Briefing WhatsApp 7h", "Ordres de mission", "Escalades urgentes", "Résumés exécutifs"], prompts: ["Briefing du jour", "Déploie l'équipe à Kaloum", "Envoie un ordre de mission à [zone]"], color: T.green },
+  analyste:     { role: "Intelligence opérationnelle et rapports", caps: ["KPIs production", "Rapports PDF", "Graphiques par zone", "Alertes churn"], prompts: ["Résume la situation", "Quel est le volume de production?", "Rapport mensuel pour le conseil"], color: T.blue },
+  finance:      { role: "Contrôle financier et rapports conseil", caps: ["Suivi budget projets", "Rapport CA", "Alertes financières", "Tenders et contrats"], prompts: ["Rapport conseil d'administration", "Statut budget projets actifs", "Alertes financières du jour"], color: T.amber },
+  terrain:      { role: "Coordination des équipes terrain", caps: ["Dispatch équipes", "Suivi interventions", "Coordination zones", "Ordres de mission"], prompts: ["Déploie l'équipe à Kaloum station 3", "Statut interventions en cours", "Mission urgente à [zone]"], color: T.red },
+  clientele:    { role: "Relations clients et portail", caps: ["Portail client", "Demandes entrantes", "Liens factures", "Satisfaction client"], prompts: ["Envoie le lien de signature à [client]", "Statut des demandes clients", "Envoie une communication aux clients"], color: T.green },
+};
+
+interface ChatMessage { role: "user"|"assistant"; content: string; }
+
+function AgentChat({ agent, onClose }: { agent: Agent; onClose: () => void }) {
+  const meta = AGENT_META[agent.agent_id] || AGENT_META["analyste"];
+  const [msgs, setMsgs] = useState<ChatMessage[]>([
+    { role: "assistant", content: `Bonjour. Je suis votre ${agent.agent}. ${meta.role}.\n\nJe peux vous aider avec: ${meta.caps.join(", ")}.\n\nQue souhaitez-vous faire?` }
+  ]);
+  const [input, setInput] = useState("");
+  const [busy, setBusy] = useState(false);
+  const bottomRef = useCallback((el: HTMLDivElement | null) => { if (el) el.scrollIntoView({ behavior: "smooth" }); }, [msgs]);
+
+  const send = async () => {
+    if (!input.trim() || busy) return;
+    const userMsg = input.trim();
+    setInput("");
+    setMsgs(m => [...m, { role: "user", content: userMsg }]);
+    setBusy(true);
+    try {
+      const res = await fetch("/api/command", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ command: userMsg }) });
+      const d = await res.json();
+      setMsgs(m => [...m, { role: "assistant", content: d.result || "Commande exécutée." }]);
+    } catch {
+      setMsgs(m => [...m, { role: "assistant", content: "Erreur de connexion. Réessayez." }]);
+    } finally { setBusy(false); }
+  };
+
+  return (
+    <div style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,0.7)", zIndex: 100, display: "flex", alignItems: "flex-end", justifyContent: "flex-end", padding: 24 }}>
+      <div style={{ width: 420, height: 560, background: T.surface, border: `1px solid ${T.border2}`, borderRadius: 12, display: "flex", flexDirection: "column", overflow: "hidden" }}>
+        {/* Header */}
+        <div style={{ padding: "14px 16px", borderBottom: `1px solid ${T.border}`, display: "flex", gap: 10, alignItems: "center", background: T.card }}>
+          <div style={{ width: 36, height: 36, borderRadius: 8, background: `${meta.color}15`, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 18, flexShrink: 0 }}>{agent.icon}</div>
+          <div style={{ flex: 1 }}>
+            <div style={{ fontSize: 13, fontWeight: 700, color: T.text }}>{agent.agent}</div>
+            <div style={{ fontSize: 10, color: T.t3, letterSpacing: "0.04em" }}>{meta.role}</div>
+          </div>
+          <button onClick={onClose} style={{ background: "none", border: "none", color: T.t3, cursor: "pointer", fontSize: 18, lineHeight: 1 }}>×</button>
+        </div>
+        {/* Messages */}
+        <div style={{ flex: 1, overflowY: "auto", padding: "14px 16px", display: "flex", flexDirection: "column", gap: 10 }}>
+          {msgs.map((m, i) => (
+            <div key={i} style={{ display: "flex", justifyContent: m.role === "user" ? "flex-end" : "flex-start" }}>
+              <div style={{ maxWidth: "80%", padding: "9px 13px", borderRadius: m.role === "user" ? "12px 12px 3px 12px" : "12px 12px 12px 3px", background: m.role === "user" ? T.blue : T.card2, color: T.text, fontSize: 12, lineHeight: 1.55, fontFamily: T.font, whiteSpace: "pre-wrap" }}>
+                {m.content}
+              </div>
+            </div>
+          ))}
+          {busy && (
+            <div style={{ display: "flex", justifyContent: "flex-start" }}>
+              <div style={{ padding: "9px 13px", borderRadius: "12px 12px 12px 3px", background: T.card2, color: T.t2, fontSize: 12 }}>En cours...</div>
+            </div>
+          )}
+          <div ref={bottomRef}/>
+        </div>
+        {/* Quick prompts */}
+        <div style={{ padding: "6px 12px", borderTop: `1px solid ${T.border}`, display: "flex", gap: 5, flexWrap: "wrap" }}>
+          {meta.prompts.map(p => (
+            <button key={p} onClick={() => setInput(p)} style={{ padding: "3px 9px", background: "none", border: `1px solid ${T.border}`, borderRadius: 3, fontSize: 10, color: T.t2, cursor: "pointer", fontFamily: T.font }}>{p}</button>
+          ))}
+        </div>
+        {/* Input */}
+        <div style={{ padding: "10px 12px", borderTop: `1px solid ${T.border}`, display: "flex", gap: 8 }}>
+          <input value={input} onChange={e => setInput(e.target.value)} onKeyDown={e => { if (e.key === "Enter") send(); }} placeholder={`Instruction pour ${agent.agent}...`} disabled={busy} style={{ flex: 1, background: T.card3, border: `1px solid ${T.border2}`, borderRadius: 6, padding: "8px 12px", color: T.text, fontSize: 12, fontFamily: T.font, outline: "none" }} />
+          <button onClick={send} disabled={busy || !input.trim()} style={{ padding: "8px 14px", background: T.blue, color: "#fff", border: "none", borderRadius: 6, fontSize: 12, fontWeight: 600, cursor: "pointer", fontFamily: T.font, opacity: busy || !input.trim() ? 0.4 : 1 }}>
+            {busy ? "..." : "→"}
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 function Agents(){
   const [agents,setAgents]=useState<Agent[]>([]);
   const [stats,setStats]=useState({messages_today:0,total_conversations:0});
   const [loading,setLoading]=useState(true);
+  const [chatAgent,setChatAgent]=useState<Agent|null>(null);
+
   useEffect(()=>{fetch("/api/data/agents").then(r=>r.json()).then(d=>{setAgents(d.logs||[]);setStats(d.stats||{messages_today:0,total_conversations:0});setLoading(false);});},[]);
+
   return(
     <div style={{display:"flex",flexDirection:"column",gap:18}}>
+      {chatAgent && <AgentChat agent={chatAgent} onClose={()=>setChatAgent(null)}/>}
+
       <div style={{display:"grid",gridTemplateColumns:"repeat(3,1fr)",border:`1px solid ${T.border}`,borderRadius:8,overflow:"hidden",background:T.card}}>
-        <Stat label="Agents actifs" value={String(agents.filter(a=>a.statut==="actif").length)} c={T.green}/>
+        <Stat label="Agents actifs" value={String(agents.filter(a=>a.statut==="active"||a.statut==="actif").length)} c={T.green}/>
         <Stat label="Messages aujourd'hui" value={String(stats.messages_today)} c={T.blue}/>
         <Stat label="Conversations" value={String(stats.total_conversations)} c={T.t2}/>
       </div>
+
       {loading?<Spin/>:(
-        <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fill,minmax(296px,1fr))",gap:12}}>
-          {agents.length===0?<Empty t="Aucun agent"/>:agents.map(a=>(
-            <div key={a.id} style={{border:`1px solid ${T.border}`,borderRadius:8,padding:16,background:T.card,display:"flex",flexDirection:"column",gap:12}}>
-              <div style={{display:"flex",gap:10,alignItems:"center"}}>
-                <div style={{width:38,height:38,borderRadius:7,background:T.blueDim,display:"flex",alignItems:"center",justifyContent:"center",fontSize:18,flexShrink:0}}>{a.icon}</div>
-                <div style={{flex:1,minWidth:0}}>
-                  <div style={{fontSize:12,fontWeight:600,color:T.text}}>{a.agent}</div>
-                  <div style={{marginTop:3}}><Pill s={a.statut}/></div>
+        <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fill,minmax(320px,1fr))",gap:14}}>
+          {agents.length===0?<Empty t="Aucun agent"/>:agents.map(a=>{
+            const meta=AGENT_META[a.agent_id]||{role:"Assistant opérationnel",caps:["Analyse","Rapports","Alertes","Coordination"],prompts:["Que peux-tu faire?"],color:T.blue};
+            return(
+              <div key={a.id} style={{border:`1px solid ${T.border}`,borderRadius:10,background:T.card,display:"flex",flexDirection:"column",overflow:"hidden"}}>
+                {/* Card header */}
+                <div style={{padding:"14px 16px",borderBottom:`1px solid ${T.border}`,display:"flex",gap:12,alignItems:"flex-start"}}>
+                  <div style={{width:42,height:42,borderRadius:9,background:`${meta.color}12`,border:`1px solid ${meta.color}25`,display:"flex",alignItems:"center",justifyContent:"center",fontSize:20,flexShrink:0}}>{a.icon}</div>
+                  <div style={{flex:1,minWidth:0}}>
+                    <div style={{fontSize:13,fontWeight:700,color:T.text,letterSpacing:"-0.01em"}}>{a.agent}</div>
+                    <div style={{fontSize:11,color:T.t3,marginTop:2,lineHeight:1.4}}>{meta.role}</div>
+                  </div>
+                  <Pill s={a.statut==="active"?"actif":a.statut}/>
                 </div>
-                <div style={{fontSize:10,color:T.t3,fontFamily:T.mono,flexShrink:0}}>{ft(a.heure_execution)}</div>
+
+                {/* Capabilities */}
+                <div style={{padding:"10px 16px",borderBottom:`1px solid ${T.border}`,display:"flex",flexWrap:"wrap",gap:5}}>
+                  {meta.caps.map(c=>(
+                    <span key={c} style={{padding:"3px 8px",background:`${meta.color}0a`,border:`1px solid ${meta.color}20`,borderRadius:3,fontSize:10,fontWeight:600,color:meta.color,letterSpacing:"0.03em"}}>{c}</span>
+                  ))}
+                </div>
+
+                {/* Last insight */}
+                <div style={{padding:"10px 16px",flex:1}}>
+                  <div style={{fontSize:10,fontWeight:700,color:T.t3,textTransform:"uppercase",letterSpacing:"0.08em",marginBottom:5}}>Dernière action</div>
+                  <div style={{fontSize:12,color:T.t2,lineHeight:1.55}}>{a.insight}</div>
+                  <div style={{fontSize:10,color:T.t3,marginTop:6,fontFamily:T.mono}}>{ft(a.heure_execution)}</div>
+                </div>
+
+                {/* Actions */}
+                <div style={{padding:"10px 16px",borderTop:`1px solid ${T.border}`,display:"flex",gap:8}}>
+                  <button onClick={()=>setChatAgent(a)} style={{flex:1,padding:"8px 0",background:T.blue,border:"none",borderRadius:6,color:"#fff",fontSize:12,fontWeight:600,cursor:"pointer",fontFamily:T.font}}>
+                    Ouvrir conversation
+                  </button>
+                  <button onClick={()=>setChatAgent(a)} title={`Exemples:\n${meta.prompts.join("\n")}`} style={{padding:"8px 10px",background:T.card2,border:`1px solid ${T.border}`,borderRadius:6,color:T.t2,fontSize:12,cursor:"pointer",fontFamily:T.font}}>
+                    ?
+                  </button>
+                </div>
               </div>
-              <div style={{fontSize:12,color:T.t2,lineHeight:1.6}}>{a.insight}</div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       )}
     </div>
