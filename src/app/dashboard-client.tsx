@@ -490,44 +490,72 @@ function IncidentsPanel() {
 // ── AGENTS PANEL ──────────────────────────────────────────────────────────
 
 function AgentsPanel() {
-  const [agents, setAgents] = useState<any[]>([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    fetch("/api/data/agents")
-      .then(r => r.json())
-      .then(d => {
-        setAgents(d.logs || []);
-        setLoading(false);
-      })
-      .catch(() => setLoading(false));
-  }, []);
-
-  if (loading) return <div style={{ color: T.text3 }}>Chargement...</div>;
-
+  const T_a = {
+    surface: "#1E293B", surfaceHover: "#273449", border: "#334155",
+    accent: "#3B82F6", accentDim: "rgba(59,130,246,.15)",
+    text: "#F8FAFC", text3: "#94A3B8", success: "#34D399",
+  };
+  const activeAgents = [
+    { icon: "📄", name: "Facturation Agent", desc: "Invoice generation, payment tracking, billing reports", price: "$250/month", status: "✅ ACTIVE" },
+    { icon: "📊", name: "Data Analysis Agent", desc: "Weekly briefing, production metrics, revenue analysis, incident insights", price: "$300/month", status: "✅ ACTIVE" },
+    { icon: "💬", name: "Presence Agent", desc: "24/7 WhatsApp support, customer inquiries, field coordination", price: "$250/month", status: "✅ ACTIVE" },
+  ];
+  const availableAgents = [
+    { icon: "🔍", name: "Pipeline Agent", desc: "Find & qualify new customers, research service areas, expansion planning", price: "$250/month" },
+    { icon: "⚖️", name: "Compliance Agent", desc: "License tracking, regulatory alerts, compliance reports", price: "$150/month" },
+  ];
   return (
-    <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))", gap: 16 }}>
-      {agents.map(agent => (
-        <div key={agent.id} style={{
-          padding: 16, background: T.surface, border: `1px solid ${T.border}`,
-          borderRadius: 8, display: "flex", flexDirection: "column", gap: 12
-        }}>
-          <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-            <span style={{ fontSize: 32 }}>{agent.icon}</span>
-            <div>
-              <div style={{ fontSize: 14, fontWeight: 600, color: T.text }}>{agent.agent}</div>
-              <div style={{ fontSize: 12, color: T.text3 }}>{agent.statut}</div>
+    <div>
+      <div style={{ marginBottom: 40 }}>
+        <h3 style={{ fontSize: 14, fontWeight: 700, color: T_a.text, marginBottom: 16, textTransform: "uppercase" as const, letterSpacing: "0.05em" }}>
+          Vos Solutions Actives
+        </h3>
+        <div style={{ display: "grid", gap: 16 }}>
+          {activeAgents.map((agent, i) => (
+            <div key={i} style={{ background: T_a.surface, border: `1px solid ${T_a.border}`, borderRadius: 12, padding: 20, display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+              <div style={{ display: "flex", gap: 16, flex: 1 }}>
+                <div style={{ fontSize: 24 }}>{agent.icon}</div>
+                <div>
+                  <h4 style={{ fontSize: 14, fontWeight: 700, color: T_a.text, margin: 0, marginBottom: 4 }}>{agent.name}</h4>
+                  <p style={{ fontSize: 13, color: T_a.text3, margin: 0, lineHeight: 1.5 }}>{agent.desc}</p>
+                </div>
+              </div>
+              <div style={{ textAlign: "right" as const, flexShrink: 0, marginLeft: 16 }}>
+                <div style={{ fontSize: 13, fontWeight: 700, color: T_a.accent, marginBottom: 4 }}>{agent.price}</div>
+                <div style={{ fontSize: 11, color: T_a.success }}>{agent.status}</div>
+              </div>
             </div>
-          </div>
-          <div style={{ fontSize: 13, color: T.text2, lineHeight: 1.5 }}>{agent.insight}</div>
-          <button style={{
-            padding: "8px 12px", background: T.accent, color: "#000", border: "none",
-            borderRadius: 4, fontSize: 12, fontWeight: 600, cursor: "pointer"
-          }}>
-            Activer sur WhatsApp
-          </button>
+          ))}
         </div>
-      ))}
+      </div>
+      <div>
+        <h3 style={{ fontSize: 14, fontWeight: 700, color: T_a.text, marginBottom: 16, textTransform: "uppercase" as const, letterSpacing: "0.05em" }}>
+          Modules Disponibles
+        </h3>
+        <div style={{ display: "grid", gap: 16 }}>
+          {availableAgents.map((agent, i) => (
+            <div key={i} style={{ background: T_a.surfaceHover, border: `1px solid ${T_a.border}`, borderRadius: 12, padding: 20, display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+              <div style={{ display: "flex", gap: 16, flex: 1 }}>
+                <div style={{ fontSize: 24 }}>{agent.icon}</div>
+                <div>
+                  <h4 style={{ fontSize: 14, fontWeight: 700, color: T_a.text, margin: 0, marginBottom: 4 }}>{agent.name}</h4>
+                  <p style={{ fontSize: 13, color: T_a.text3, margin: 0, lineHeight: 1.5 }}>{agent.desc}</p>
+                </div>
+              </div>
+              <div style={{ textAlign: "right" as const, flexShrink: 0, marginLeft: 16 }}>
+                <div style={{ fontSize: 13, fontWeight: 700, color: T_a.accent, marginBottom: 8 }}>{agent.price}</div>
+                <button
+                  style={{ padding: "8px 16px", borderRadius: 6, border: `1px solid ${T_a.accent}`, color: T_a.accent, cursor: "pointer", fontWeight: 600, fontSize: 12, background: "transparent" }}
+                  onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.background = T_a.accentDim || "rgba(59,130,246,.15)"; }}
+                  onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.background = "transparent"; }}
+                >
+                  + Ajouter
+                </button>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
     </div>
   );
 }
