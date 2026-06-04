@@ -112,7 +112,7 @@ export function DashboardContent() {
       {/* ── SIDEBAR ─────────────────────────────────────────────────────────── */}
       <aside style={{
         width: 220, background: T.surface, borderRight: `1px solid ${T.border}`,
-        display: "flex", flexDirection: "column", overflow: "hidden"
+        display: "flex", flexDirection: "column", overflow: "hidden", boxShadow: "2px 0 12px rgba(0,0,0,0.35)"
       }}>
         {/* Brand */}
         <div style={{ padding: "20px", borderBottom: `1px solid ${T.border}`, flexShrink: 0 }}>
@@ -128,10 +128,10 @@ export function DashboardContent() {
               <button key={t.key} onClick={() => handleTabChange(t.key)}
                 style={{
                   width: "100%", display: "flex", alignItems: "center", gap: 12,
-                  padding: "12px 16px", border: "none", background: active ? `${T.canvas}` : "transparent",
+                  padding: "10px 16px", border: "none", background: active ? T.accentDim : "transparent",
                   color: active ? T.accent : T.text3, cursor: "pointer", fontFamily: "inherit",
                   fontSize: 13, fontWeight: active ? 600 : 400, transition: "all 150ms",
-                  borderLeft: active ? `3px solid ${T.accent}` : "3px solid transparent"
+                  borderLeft: active ? `3px solid ${T.accent}` : "3px solid transparent", borderRadius: "0 6px 6px 0"
                 }}>
                 <span style={{ fontSize: 16 }}>{t.icon}</span>
                 <span>{t.label}</span>
@@ -507,12 +507,12 @@ function AgentsPanel() {
   return (
     <div>
       <div style={{ marginBottom: 40 }}>
-        <h3 style={{ fontSize: 14, fontWeight: 700, color: T_a.text, marginBottom: 16, textTransform: "uppercase" as const, letterSpacing: "0.05em" }}>
+        <h3 style={{ fontSize: 11, fontWeight: 700, color: T_a.text3, marginBottom: 16, textTransform: "uppercase" as const, letterSpacing: "0.1em" }}>
           Vos Solutions Actives
         </h3>
         <div style={{ display: "grid", gap: 16 }}>
           {activeAgents.map((agent, i) => (
-            <div key={i} style={{ background: T_a.surface, border: `1px solid ${T_a.border}`, borderRadius: 12, padding: 20, display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+            <div key={i} style={{ background: `linear-gradient(135deg, ${T_a.surface} 0%, rgba(52,211,153,0.05) 100%)`, border: `1px solid ${T_a.border}`, borderLeft: `3px solid ${T_a.success}`, borderRadius: 12, padding: "20px 20px 20px 17px", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
               <div style={{ display: "flex", gap: 16, flex: 1 }}>
                 <div style={{ fontSize: 24 }}>{agent.icon}</div>
                 <div>
@@ -529,7 +529,7 @@ function AgentsPanel() {
         </div>
       </div>
       <div>
-        <h3 style={{ fontSize: 14, fontWeight: 700, color: T_a.text, marginBottom: 16, textTransform: "uppercase" as const, letterSpacing: "0.05em" }}>
+        <h3 style={{ fontSize: 11, fontWeight: 700, color: T_a.text3, marginBottom: 16, textTransform: "uppercase" as const, letterSpacing: "0.1em" }}>
           Modules Disponibles
         </h3>
         <div style={{ display: "grid", gap: 16 }}>
