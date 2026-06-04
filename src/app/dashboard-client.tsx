@@ -1,157 +1,194 @@
 "use client";
-
 import { useEffect, useState, useCallback } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 
-interface ProductionEntry {
-  id: string; volume_m3: number; station: string;
-  zone: string; recorded_by: string; recorded_at: string;
-}
-interface Invoice {
-  id: string; customer_phone: string; customer_name: string;
-  amount_gnf: number; reference: string; description: string; due_date: string;
-  status: "pending" | "paid" | "overdue" | "cancelled";
-  signed: boolean; paid_at: string | null; created_at: string;
-}
-interface Incident {
-  id: string; type: string; description: string;
-  zone: string; station: string;
-  status: "open" | "in_progress" | "resolved" | "closed";
-  reported_by: string; created_at: string;
-}
-interface Agent {
-  id: string; agent: string; icon: string; statut: string;
-  insight: string; derniere_execution: string; heure_execution: string;
-}
+interface ProductionEntry { id:string;volume_m3:number;station:string;zone:string;recorded_by:string;recorded_at:string; }
+interface Invoice { id:string;customer_phone:string;customer_name:string;amount_gnf:number;reference:string;description:string;due_date:string;status:"pending"|"paid"|"overdue"|"cancelled";signed:boolean;paid_at:string|null;created_at:string; }
+interface Incident { id:string;type:string;description:string;zone:string;station:string;status:"open"|"in_progress"|"resolved"|"closed";reported_by:string;created_at:string; }
+interface Agent { id:string;agent:string;icon:string;statut:string;insight:string;heure_execution:string; }
+interface Projet { id:string;nom:string;type:string;zone:string;statut:string;budget_gnf:number;depense_gnf:number;date_debut:string;date_fin:string;chef_projet:string;description:string; }
 
-type Tab = "overview" | "production" | "invoices" | "incidents" | "agents";
+type Tab = "overview"|"production"|"invoices"|"incidents"|"projets"|"agents";
 
+/* ── Design tokens — Swiss Rational, Midnight preset ─────────────────────
+   Font: DM Sans (approved) — NOT Inter (banned AI fingerprint)
+   Colors: from skill §4.4 dark mode baseline                            */
 const T = {
-  bg:"#070C18", surface:"#0D1424", surface2:"#131D30", surface3:"#1A2540",
-  border:"#1E2D45", border2:"#253452", accent:"#3B82F6", accentDim:"rgba(59,130,246,0.10)",
-  text:"#EFF6FF", text2:"#93A8C4", text3:"#4A6180",
-  success:"#10B981", successDim:"rgba(16,185,129,0.10)",
-  warning:"#F59E0B", warningDim:"rgba(245,158,11,0.10)",
-  danger:"#EF4444", dangerDim:"rgba(239,68,68,0.10)",
-  font:"'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif",
+  bg:      "#07090f",
+  surface: "#0c1018",
+  card:    "#111622",
+  card2:   "#161d2b",
+  card3:   "#1b2335",
+  border:  "#1e2d42",
+  border2: "#253450",
+  text:    "#e2e8f0",   /* off-white — never pure #fff on dark */
+  t2:      "#7a90aa",
+  t3:      "#3d5270",
+  blue:    "#3b82f6",
+  blueDim: "rgba(59,130,246,0.08)",
+  green:   "#16a34a",
+  greenDim:"rgba(22,163,74,0.10)",
+  amber:   "#d97706",
+  amberDim:"rgba(217,119,6,0.10)",
+  red:     "#dc2626",
+  redDim:  "rgba(220,38,38,0.10)",
+  mono:    "'JetBrains Mono','Fira Mono','Consolas',monospace",
+  font:    "'DM Sans',-apple-system,'Segoe UI',sans-serif",
 };
 
-const ZONES = ["Kaloum","Dixinn","Matam","Ratoma","Matoto","Coyah","Dubréka","Kindia"];
-const INCIDENT_TYPES = ["rupture","panne","contamination","fuite","autre"];
-const TABS: {key:Tab;label:string;icon:string}[] = [
-  {key:"overview",   label:"Vue d'ensemble", icon:"⬡"},
-  {key:"production", label:"Production",     icon:"◈"},
-  {key:"invoices",   label:"Factures",       icon:"◻"},
-  {key:"incidents",  label:"Incidents",      icon:"△"},
-  {key:"agents",     label:"Agents IA",      icon:"◎"},
+const ZONES=["Kaloum","Dixinn","Matam","Ratoma","Matoto","Coyah","Dubréka","Kindia"];
+const INC_TYPES=["rupture","panne","contamination","fuite","autre"];
+const PROJ_TYPES=["construction","réhabilitation","extension","maintenance","étude"];
+const PROJ_STATUS=["planifié","en_cours","suspendu","terminé"];
+
+const TABS:{key:Tab;label:string}[]=[
+  {key:"overview",   label:"Vue d'ensemble"},
+  {key:"production", label:"Production"},
+  {key:"invoices",   label:"Facturation"},
+  {key:"incidents",  label:"Incidents"},
+  {key:"projets",    label:"Projets"},
+  {key:"agents",     label:"Agents IA"},
 ];
 
-function fDate(iso:string){if(!iso)return"—";return new Date(iso).toLocaleDateString("fr-FR",{day:"numeric",month:"short",year:"numeric"});}
-function fTime(iso:string){if(!iso)return"—";const d=new Date(iso),now=new Date(),diff=now.getTime()-d.getTime(),mins=Math.floor(diff/60000);if(mins<1)return"à l'instant";if(mins<60)return`il y a ${mins}m`;const hrs=Math.floor(mins/60);if(hrs<24)return`il y a ${hrs}h`;return d.toLocaleDateString("fr-FR",{day:"numeric",month:"short"});}
-function fGNF(n:number){return(n||0).toLocaleString("fr-FR")+" GNF";}
+/* ── Helpers ──────────────────────────────────────────────────────────── */
+const fd=(s:string)=>s?new Date(s).toLocaleDateString("fr-FR",{day:"2-digit",month:"short",year:"numeric"}):"—";
+const ft=(s:string)=>{if(!s)return"—";const d=new Date(s),n=new Date(),m=Math.floor((n.getTime()-d.getTime())/60000);if(m<1)return"à l'instant";if(m<60)return`${m}m`;if(m<1440)return`${Math.floor(m/60)}h`;return d.toLocaleDateString("fr-FR",{day:"numeric",month:"short"});};
+const fg=(n:number)=>(n||0).toLocaleString("fr-FR")+" GNF";
+const fp=(d:number,b:number)=>b>0?Math.min(100,Math.round((d/b)*100)):0;
 
-const inp:React.CSSProperties={background:T.surface3,border:`1px solid ${T.border2}`,borderRadius:8,padding:"10px 14px",color:T.text,fontSize:13,width:"100%",fontFamily:T.font,outline:"none",boxSizing:"border-box"};
-const lbl:React.CSSProperties={fontSize:10,fontWeight:700,color:T.text3,textTransform:"uppercase",letterSpacing:"1px",marginBottom:5,display:"block"};
-function B(v:"primary"|"ghost"|"danger"="primary"):React.CSSProperties{
-  if(v==="primary")return{padding:"10px 20px",borderRadius:8,fontSize:13,fontWeight:600,cursor:"pointer",fontFamily:T.font,background:T.accent,color:"#fff",border:"none"};
-  if(v==="danger") return{padding:"10px 20px",borderRadius:8,fontSize:13,fontWeight:600,cursor:"pointer",fontFamily:T.font,background:T.danger,color:"#fff",border:"none"};
-  return{padding:"10px 20px",borderRadius:8,fontSize:13,fontWeight:600,cursor:"pointer",fontFamily:T.font,background:"transparent",color:T.text2,border:`1px solid ${T.border2}`};
+/* ── Shared input / label ─────────────────────────────────────────────── */
+const inp:React.CSSProperties={background:T.card3,border:`1px solid ${T.border2}`,borderRadius:5,padding:"8px 12px",color:T.text,fontSize:13,width:"100%",fontFamily:T.font,outline:"none",boxSizing:"border-box"};
+const lbl:React.CSSProperties={fontSize:10,fontWeight:700,color:T.t3,textTransform:"uppercase",letterSpacing:"0.09em",marginBottom:4,display:"block"};
+
+/* ── Button ───────────────────────────────────────────────────────────── */
+function Btn({ch,onClick,type="button",v="blue",dis}:{ch:React.ReactNode;onClick?:()=>void;type?:"button"|"submit";v?:"blue"|"ghost"|"red";dis?:boolean}){
+  const s:React.CSSProperties=v==="blue"?{background:T.blue,color:"#fff",border:"none"}:v==="red"?{background:T.red,color:"#fff",border:"none"}:{background:"none",color:T.t2,border:`1px solid ${T.border2}`};
+  return <button type={type} onClick={onClick} disabled={dis} style={{...s,padding:"8px 16px",borderRadius:5,fontSize:12,fontWeight:600,cursor:"pointer",fontFamily:T.font,opacity:dis?.4:1,letterSpacing:"0.01em"}}>{ch}</button>;
 }
 
-function Badge({status}:{status:string}){
+/* ── Status pill ──────────────────────────────────────────────────────── */
+function Pill({s}:{s:string}){
   const m:Record<string,{l:string;c:string;bg:string}>={
-    pending:{l:"En attente",c:T.warning,bg:T.warningDim},paid:{l:"Payée",c:T.success,bg:T.successDim},
-    overdue:{l:"En retard",c:T.danger,bg:T.dangerDim},cancelled:{l:"Annulée",c:T.text3,bg:T.surface3},
-    open:{l:"Ouvert",c:T.danger,bg:T.dangerDim},in_progress:{l:"En cours",c:T.warning,bg:T.warningDim},
-    resolved:{l:"Résolu",c:T.success,bg:T.successDim},closed:{l:"Fermé",c:T.text3,bg:T.surface3},
-    actif:{l:"Actif",c:T.success,bg:T.successDim},
+    pending:{l:"En attente",c:T.amber,bg:T.amberDim},paid:{l:"Payée",c:T.green,bg:T.greenDim},
+    overdue:{l:"Retard",c:T.red,bg:T.redDim},cancelled:{l:"Annulé",c:T.t3,bg:T.card2},
+    open:{l:"Ouvert",c:T.red,bg:T.redDim},in_progress:{l:"En cours",c:T.amber,bg:T.amberDim},
+    resolved:{l:"Résolu",c:T.green,bg:T.greenDim},closed:{l:"Fermé",c:T.t3,bg:T.card2},
+    actif:{l:"Actif",c:T.green,bg:T.greenDim},
+    en_cours:{l:"En cours",c:T.blue,bg:T.blueDim},planifié:{l:"Planifié",c:T.t2,bg:T.card2},
+    suspendu:{l:"Suspendu",c:T.amber,bg:T.amberDim},terminé:{l:"Terminé",c:T.green,bg:T.greenDim},
   };
-  const s=m[status]??{l:status,c:T.text2,bg:T.surface3};
-  return <span style={{display:"inline-block",padding:"3px 10px",borderRadius:20,fontSize:11,fontWeight:600,color:s.c,background:s.bg,border:`1px solid ${s.c}33`,letterSpacing:"0.3px"}}>{s.l}</span>;
+  const v=m[s]??{l:s,c:T.t2,bg:T.card2};
+  return <span style={{padding:"2px 8px",borderRadius:3,fontSize:11,fontWeight:600,color:v.c,background:v.bg,letterSpacing:"0.02em"}}>{v.l}</span>;
 }
 
-function KpiCard({label,value,sub,color}:{label:string;value:string;sub?:string;color?:string}){
+/* ── KPI stat — Swiss Rational style, no decorative circles ─────────── */
+function Stat({label,value,sub,c}:{label:string;value:string;sub?:string;c?:string}){
   return(
-    <div style={{background:T.surface,border:`1px solid ${T.border}`,borderRadius:12,padding:"20px 24px",display:"flex",flexDirection:"column",gap:6,position:"relative",overflow:"hidden"}}>
-      <div style={{fontSize:10,fontWeight:700,color:T.text3,textTransform:"uppercase",letterSpacing:"1.2px"}}>{label}</div>
-      <div style={{fontSize:26,fontWeight:700,color:color||T.text,lineHeight:1.2,letterSpacing:"-0.5px"}}>{value}</div>
-      {sub&&<div style={{fontSize:12,color:T.text3}}>{sub}</div>}
-      <div style={{position:"absolute",right:-20,top:-20,width:80,height:80,borderRadius:"50%",background:`${color||T.accent}08`}}/>
+    <div style={{padding:"20px 22px",borderRight:`1px solid ${T.border}`}}>
+      <div style={{fontSize:10,fontWeight:700,color:T.t3,textTransform:"uppercase",letterSpacing:"0.09em",marginBottom:8}}>{label}</div>
+      <div style={{fontSize:30,fontWeight:700,color:c||T.text,letterSpacing:"-0.03em",lineHeight:1,fontFamily:T.mono,fontVariantNumeric:"tabular-nums"}}>{value}</div>
+      {sub&&<div style={{fontSize:11,color:T.t3,marginTop:6,letterSpacing:"0.01em"}}>{sub}</div>}
     </div>
   );
 }
-function Empty({msg}:{msg:string}){return <div style={{padding:"48px 24px",textAlign:"center",color:T.text3,fontSize:13}}><div style={{fontSize:28,marginBottom:12,opacity:0.3}}>◌</div>{msg}</div>;}
-function Loading(){return <div style={{padding:"32px 20px",display:"flex",flexDirection:"column",gap:12}}>{[100,80,90].map((w,i)=><div key={i} style={{height:14,borderRadius:6,background:T.surface3,width:`${w}%`,opacity:0.5}}/>)}</div>;}
 
+/* ── Progress bar ─────────────────────────────────────────────────────── */
+function ProgressBar({v,c="blue"}:{v:number;c?:"blue"|"green"|"amber"|"red"}){
+  const col=c==="green"?T.green:c==="amber"?T.amber:c==="red"?T.red:T.blue;
+  return <div style={{height:2,background:T.border2,borderRadius:1}}><div style={{height:"100%",width:`${v}%`,background:col,borderRadius:1}}/></div>;
+}
+
+/* ── Table head ───────────────────────────────────────────────────────── */
+function TH({cols}:{cols:string[]}){
+  return <thead><tr style={{borderBottom:`1px solid ${T.border}`}}>{cols.map(c=><th key={c} style={{padding:"8px 16px",textAlign:"left",fontSize:10,fontWeight:700,color:T.t3,textTransform:"uppercase",letterSpacing:"0.09em",whiteSpace:"nowrap"}}>{c}</th>)}</tr></thead>;
+}
+
+function Empty({t}:{t:string}){return <div style={{padding:"40px",textAlign:"center",color:T.t3,fontSize:13}}>{t}</div>;}
+function Spin(){return <div style={{padding:"28px 20px",display:"flex",flexDirection:"column",gap:8}}>{[80,60,72].map((w,i)=><div key={i} style={{height:11,borderRadius:2,background:T.card3,width:`${w}%`}}/>)}</div>;}
+
+/* ╔══════════════════════════════════════════════════════════════════════╗
+   ║ SHELL                                                                ║
+   ╚══════════════════════════════════════════════════════════════════════╝ */
 export function DashboardContent(){
   const router=useRouter();
-  const searchParams=useSearchParams();
-  const [authed,setAuthed]=useState(false);
+  const sp=useSearchParams();
+  const [ok,setOk]=useState(false);
   const [tab,setTab]=useState<Tab>("overview");
 
-  useEffect(()=>{if(document.cookie.includes("segguinee_auth="))setAuthed(true);else router.push("/login");},[router]);
-  useEffect(()=>{const t=searchParams.get("tab") as Tab;if(t&&TABS.some(x=>x.key===t))setTab(t);},[searchParams]);
+  useEffect(()=>{if(document.cookie.includes("segguinee_auth="))setOk(true);else router.push("/login");},[router]);
+  useEffect(()=>{const t=sp.get("tab") as Tab;if(t&&TABS.some(x=>x.key===t))setTab(t);},[sp]);
 
-  const goTab=useCallback((t:Tab)=>{
-    setTab(t);
-    const p=new URLSearchParams(searchParams.toString());
-    p.set("tab",t);
-    router.push(`?${p}`,{scroll:false});
-  },[router,searchParams]);
-
-  const logout=()=>{document.cookie="segguinee_auth=; path=/; max-age=0";router.push("/login");};
-  if(!authed)return null;
+  const go=useCallback((t:Tab)=>{setTab(t);const p=new URLSearchParams(sp.toString());p.set("tab",t);router.push(`?${p}`,{scroll:false});},[router,sp]);
+  const out=()=>{document.cookie="segguinee_auth=; path=/; max-age=0";router.push("/login");};
+  if(!ok)return null;
 
   return(
     <div style={{display:"flex",height:"100dvh",background:T.bg,color:T.text,fontFamily:T.font,overflow:"hidden"}}>
-      <style>{`@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');*{box-sizing:border-box}input,select,textarea{font-family:inherit}input:focus,select:focus,textarea:focus{outline:none;border-color:${T.accent}!important;box-shadow:0 0 0 3px ${T.accentDim}}::-webkit-scrollbar{width:4px}::-webkit-scrollbar-thumb{background:${T.border2};border-radius:4px}button:hover{opacity:0.85}`}</style>
-      <aside style={{width:224,background:T.surface,borderRight:`1px solid ${T.border}`,display:"flex",flexDirection:"column",flexShrink:0}}>
-        <div style={{padding:"24px 20px 18px",borderBottom:`1px solid ${T.border}`}}>
-          <div style={{fontSize:14,fontWeight:700,color:T.text,letterSpacing:"0.8px"}}>SEGGUINÉE</div>
-          <div style={{fontSize:11,color:T.text3,marginTop:3}}>Portail Opérateur</div>
+      <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300..700;1,9..40,300..700&family=JetBrains+Mono:wght@400;500&display=swap');
+        *{box-sizing:border-box;margin:0;padding:0}
+        input,select,textarea{font-family:inherit;color-scheme:dark}
+        input:focus,select:focus,textarea:focus{outline:none;border-color:${T.blue}!important}
+        ::-webkit-scrollbar{width:3px}::-webkit-scrollbar-thumb{background:${T.card3};border-radius:2px}
+        table{border-collapse:collapse;width:100%}
+        button{transition:opacity 120ms}button:hover{opacity:0.75}
+      `}</style>
+
+      {/* ── SIDEBAR ──────────────────────────────────────────────────── */}
+      <nav style={{width:184,background:T.surface,borderRight:`1px solid ${T.border}`,display:"flex",flexDirection:"column",flexShrink:0}}>
+        <div style={{padding:"20px 16px 16px",borderBottom:`1px solid ${T.border}`}}>
+          <div style={{fontSize:12,fontWeight:700,letterSpacing:"0.08em",color:T.text}}>SEGGUINÉE</div>
+          <div style={{fontSize:10,color:T.t3,marginTop:3,letterSpacing:"0.06em"}}>PORTAIL OPÉRATEUR</div>
         </div>
-        <nav style={{flex:1,padding:"10px 8px",overflowY:"auto"}}>
+        <div style={{flex:1,padding:"6px",overflowY:"auto"}}>
           {TABS.map(t=>{
-            const active=tab===t.key;
+            const on=tab===t.key;
             return(
-              <button key={t.key} onClick={()=>goTab(t.key)} style={{width:"100%",display:"flex",alignItems:"center",gap:10,padding:"10px 12px",border:"none",borderRadius:8,marginBottom:2,background:active?T.accentDim:"transparent",color:active?T.accent:T.text2,cursor:"pointer",fontFamily:T.font,fontSize:13,fontWeight:active?600:400}}>
-                <span style={{fontSize:14,opacity:active?1:0.5}}>{t.icon}</span>
-                <span>{t.label}</span>
-                {active&&<div style={{marginLeft:"auto",width:5,height:5,borderRadius:"50%",background:T.accent}}/>}
+              <button key={t.key} onClick={()=>go(t.key)} style={{
+                display:"flex",alignItems:"center",width:"100%",padding:"8px 10px",
+                background:on?T.card:"none",border:"none",borderRadius:4,cursor:"pointer",
+                fontFamily:T.font,fontSize:12,fontWeight:on?600:400,color:on?T.text:T.t2,
+                marginBottom:1,textAlign:"left",borderLeft:on?`2px solid ${T.blue}`:"2px solid transparent",
+              }}>
+                {t.label}
               </button>
             );
           })}
-        </nav>
-        <div style={{padding:"10px 8px",borderTop:`1px solid ${T.border}`}}>
-          <button onClick={logout} style={{width:"100%",padding:"10px 12px",border:"none",borderRadius:8,background:"transparent",color:T.text3,cursor:"pointer",fontFamily:T.font,fontSize:13,textAlign:"left"}}>↩ Déconnexion</button>
         </div>
-      </aside>
-      <main style={{flex:1,display:"flex",flexDirection:"column",overflow:"hidden",minWidth:0}}>
-        <div style={{padding:"14px 28px",borderBottom:`1px solid ${T.border}`,display:"flex",alignItems:"center",justifyContent:"space-between",background:T.surface,flexShrink:0}}>
-          <div>
-            <div style={{fontSize:15,fontWeight:700,color:T.text}}>{TABS.find(t=>t.key===tab)?.label}</div>
-            <div style={{fontSize:11,color:T.text3,marginTop:2}}>{new Date().toLocaleDateString("fr-FR",{weekday:"long",day:"numeric",month:"long",year:"numeric"})}</div>
+        <div style={{padding:"6px",borderTop:`1px solid ${T.border}`}}>
+          <button onClick={out} style={{width:"100%",padding:"8px 10px",background:"none",border:"none",cursor:"pointer",fontFamily:T.font,fontSize:11,color:T.t3,textAlign:"left",borderRadius:4}}>
+            Déconnexion
+          </button>
+        </div>
+      </nav>
+
+      {/* ── CONTENT ──────────────────────────────────────────────────── */}
+      <div style={{flex:1,display:"flex",flexDirection:"column",overflow:"hidden",minWidth:0}}>
+        <div style={{padding:"12px 24px",borderBottom:`1px solid ${T.border}`,display:"flex",alignItems:"center",justifyContent:"space-between",background:T.surface,flexShrink:0}}>
+          <span style={{fontSize:12,fontWeight:600,letterSpacing:"0.01em",color:T.text}}>{TABS.find(t=>t.key===tab)?.label}</span>
+          <div style={{display:"flex",alignItems:"center",gap:6}}>
+            <span style={{width:6,height:6,borderRadius:"50%",background:T.green,display:"inline-block"}}/>
+            <span style={{fontSize:11,color:T.t3,fontFamily:T.mono}}>{new Date().toLocaleDateString("fr-FR",{day:"numeric",month:"short",year:"numeric"})}</span>
           </div>
-          <div style={{display:"flex",alignItems:"center",gap:8}}>
-            <div style={{width:7,height:7,borderRadius:"50%",background:T.success,boxShadow:`0 0 8px ${T.success}`}}/>
-            <span style={{fontSize:12,color:T.text3}}>Systèmes actifs</span>
-          </div>
         </div>
-        <div style={{flex:1,overflowY:"auto",padding:"24px 28px"}}>
-          {tab==="overview"   && <OverviewPanel onNav={goTab}/>}
-          {tab==="production" && <ProductionPanel/>}
-          {tab==="invoices"   && <InvoicesPanel/>}
-          {tab==="incidents"  && <IncidentsPanel/>}
-          {tab==="agents"     && <AgentsPanel/>}
+        <div style={{flex:1,overflowY:"auto",padding:"24px"}}>
+          {tab==="overview"   && <Overview go={go}/>}
+          {tab==="production" && <Production/>}
+          {tab==="invoices"   && <Invoices/>}
+          {tab==="incidents"  && <Incidents/>}
+          {tab==="projets"    && <Projets/>}
+          {tab==="agents"     && <Agents/>}
         </div>
-      </main>
+      </div>
     </div>
   );
 }
 
-function OverviewPanel({onNav}:{onNav:(t:Tab)=>void}){
-  const [d,setD]=useState<{production:ProductionEntry[];invoices:Invoice[];incidents:Incident[];agents:Agent[];stats:{messages_today:number;total_conversations:number}}|null>(null);
-  const [loading,setLoading]=useState(true);
+/* ╔══════════════════════════════════════════════════════════════════════╗
+   ║ OVERVIEW                                                             ║
+   ╚══════════════════════════════════════════════════════════════════════╝ */
+function Overview({go}:{go:(t:Tab)=>void}){
+  const [d,setD]=useState<{production:ProductionEntry[];invoices:Invoice[];incidents:Incident[];agents:Agent[];projets:Projet[];stats:{messages_today:number;total_conversations:number}}|null>(null);
 
   useEffect(()=>{
     Promise.all([
@@ -159,146 +196,174 @@ function OverviewPanel({onNav}:{onNav:(t:Tab)=>void}){
       fetch("/api/data/invoices?status=all").then(r=>r.json()),
       fetch("/api/data/incidents").then(r=>r.json()),
       fetch("/api/data/agents").then(r=>r.json()),
-    ]).then(([production,invoices,incidents,agentsData])=>{
-      setD({production:production||[],invoices:invoices||[],incidents:incidents||[],agents:agentsData.logs||[],stats:agentsData.stats||{messages_today:0,total_conversations:0}});
-    }).finally(()=>setLoading(false));
+      fetch("/api/data/projects").then(r=>r.json()),
+    ]).then(([prod,inv,inc,ag,proj])=>setD({production:prod||[],invoices:inv||[],incidents:inc||[],agents:ag.logs||[],projets:proj||[],stats:ag.stats||{messages_today:0,total_conversations:0}}));
   },[]);
 
-  if(loading)return <Loading/>;
-  if(!d)return <Empty msg="Erreur de chargement"/>;
+  if(!d)return <Spin/>;
 
-  const totalProd=d.production.reduce((s,e)=>s+e.volume_m3,0);
-  const pending=d.invoices.filter(i=>i.status==="pending").reduce((s,i)=>s+i.amount_gnf,0);
-  const paid=d.invoices.filter(i=>i.status==="paid").reduce((s,i)=>s+i.amount_gnf,0);
+  const vol=d.production.reduce((s,e)=>s+e.volume_m3,0);
+  const coll=d.invoices.filter(i=>i.status==="paid").reduce((s,i)=>s+i.amount_gnf,0);
+  const pend=d.invoices.filter(i=>i.status==="pending").reduce((s,i)=>s+i.amount_gnf,0);
   const openInc=d.incidents.filter(i=>i.status==="open"||i.status==="in_progress").length;
-  const overdueInv=d.invoices.filter(i=>i.status==="overdue").length;
+  const activeProj=d.projets.filter(p=>p.statut==="en_cours").length;
+  const overdue=d.invoices.filter(i=>i.status==="overdue").length;
 
   return(
-    <div style={{display:"flex",flexDirection:"column",gap:24}}>
-      <div style={{display:"grid",gridTemplateColumns:"repeat(4,1fr)",gap:14}}>
-        <KpiCard label="Production totale" value={`${totalProd.toLocaleString("fr-FR")} m³`} sub={`${d.production.length} relevés`} color={T.accent}/>
-        <KpiCard label="Collecté" value={fGNF(paid)} sub={`${d.invoices.filter(i=>i.status==="paid").length} factures`} color={T.success}/>
-        <KpiCard label="En attente" value={fGNF(pending)} sub={overdueInv>0?`${overdueInv} en retard`:"Aucun retard"} color={overdueInv>0?T.danger:T.warning}/>
-        <KpiCard label="Incidents actifs" value={String(openInc)} sub={`${d.incidents.length} total`} color={openInc>0?T.danger:T.success}/>
+    <div style={{display:"flex",flexDirection:"column",gap:20}}>
+
+      {/* KPI strip — no cards, just a clean bordered row */}
+      <div style={{display:"grid",gridTemplateColumns:"repeat(5,1fr)",border:`1px solid ${T.border}`,borderRadius:8,overflow:"hidden",background:T.card}}>
+        <Stat label="Production m³" value={vol.toLocaleString("fr-FR")} sub={`${d.production.length} relevés`} c={T.blue}/>
+        <Stat label="Collecté GNF" value={`${(coll/1000000).toFixed(1)}M`} sub={`${d.invoices.filter(i=>i.status==="paid").length} payées`} c={T.green}/>
+        <Stat label="En attente GNF" value={`${(pend/1000000).toFixed(1)}M`} sub={overdue>0?`${overdue} en retard`:undefined} c={overdue>0?T.red:T.amber}/>
+        <Stat label="Incidents" value={String(openInc)} sub="actifs" c={openInc>0?T.red:T.green}/>
+        <Stat label="Projets actifs" value={String(activeProj)} sub={`${d.projets.length} total`} c={T.blue}/>
       </div>
 
-      <div style={{display:"grid",gridTemplateColumns:"1fr 300px",gap:18}}>
-        <div style={{background:T.surface,border:`1px solid ${T.border}`,borderRadius:12,overflow:"hidden"}}>
-          <div style={{padding:"14px 18px",borderBottom:`1px solid ${T.border}`,display:"flex",alignItems:"center",justifyContent:"space-between"}}>
-            <div style={{fontSize:11,fontWeight:700,color:T.text2,textTransform:"uppercase",letterSpacing:"1px"}}>Activité des agents</div>
-            <div style={{fontSize:11,color:T.text3}}>{d.stats.messages_today} msg aujourd'hui</div>
+      <div style={{display:"grid",gridTemplateColumns:"1fr 280px",gap:16}}>
+        {/* Agent feed */}
+        <div style={{border:`1px solid ${T.border}`,borderRadius:8,overflow:"hidden",background:T.card}}>
+          <div style={{padding:"12px 16px",borderBottom:`1px solid ${T.border}`,display:"flex",justifyContent:"space-between",alignItems:"center"}}>
+            <span style={{fontSize:10,fontWeight:700,color:T.t3,textTransform:"uppercase",letterSpacing:"0.09em"}}>Activité agents</span>
+            <span style={{fontSize:11,color:T.t3,fontFamily:T.mono}}>{d.stats.messages_today} msg · {d.stats.total_conversations} conv.</span>
           </div>
-          <div style={{maxHeight:340,overflowY:"auto"}}>
-            {d.agents.length===0?<Empty msg="Aucune activité récente"/>:d.agents.slice(0,8).map(a=>(
-              <div key={a.id} style={{padding:"14px 18px",borderBottom:`1px solid ${T.border}`,display:"flex",gap:12}}>
-                <div style={{fontSize:20,flexShrink:0}}>{a.icon}</div>
-                <div style={{flex:1,minWidth:0}}>
-                  <div style={{display:"flex",alignItems:"center",gap:8,marginBottom:4}}>
-                    <span style={{fontSize:12,fontWeight:600,color:T.text}}>{a.agent}</span>
-                    <Badge status={a.statut}/>
-                    <span style={{marginLeft:"auto",fontSize:10,color:T.text3}}>{fTime(a.heure_execution)}</span>
-                  </div>
-                  <div style={{fontSize:12,color:T.text2,lineHeight:1.5}}>{a.insight}</div>
+          {d.agents.length===0?<Empty t="Aucune activité"/>:d.agents.slice(0,7).map(a=>(
+            <div key={a.id} style={{padding:"12px 16px",borderBottom:`1px solid ${T.border}`,display:"flex",gap:10}}>
+              <span style={{fontSize:17,flexShrink:0,paddingTop:1}}>{a.icon}</span>
+              <div style={{flex:1,minWidth:0}}>
+                <div style={{display:"flex",gap:8,alignItems:"center",marginBottom:3}}>
+                  <span style={{fontSize:12,fontWeight:600,color:T.text}}>{a.agent}</span>
+                  <Pill s={a.statut}/>
+                  <span style={{marginLeft:"auto",fontSize:10,color:T.t3,fontFamily:T.mono,flexShrink:0}}>{ft(a.heure_execution)}</span>
                 </div>
+                <div style={{fontSize:12,color:T.t2,lineHeight:1.55}}>{a.insight}</div>
               </div>
-            ))}
-          </div>
+            </div>
+          ))}
         </div>
 
-        <div style={{display:"flex",flexDirection:"column",gap:14}}>
-          <div style={{background:T.surface,border:`1px solid ${T.border}`,borderRadius:12,overflow:"hidden"}}>
-            <div style={{padding:"14px 18px",borderBottom:`1px solid ${T.border}`}}>
-              <div style={{fontSize:11,fontWeight:700,color:T.text2,textTransform:"uppercase",letterSpacing:"1px"}}>Actions rapides</div>
+        {/* Right column */}
+        <div style={{display:"flex",flexDirection:"column",gap:12}}>
+          {/* Actions */}
+          <div style={{border:`1px solid ${T.border}`,borderRadius:8,overflow:"hidden",background:T.card}}>
+            <div style={{padding:"10px 14px",borderBottom:`1px solid ${T.border}`}}>
+              <span style={{fontSize:10,fontWeight:700,color:T.t3,textTransform:"uppercase",letterSpacing:"0.09em"}}>Actions rapides</span>
             </div>
-            <div style={{padding:10,display:"flex",flexDirection:"column",gap:6}}>
-              {([{label:"+ Ajouter relevé de production",tab:"production" as Tab,color:T.accent},{label:"+ Créer et envoyer facture",tab:"invoices" as Tab,color:T.success},{label:"+ Signaler un incident",tab:"incidents" as Tab,color:T.warning}] as const).map(a=>(
-                <button key={a.tab} onClick={()=>onNav(a.tab)} style={{padding:"10px 14px",borderRadius:8,border:`1px solid ${a.color}25`,background:`${a.color}08`,color:a.color,cursor:"pointer",fontFamily:T.font,fontSize:12,fontWeight:600,textAlign:"left"}}>{a.label}</button>
+            <div style={{padding:6,display:"flex",flexDirection:"column",gap:3}}>
+              {([{l:"+ Ajouter relevé",t:"production"as Tab},{l:"+ Nouvelle facture",t:"invoices"as Tab},{l:"+ Signaler incident",t:"incidents"as Tab},{l:"+ Nouveau projet",t:"projets"as Tab}] as const).map(a=>(
+                <button key={a.t} onClick={()=>go(a.t as Tab)} style={{padding:"8px 12px",background:"none",border:`1px solid ${T.border}`,borderRadius:4,color:T.t2,cursor:"pointer",fontFamily:T.font,fontSize:12,textAlign:"left",width:"100%"}}>
+                  {a.l}
+                </button>
               ))}
             </div>
           </div>
+
+          {/* Open incidents */}
           {openInc>0&&(
-            <div style={{background:T.surface,border:`1px solid ${T.danger}30`,borderRadius:12,overflow:"hidden"}}>
-              <div style={{padding:"12px 16px",borderBottom:`1px solid ${T.border}`,display:"flex",gap:8,alignItems:"center"}}>
-                <div style={{width:6,height:6,borderRadius:"50%",background:T.danger,boxShadow:`0 0 6px ${T.danger}`}}/>
-                <div style={{fontSize:11,fontWeight:700,color:T.danger,textTransform:"uppercase",letterSpacing:"1px"}}>{openInc} incident(s) ouvert(s)</div>
+            <div style={{border:`1px solid ${T.border}`,borderRadius:8,overflow:"hidden",background:T.card}}>
+              <div style={{padding:"10px 14px",borderBottom:`1px solid ${T.border}`,display:"flex",gap:6,alignItems:"center"}}>
+                <span style={{width:5,height:5,borderRadius:"50%",background:T.red,display:"inline-block",flexShrink:0}}/>
+                <span style={{fontSize:10,fontWeight:700,color:T.red,textTransform:"uppercase",letterSpacing:"0.09em"}}>{openInc} incident{openInc>1?"s":""} ouvert{openInc>1?"s":""}</span>
               </div>
-              {d.incidents.filter(i=>i.status==="open").slice(0,3).map(inc=>(
-                <div key={inc.id} style={{padding:"10px 16px",borderBottom:`1px solid ${T.border}`}}>
-                  <div style={{fontSize:12,fontWeight:600,color:T.text}}>{inc.type.toUpperCase()} — {inc.zone}</div>
-                  <div style={{fontSize:11,color:T.text3,marginTop:2}}>{inc.station} · {fTime(inc.created_at)}</div>
+              {d.incidents.filter(i=>i.status==="open").slice(0,3).map(i=>(
+                <div key={i.id} style={{padding:"8px 14px",borderBottom:`1px solid ${T.border}`}}>
+                  <div style={{fontSize:12,fontWeight:500,color:T.text}}>{i.type} · {i.zone}</div>
+                  <div style={{fontSize:10,color:T.t3,marginTop:2,fontFamily:T.mono}}>{i.station} — {ft(i.created_at)}</div>
                 </div>
               ))}
             </div>
           )}
+
+          {/* Active projects */}
+          {d.projets.filter(p=>p.statut==="en_cours").slice(0,2).map(p=>{
+            const pct=fp(p.depense_gnf,p.budget_gnf);
+            return(
+              <div key={p.id} style={{border:`1px solid ${T.border}`,borderRadius:8,padding:"14px",background:T.card}}>
+                <div style={{fontSize:12,fontWeight:600,color:T.text,marginBottom:3}}>{p.nom}</div>
+                <div style={{fontSize:10,color:T.t3,marginBottom:10,fontFamily:T.mono}}>{p.zone} · {fd(p.date_fin)}</div>
+                <ProgressBar v={pct} c={pct>85?"red":pct>60?"amber":"blue"}/>
+                <div style={{display:"flex",justifyContent:"space-between",marginTop:5}}>
+                  <span style={{fontSize:10,color:T.t3}}>{pct}% consommé</span>
+                  <span style={{fontSize:10,color:T.t3,fontFamily:T.mono}}>{(p.depense_gnf/1e6).toFixed(1)}M/{(p.budget_gnf/1e6).toFixed(1)}M</span>
+                </div>
+              </div>
+            );
+          })}
         </div>
       </div>
 
+      {/* Recent invoices */}
       {d.invoices.length>0&&(
-        <div style={{background:T.surface,border:`1px solid ${T.border}`,borderRadius:12,overflow:"hidden"}}>
-          <div style={{padding:"14px 18px",borderBottom:`1px solid ${T.border}`,display:"flex",alignItems:"center",justifyContent:"space-between"}}>
-            <div style={{fontSize:11,fontWeight:700,color:T.text2,textTransform:"uppercase",letterSpacing:"1px"}}>Factures récentes</div>
-            <button onClick={()=>onNav("invoices")} style={{fontSize:12,color:T.accent,background:"none",border:"none",cursor:"pointer",fontFamily:T.font}}>Voir tout →</button>
+        <div style={{border:`1px solid ${T.border}`,borderRadius:8,overflow:"hidden",background:T.card}}>
+          <div style={{padding:"12px 16px",borderBottom:`1px solid ${T.border}`,display:"flex",justifyContent:"space-between",alignItems:"center"}}>
+            <span style={{fontSize:10,fontWeight:700,color:T.t3,textTransform:"uppercase",letterSpacing:"0.09em"}}>Dernières factures</span>
+            <button onClick={()=>go("invoices")} style={{fontSize:11,color:T.blue,background:"none",border:"none",cursor:"pointer",fontFamily:T.font}}>Voir tout</button>
           </div>
-          {d.invoices.slice(0,5).map((inv,i)=>(
-            <div key={inv.id} style={{padding:"13px 18px",borderBottom:i<4?`1px solid ${T.border}`:"none",display:"flex",alignItems:"center",gap:14}}>
-              <div style={{flex:1}}><div style={{fontSize:13,fontWeight:600,color:T.text}}>{inv.customer_name||"—"}</div><div style={{fontSize:11,color:T.text3,marginTop:2}}>{inv.reference} · Échéance {fDate(inv.due_date)}</div></div>
-              <div style={{fontSize:13,fontWeight:700,color:T.text}}>{fGNF(inv.amount_gnf)}</div>
-              <Badge status={inv.status}/>
-            </div>
-          ))}
+          <table>
+            <TH cols={["Réf","Client","Montant","Échéance","Statut"]}/>
+            <tbody>{d.invoices.slice(0,5).map((r,i)=>(
+              <tr key={r.id} style={{borderBottom:i<4?`1px solid ${T.border}`:"none"}}>
+                <td style={{padding:"10px 16px",fontSize:10,color:T.t3,fontFamily:T.mono}}>{r.reference}</td>
+                <td style={{padding:"10px 16px",fontSize:12,fontWeight:500,color:T.text}}>{r.customer_name||"—"}</td>
+                <td style={{padding:"10px 16px",fontSize:12,fontWeight:700,color:T.text,fontFamily:T.mono,fontVariantNumeric:"tabular-nums"}}>{fg(r.amount_gnf)}</td>
+                <td style={{padding:"10px 16px",fontSize:11,color:T.t2,fontFamily:T.mono}}>{fd(r.due_date)}</td>
+                <td style={{padding:"10px 16px"}}><Pill s={r.status}/></td>
+              </tr>
+            ))}</tbody>
+          </table>
         </div>
       )}
     </div>
   );
 }
 
-function ProductionPanel(){
-  const [entries,setEntries]=useState<ProductionEntry[]>([]);
+/* ╔══════════════════════════════════════════════════════════════════════╗
+   ║ PRODUCTION                                                           ║
+   ╚══════════════════════════════════════════════════════════════════════╝ */
+function Production(){
+  const [rows,setRows]=useState<ProductionEntry[]>([]);
   const [loading,setLoading]=useState(true);
-  const [showForm,setShowForm]=useState(false);
-  const [submitting,setSubmitting]=useState(false);
-  const [form,setForm]=useState({volume_m3:"",station:"",zone:ZONES[0],recorded_by:""});
-
-  const load=useCallback(async()=>{try{const d=await fetch("/api/data/production").then(r=>r.json());setEntries(d||[]);}finally{setLoading(false);}}, []);
+  const [open,setOpen]=useState(false);
+  const [busy,setBusy]=useState(false);
+  const [f,setF]=useState({volume_m3:"",station:"",zone:ZONES[0],recorded_by:""});
+  const load=useCallback(async()=>{const d=await fetch("/api/data/production").then(r=>r.json());setRows(d||[]);setLoading(false);},[]);
   useEffect(()=>{load();},[load]);
-
-  const submit=async(e:React.FormEvent)=>{
-    e.preventDefault();setSubmitting(true);
-    try{const res=await fetch("/api/data/production",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({...form,volume_m3:Number(form.volume_m3)})});if(res.ok){setForm({volume_m3:"",station:"",zone:ZONES[0],recorded_by:""});setShowForm(false);await load();}}
-    finally{setSubmitting(false);}
-  };
-  const total=entries.reduce((s,e)=>s+e.volume_m3,0);
-
+  const sub=async(e:React.FormEvent)=>{e.preventDefault();setBusy(true);const r=await fetch("/api/data/production",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({...f,volume_m3:Number(f.volume_m3)})});if(r.ok){setF({volume_m3:"",station:"",zone:ZONES[0],recorded_by:""});setOpen(false);await load();}setBusy(false);};
+  const total=rows.reduce((s,e)=>s+e.volume_m3,0);
   return(
     <div style={{display:"flex",flexDirection:"column",gap:18}}>
-      <div style={{display:"grid",gridTemplateColumns:"repeat(3,1fr)",gap:14}}>
-        <KpiCard label="Volume total" value={`${total.toLocaleString("fr-FR")} m³`} color={T.accent}/>
-        <KpiCard label="Relevés" value={String(entries.length)} color={T.text2}/>
-        <KpiCard label="Zones actives" value={String(new Set(entries.map(e=>e.zone)).size)} color={T.success}/>
+      <div style={{display:"grid",gridTemplateColumns:"repeat(3,1fr)",border:`1px solid ${T.border}`,borderRadius:8,overflow:"hidden",background:T.card}}>
+        <Stat label="Volume total" value={`${total.toLocaleString("fr-FR")} m³`} c={T.blue}/>
+        <Stat label="Relevés" value={String(rows.length)} c={T.t2}/>
+        <Stat label="Zones actives" value={String(new Set(rows.map(r=>r.zone)).size)} c={T.green}/>
       </div>
-      <div style={{background:T.surface,border:`1px solid ${T.border}`,borderRadius:12,overflow:"hidden"}}>
-        <div style={{padding:"14px 18px",borderBottom:`1px solid ${T.border}`,display:"flex",alignItems:"center",justifyContent:"space-between"}}>
-          <div style={{fontSize:11,fontWeight:700,color:T.text2,textTransform:"uppercase",letterSpacing:"1px"}}>Relevés de production</div>
-          <button onClick={()=>setShowForm(!showForm)} style={B("primary")}>{showForm?"Fermer":"+ Ajouter relevé"}</button>
+      <div style={{border:`1px solid ${T.border}`,borderRadius:8,overflow:"hidden",background:T.card}}>
+        <div style={{padding:"12px 16px",borderBottom:`1px solid ${T.border}`,display:"flex",justifyContent:"space-between",alignItems:"center"}}>
+          <span style={{fontSize:10,fontWeight:700,color:T.t3,textTransform:"uppercase",letterSpacing:"0.09em"}}>Relevés</span>
+          <Btn ch={open?"Fermer":"+ Ajouter relevé"} onClick={()=>setOpen(!open)}/>
         </div>
-        {showForm&&(
-          <form onSubmit={submit} style={{padding:20,borderBottom:`1px solid ${T.border}`,background:T.surface2}}>
-            <div style={{display:"grid",gridTemplateColumns:"repeat(2,1fr)",gap:14,marginBottom:14}}>
-              <div><label style={lbl}>Volume m³</label><input type="number" step="0.01" required value={form.volume_m3} onChange={e=>setForm(f=>({...f,volume_m3:e.target.value}))} style={inp} placeholder="0.00"/></div>
-              <div><label style={lbl}>Station</label><input type="text" required value={form.station} onChange={e=>setForm(f=>({...f,station:e.target.value}))} style={inp} placeholder="Station principale"/></div>
-              <div><label style={lbl}>Zone</label><select value={form.zone} onChange={e=>setForm(f=>({...f,zone:e.target.value}))} style={inp}>{ZONES.map(z=><option key={z}>{z}</option>)}</select></div>
-              <div><label style={lbl}>Enregistré par</label><input type="text" required value={form.recorded_by} onChange={e=>setForm(f=>({...f,recorded_by:e.target.value}))} style={inp} placeholder="Nom"/></div>
+        {open&&(
+          <form onSubmit={sub} style={{padding:16,borderBottom:`1px solid ${T.border}`,background:T.card2}}>
+            <div style={{display:"grid",gridTemplateColumns:"repeat(4,1fr)",gap:10,marginBottom:12}}>
+              <div><label style={lbl}>Volume m³</label><input type="number" step="0.01" required value={f.volume_m3} onChange={e=>setF(x=>({...x,volume_m3:e.target.value}))} style={inp} placeholder="0.00"/></div>
+              <div><label style={lbl}>Station</label><input required value={f.station} onChange={e=>setF(x=>({...x,station:e.target.value}))} style={inp} placeholder="Nom"/></div>
+              <div><label style={lbl}>Zone</label><select value={f.zone} onChange={e=>setF(x=>({...x,zone:e.target.value}))} style={inp}>{ZONES.map(z=><option key={z}>{z}</option>)}</select></div>
+              <div><label style={lbl}>Enregistré par</label><input required value={f.recorded_by} onChange={e=>setF(x=>({...x,recorded_by:e.target.value}))} style={inp} placeholder="Nom"/></div>
             </div>
-            <div style={{display:"flex",gap:10}}>
-              <button type="submit" disabled={submitting} style={B("primary")}>{submitting?"Envoi...":"Enregistrer"}</button>
-              <button type="button" onClick={()=>setShowForm(false)} style={B("ghost")}>Annuler</button>
-            </div>
+            <div style={{display:"flex",gap:8}}><Btn ch={busy?"Envoi...":"Enregistrer"} type="submit" dis={busy}/><Btn ch="Annuler" v="ghost" onClick={()=>setOpen(false)}/></div>
           </form>
         )}
-        {loading?<Loading/>:entries.length===0?<Empty msg="Aucun relevé enregistré"/>:(
-          <table style={{width:"100%",borderCollapse:"collapse"}}>
-            <thead><tr style={{borderBottom:`1px solid ${T.border}`}}>{["Date","Volume m³","Station","Zone","Enregistré par"].map(h=><th key={h} style={{padding:"10px 18px",textAlign:"left",fontSize:10,fontWeight:700,color:T.text3,textTransform:"uppercase",letterSpacing:"1px"}}>{h}</th>)}</tr></thead>
-            <tbody>{entries.map((e,i)=><tr key={e.id} style={{borderBottom:i<entries.length-1?`1px solid ${T.border}`:"none"}}><td style={{padding:"13px 18px",fontSize:12,color:T.text2}}>{fDate(e.recorded_at)}</td><td style={{padding:"13px 18px",fontSize:13,fontWeight:700,color:T.text}}>{e.volume_m3.toLocaleString("fr-FR")}</td><td style={{padding:"13px 18px",fontSize:13,color:T.text}}>{e.station}</td><td style={{padding:"13px 18px",fontSize:12,color:T.text2}}>{e.zone}</td><td style={{padding:"13px 18px",fontSize:12,color:T.text2}}>{e.recorded_by}</td></tr>)}</tbody>
+        {loading?<Spin/>:rows.length===0?<Empty t="Aucun relevé"/>:(
+          <table>
+            <TH cols={["Date","Volume m³","Station","Zone","Par"]}/>
+            <tbody>{rows.map((r,i)=><tr key={r.id} style={{borderBottom:i<rows.length-1?`1px solid ${T.border}`:"none"}}>
+              <td style={{padding:"10px 16px",fontSize:11,color:T.t2,fontFamily:T.mono}}>{fd(r.recorded_at)}</td>
+              <td style={{padding:"10px 16px",fontSize:13,fontWeight:700,color:T.text,fontFamily:T.mono,fontVariantNumeric:"tabular-nums"}}>{r.volume_m3.toLocaleString("fr-FR")}</td>
+              <td style={{padding:"10px 16px",fontSize:12,color:T.text}}>{r.station}</td>
+              <td style={{padding:"10px 16px",fontSize:11,color:T.t2}}>{r.zone}</td>
+              <td style={{padding:"10px 16px",fontSize:11,color:T.t3}}>{r.recorded_by}</td>
+            </tr>)}</tbody>
           </table>
         )}
       </div>
@@ -306,70 +371,72 @@ function ProductionPanel(){
   );
 }
 
-function InvoicesPanel(){
-  const [invoices,setInvoices]=useState<Invoice[]>([]);
+/* ╔══════════════════════════════════════════════════════════════════════╗
+   ║ INVOICES                                                             ║
+   ╚══════════════════════════════════════════════════════════════════════╝ */
+function Invoices(){
+  const [rows,setRows]=useState<Invoice[]>([]);
   const [loading,setLoading]=useState(true);
   const [filter,setFilter]=useState<"all"|"pending"|"paid"|"overdue">("all");
-  const [showForm,setShowForm]=useState(false);
-  const [submitting,setSubmitting]=useState(false);
-  const [confirm,setConfirm]=useState("");
-  const [form,setForm]=useState({customer_name:"",customer_phone:"",amount_gnf:"",description:"",due_date:""});
-
-  const load=useCallback(async()=>{try{const d=await fetch("/api/data/invoices?status=all").then(r=>r.json());setInvoices(d||[]);}finally{setLoading(false);}}, []);
+  const [open,setOpen]=useState(false);
+  const [busy,setBusy]=useState(false);
+  const [toast,setToast]=useState("");
+  const [f,setF]=useState({customer_name:"",customer_phone:"",amount_gnf:"",description:"",due_date:""});
+  const load=useCallback(async()=>{const d=await fetch("/api/data/invoices?status=all").then(r=>r.json());setRows(d||[]);setLoading(false);},[]);
   useEffect(()=>{load();},[load]);
-
-  const submit=async(e:React.FormEvent)=>{
-    e.preventDefault();setSubmitting(true);
-    try{
-      const res=await fetch("/api/data/invoices",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({...form,amount_gnf:Number(form.amount_gnf)})});
-      if(res.ok){const data=await res.json();setConfirm(`✓ Facture ${data.reference} créée — lien WhatsApp envoyé`);setForm({customer_name:"",customer_phone:"",amount_gnf:"",description:"",due_date:""});setShowForm(false);await load();setTimeout(()=>setConfirm(""),6000);}
-    }finally{setSubmitting(false);}
+  const sub=async(e:React.FormEvent)=>{
+    e.preventDefault();setBusy(true);
+    const r=await fetch("/api/data/invoices",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({...f,amount_gnf:Number(f.amount_gnf)})});
+    if(r.ok){const d=await r.json();setToast(`✓ ${d.reference} créée — WhatsApp envoyé`);setF({customer_name:"",customer_phone:"",amount_gnf:"",description:"",due_date:""});setOpen(false);await load();setTimeout(()=>setToast(""),5000);}
+    setBusy(false);
   };
-
-  const filtered=filter==="all"?invoices:invoices.filter(i=>i.status===filter);
-  const pendingAmt=invoices.filter(i=>i.status==="pending").reduce((s,i)=>s+i.amount_gnf,0);
-  const paidAmt=invoices.filter(i=>i.status==="paid").reduce((s,i)=>s+i.amount_gnf,0);
-  const overdueN=invoices.filter(i=>i.status==="overdue").length;
-
+  const shown=filter==="all"?rows:rows.filter(r=>r.status===filter);
+  const pend=rows.filter(r=>r.status==="pending").reduce((s,r)=>s+r.amount_gnf,0);
+  const paid=rows.filter(r=>r.status==="paid").reduce((s,r)=>s+r.amount_gnf,0);
+  const ov=rows.filter(r=>r.status==="overdue").length;
   return(
     <div style={{display:"flex",flexDirection:"column",gap:18}}>
-      <div style={{display:"grid",gridTemplateColumns:"repeat(3,1fr)",gap:14}}>
-        <KpiCard label="En attente" value={fGNF(pendingAmt)} sub={`${invoices.filter(i=>i.status==="pending").length} factures`} color={T.warning}/>
-        <KpiCard label="Collecté" value={fGNF(paidAmt)} sub={`${invoices.filter(i=>i.status==="paid").length} payées`} color={T.success}/>
-        <KpiCard label="En retard" value={String(overdueN)} sub={overdueN>0?"Action requise":"Aucun retard"} color={overdueN>0?T.danger:T.success}/>
+      <div style={{display:"grid",gridTemplateColumns:"repeat(3,1fr)",border:`1px solid ${T.border}`,borderRadius:8,overflow:"hidden",background:T.card}}>
+        <Stat label="En attente" value={`${(pend/1e6).toFixed(1)}M GNF`} sub={`${rows.filter(r=>r.status==="pending").length} factures`} c={T.amber}/>
+        <Stat label="Collecté" value={`${(paid/1e6).toFixed(1)}M GNF`} sub={`${rows.filter(r=>r.status==="paid").length} payées`} c={T.green}/>
+        <Stat label="En retard" value={String(ov)} sub={ov>0?"Action requise":"Aucun"} c={ov>0?T.red:T.green}/>
       </div>
-      {confirm&&<div style={{padding:"12px 16px",background:T.successDim,border:`1px solid ${T.success}40`,borderRadius:8,color:T.success,fontSize:13}}>{confirm}</div>}
-      <div style={{background:T.surface,border:`1px solid ${T.border}`,borderRadius:12,overflow:"hidden"}}>
-        <div style={{padding:"14px 18px",borderBottom:`1px solid ${T.border}`,display:"flex",alignItems:"center",gap:10,flexWrap:"wrap"}}>
-          <div style={{flex:1,display:"flex",gap:6,flexWrap:"wrap"}}>
+      {toast&&<div style={{padding:"9px 14px",background:T.greenDim,border:`1px solid ${T.green}40`,borderRadius:5,color:T.green,fontSize:12,fontFamily:T.mono}}>{toast}</div>}
+      <div style={{border:`1px solid ${T.border}`,borderRadius:8,overflow:"hidden",background:T.card}}>
+        <div style={{padding:"12px 16px",borderBottom:`1px solid ${T.border}`,display:"flex",gap:8,alignItems:"center",flexWrap:"wrap"}}>
+          <div style={{flex:1,display:"flex",gap:4}}>
             {(["all","pending","paid","overdue"] as const).map(s=>(
-              <button key={s} onClick={()=>setFilter(s)} style={{padding:"6px 14px",borderRadius:20,fontSize:11,fontWeight:600,cursor:"pointer",fontFamily:T.font,border:"none",background:filter===s?T.accent:T.surface3,color:filter===s?"#fff":T.text2}}>
-                {s==="all"?"Toutes":s==="pending"?"En attente":s==="paid"?"Payées":"En retard"}{s!=="all"&&` (${invoices.filter(i=>i.status===s).length})`}
+              <button key={s} onClick={()=>setFilter(s)} style={{padding:"5px 10px",borderRadius:4,fontSize:11,fontWeight:500,cursor:"pointer",fontFamily:T.font,border:`1px solid ${filter===s?T.blue:T.border}`,background:filter===s?T.blueDim:"none",color:filter===s?T.blue:T.t2}}>
+                {s==="all"?"Toutes":s==="pending"?"En attente":s==="paid"?"Payées":"En retard"}
+                {s!=="all"&&<span style={{marginLeft:5,opacity:.6,fontFamily:T.mono}}>{rows.filter(r=>r.status===s).length}</span>}
               </button>
             ))}
           </div>
-          <button onClick={()=>setShowForm(!showForm)} style={B("primary")}>{showForm?"Fermer":"+ Nouvelle facture"}</button>
+          <Btn ch={open?"Fermer":"+ Nouvelle facture"} onClick={()=>setOpen(!open)}/>
         </div>
-        {showForm&&(
-          <form onSubmit={submit} style={{padding:20,borderBottom:`1px solid ${T.border}`,background:T.surface2}}>
-            <div style={{display:"grid",gridTemplateColumns:"repeat(2,1fr)",gap:14,marginBottom:14}}>
-              <div><label style={lbl}>Nom du client</label><input type="text" required value={form.customer_name} onChange={e=>setForm(f=>({...f,customer_name:e.target.value}))} style={inp} placeholder="Nom complet"/></div>
-              <div><label style={lbl}>Téléphone WhatsApp</label><input type="tel" required value={form.customer_phone} onChange={e=>setForm(f=>({...f,customer_phone:e.target.value}))} style={inp} placeholder="+224 xxx xxx xxx"/></div>
-              <div><label style={lbl}>Montant (GNF)</label><input type="number" required value={form.amount_gnf} onChange={e=>setForm(f=>({...f,amount_gnf:e.target.value}))} style={inp} placeholder="0"/></div>
-              <div><label style={lbl}>Échéance</label><input type="date" required value={form.due_date} onChange={e=>setForm(f=>({...f,due_date:e.target.value}))} style={inp}/></div>
-              <div style={{gridColumn:"span 2"}}><label style={lbl}>Description</label><input type="text" value={form.description} onChange={e=>setForm(f=>({...f,description:e.target.value}))} style={inp} placeholder="Ex: Consommation eau — Juin 2026"/></div>
+        {open&&(
+          <form onSubmit={sub} style={{padding:16,borderBottom:`1px solid ${T.border}`,background:T.card2}}>
+            <div style={{display:"grid",gridTemplateColumns:"repeat(3,1fr)",gap:10,marginBottom:10}}>
+              <div><label style={lbl}>Nom du client</label><input required value={f.customer_name} onChange={e=>setF(x=>({...x,customer_name:e.target.value}))} style={inp} placeholder="Nom complet"/></div>
+              <div><label style={lbl}>Téléphone WhatsApp</label><input type="tel" required value={f.customer_phone} onChange={e=>setF(x=>({...x,customer_phone:e.target.value}))} style={inp} placeholder="+224 xxx xxx xxx"/></div>
+              <div><label style={lbl}>Montant (GNF)</label><input type="number" required value={f.amount_gnf} onChange={e=>setF(x=>({...x,amount_gnf:e.target.value}))} style={inp} placeholder="0"/></div>
+              <div><label style={lbl}>Description</label><input value={f.description} onChange={e=>setF(x=>({...x,description:e.target.value}))} style={inp} placeholder="Objet de la facture"/></div>
+              <div><label style={lbl}>Échéance</label><input type="date" required value={f.due_date} onChange={e=>setF(x=>({...x,due_date:e.target.value}))} style={inp}/></div>
             </div>
-            <div style={{fontSize:11,color:T.text3,marginBottom:12}}>↗ Lien de signature envoyé automatiquement par WhatsApp</div>
-            <div style={{display:"flex",gap:10}}>
-              <button type="submit" disabled={submitting} style={B("primary")}>{submitting?"Création...":"Créer et envoyer"}</button>
-              <button type="button" onClick={()=>setShowForm(false)} style={B("ghost")}>Annuler</button>
-            </div>
+            <div style={{fontSize:10,color:T.t3,marginBottom:10,letterSpacing:"0.02em"}}>Lien de signature envoyé automatiquement par WhatsApp</div>
+            <div style={{display:"flex",gap:8}}><Btn ch={busy?"Création...":"Créer et envoyer"} type="submit" dis={busy}/><Btn ch="Annuler" v="ghost" onClick={()=>setOpen(false)}/></div>
           </form>
         )}
-        {loading?<Loading/>:filtered.length===0?<Empty msg="Aucune facture"/>:(
-          <table style={{width:"100%",borderCollapse:"collapse"}}>
-            <thead><tr style={{borderBottom:`1px solid ${T.border}`}}>{["Référence","Client","Montant","Échéance","Statut"].map(h=><th key={h} style={{padding:"10px 18px",textAlign:"left",fontSize:10,fontWeight:700,color:T.text3,textTransform:"uppercase",letterSpacing:"1px"}}>{h}</th>)}</tr></thead>
-            <tbody>{filtered.map((inv,i)=><tr key={inv.id} style={{borderBottom:i<filtered.length-1?`1px solid ${T.border}`:"none"}}><td style={{padding:"13px 18px",fontSize:11,color:T.text3,fontFamily:"monospace"}}>{inv.reference}</td><td style={{padding:"13px 18px"}}><div style={{fontSize:13,fontWeight:600,color:T.text}}>{inv.customer_name||"—"}</div><div style={{fontSize:11,color:T.text3}}>{inv.customer_phone}</div></td><td style={{padding:"13px 18px",fontSize:13,fontWeight:700,color:T.text}}>{fGNF(inv.amount_gnf)}</td><td style={{padding:"13px 18px",fontSize:12,color:T.text2}}>{fDate(inv.due_date)}</td><td style={{padding:"13px 18px"}}><Badge status={inv.status}/></td></tr>)}</tbody>
+        {loading?<Spin/>:shown.length===0?<Empty t="Aucune facture"/>:(
+          <table>
+            <TH cols={["Référence","Client","Montant","Échéance","Statut"]}/>
+            <tbody>{shown.map((r,i)=><tr key={r.id} style={{borderBottom:i<shown.length-1?`1px solid ${T.border}`:"none"}}>
+              <td style={{padding:"10px 16px",fontSize:10,color:T.t3,fontFamily:T.mono}}>{r.reference}</td>
+              <td style={{padding:"10px 16px"}}><div style={{fontSize:12,fontWeight:500,color:T.text}}>{r.customer_name||"—"}</div><div style={{fontSize:10,color:T.t3,marginTop:1}}>{r.customer_phone}</div></td>
+              <td style={{padding:"10px 16px",fontSize:12,fontWeight:700,color:T.text,fontFamily:T.mono,fontVariantNumeric:"tabular-nums"}}>{fg(r.amount_gnf)}</td>
+              <td style={{padding:"10px 16px",fontSize:11,color:T.t2,fontFamily:T.mono}}>{fd(r.due_date)}</td>
+              <td style={{padding:"10px 16px"}}><Pill s={r.status}/></td>
+            </tr>)}</tbody>
           </table>
         )}
       </div>
@@ -377,68 +444,56 @@ function InvoicesPanel(){
   );
 }
 
-function IncidentsPanel(){
-  const [incidents,setIncidents]=useState<Incident[]>([]);
+/* ╔══════════════════════════════════════════════════════════════════════╗
+   ║ INCIDENTS                                                            ║
+   ╚══════════════════════════════════════════════════════════════════════╝ */
+function Incidents(){
+  const [rows,setRows]=useState<Incident[]>([]);
   const [loading,setLoading]=useState(true);
-  const [showForm,setShowForm]=useState(false);
-  const [submitting,setSubmitting]=useState(false);
-  const [form,setForm]=useState({type:INCIDENT_TYPES[0],description:"",zone:ZONES[0],station:"",reported_by:""});
-
-  const load=useCallback(async()=>{try{const d=await fetch("/api/data/incidents").then(r=>r.json());setIncidents(d||[]);}finally{setLoading(false);}}, []);
+  const [open,setOpen]=useState(false);
+  const [busy,setBusy]=useState(false);
+  const [f,setF]=useState({type:INC_TYPES[0],description:"",zone:ZONES[0],station:"",reported_by:""});
+  const load=useCallback(async()=>{const d=await fetch("/api/data/incidents").then(r=>r.json());setRows(d||[]);setLoading(false);},[]);
   useEffect(()=>{load();},[load]);
-
-  const submit=async(e:React.FormEvent)=>{
-    e.preventDefault();setSubmitting(true);
-    try{const res=await fetch("/api/data/incidents",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(form)});if(res.ok){setForm({type:INCIDENT_TYPES[0],description:"",zone:ZONES[0],station:"",reported_by:""});setShowForm(false);await load();}}
-    finally{setSubmitting(false);}
-  };
-
-  const openN=incidents.filter(i=>i.status==="open").length;
-  const inProgN=incidents.filter(i=>i.status==="in_progress").length;
-  const resolvedN=incidents.filter(i=>i.status==="resolved").length;
-
+  const sub=async(e:React.FormEvent)=>{e.preventDefault();setBusy(true);const r=await fetch("/api/data/incidents",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(f)});if(r.ok){setF({type:INC_TYPES[0],description:"",zone:ZONES[0],station:"",reported_by:""});setOpen(false);await load();}setBusy(false);};
+  const openN=rows.filter(r=>r.status==="open").length;
+  const inP=rows.filter(r=>r.status==="in_progress").length;
+  const res=rows.filter(r=>r.status==="resolved").length;
   return(
     <div style={{display:"flex",flexDirection:"column",gap:18}}>
-      <div style={{display:"grid",gridTemplateColumns:"repeat(3,1fr)",gap:14}}>
-        <KpiCard label="Ouverts" value={String(openN)} color={openN>0?T.danger:T.success}/>
-        <KpiCard label="En cours" value={String(inProgN)} color={inProgN>0?T.warning:T.text2}/>
-        <KpiCard label="Résolus" value={String(resolvedN)} color={T.success}/>
+      <div style={{display:"grid",gridTemplateColumns:"repeat(3,1fr)",border:`1px solid ${T.border}`,borderRadius:8,overflow:"hidden",background:T.card}}>
+        <Stat label="Ouverts" value={String(openN)} c={openN>0?T.red:T.green}/>
+        <Stat label="En cours" value={String(inP)} c={inP>0?T.amber:T.t2}/>
+        <Stat label="Résolus" value={String(res)} c={T.green}/>
       </div>
-      <div style={{background:T.surface,border:`1px solid ${T.border}`,borderRadius:12,overflow:"hidden"}}>
-        <div style={{padding:"14px 18px",borderBottom:`1px solid ${T.border}`,display:"flex",alignItems:"center",justifyContent:"space-between"}}>
-          <div style={{fontSize:11,fontWeight:700,color:T.text2,textTransform:"uppercase",letterSpacing:"1px"}}>Suivi des incidents</div>
-          <button onClick={()=>setShowForm(!showForm)} style={{...B("primary"),background:T.danger}}>{showForm?"Fermer":"+ Signaler incident"}</button>
+      <div style={{border:`1px solid ${T.border}`,borderRadius:8,overflow:"hidden",background:T.card}}>
+        <div style={{padding:"12px 16px",borderBottom:`1px solid ${T.border}`,display:"flex",justifyContent:"space-between",alignItems:"center"}}>
+          <span style={{fontSize:10,fontWeight:700,color:T.t3,textTransform:"uppercase",letterSpacing:"0.09em"}}>Suivi des incidents</span>
+          <Btn ch={open?"Fermer":"+ Signaler incident"} v="red" onClick={()=>setOpen(!open)}/>
         </div>
-        {showForm&&(
-          <form onSubmit={submit} style={{padding:20,borderBottom:`1px solid ${T.border}`,background:T.surface2}}>
-            <div style={{display:"grid",gridTemplateColumns:"repeat(2,1fr)",gap:14,marginBottom:14}}>
-              <div><label style={lbl}>Type</label><select value={form.type} onChange={e=>setForm(f=>({...f,type:e.target.value}))} style={inp}>{INCIDENT_TYPES.map(t=><option key={t} value={t}>{t.charAt(0).toUpperCase()+t.slice(1)}</option>)}</select></div>
-              <div><label style={lbl}>Zone</label><select value={form.zone} onChange={e=>setForm(f=>({...f,zone:e.target.value}))} style={inp}>{ZONES.map(z=><option key={z}>{z}</option>)}</select></div>
-              <div><label style={lbl}>Station</label><input type="text" required value={form.station} onChange={e=>setForm(f=>({...f,station:e.target.value}))} style={inp} placeholder="Station concernée"/></div>
-              <div><label style={lbl}>Signalé par</label><input type="text" required value={form.reported_by} onChange={e=>setForm(f=>({...f,reported_by:e.target.value}))} style={inp} placeholder="Nom"/></div>
-              <div style={{gridColumn:"span 2"}}><label style={lbl}>Description</label><textarea required value={form.description} onChange={e=>setForm(f=>({...f,description:e.target.value}))} style={{...inp,minHeight:80,resize:"vertical" as const}} placeholder="Décrivez l'incident..."/></div>
+        {open&&(
+          <form onSubmit={sub} style={{padding:16,borderBottom:`1px solid ${T.border}`,background:T.card2}}>
+            <div style={{display:"grid",gridTemplateColumns:"repeat(4,1fr)",gap:10,marginBottom:10}}>
+              <div><label style={lbl}>Type</label><select value={f.type} onChange={e=>setF(x=>({...x,type:e.target.value}))} style={inp}>{INC_TYPES.map(t=><option key={t} value={t}>{t.charAt(0).toUpperCase()+t.slice(1)}</option>)}</select></div>
+              <div><label style={lbl}>Zone</label><select value={f.zone} onChange={e=>setF(x=>({...x,zone:e.target.value}))} style={inp}>{ZONES.map(z=><option key={z}>{z}</option>)}</select></div>
+              <div><label style={lbl}>Station</label><input required value={f.station} onChange={e=>setF(x=>({...x,station:e.target.value}))} style={inp} placeholder="Station"/></div>
+              <div><label style={lbl}>Signalé par</label><input required value={f.reported_by} onChange={e=>setF(x=>({...x,reported_by:e.target.value}))} style={inp} placeholder="Nom"/></div>
+              <div style={{gridColumn:"span 4"}}><label style={lbl}>Description</label><textarea required value={f.description} onChange={e=>setF(x=>({...x,description:e.target.value}))} style={{...inp,minHeight:64,resize:"vertical" as const}} placeholder="Détail de l'incident..."/></div>
             </div>
-            <div style={{display:"flex",gap:10}}>
-              <button type="submit" disabled={submitting} style={{...B("primary"),background:T.danger}}>{submitting?"Envoi...":"Signaler"}</button>
-              <button type="button" onClick={()=>setShowForm(false)} style={B("ghost")}>Annuler</button>
-            </div>
+            <div style={{display:"flex",gap:8}}><Btn ch={busy?"Envoi...":"Signaler"} type="submit" v="red" dis={busy}/><Btn ch="Annuler" v="ghost" onClick={()=>setOpen(false)}/></div>
           </form>
         )}
-        {loading?<Loading/>:incidents.length===0?<Empty msg="Aucun incident signalé"/>:(
-          <div>{incidents.map((inc,i)=>(
-            <div key={inc.id} style={{padding:"16px 18px",borderBottom:i<incidents.length-1?`1px solid ${T.border}`:"none"}}>
-              <div style={{display:"flex",alignItems:"flex-start",gap:14}}>
-                <div style={{flex:1}}>
-                  <div style={{display:"flex",alignItems:"center",gap:8,marginBottom:6,flexWrap:"wrap"}}>
-                    <span style={{fontSize:12,fontWeight:700,color:T.text,textTransform:"uppercase",letterSpacing:"0.5px"}}>{inc.type}</span>
-                    <span style={{fontSize:11,color:T.text3}}>·</span>
-                    <span style={{fontSize:12,color:T.text2}}>{inc.zone} — {inc.station}</span>
-                    <Badge status={inc.status}/>
-                  </div>
-                  <div style={{fontSize:13,color:T.text2,lineHeight:1.5}}>{inc.description}</div>
-                  <div style={{fontSize:11,color:T.text3,marginTop:6}}>{fTime(inc.created_at)} · Signalé par {inc.reported_by}</div>
-                </div>
+        {loading?<Spin/>:rows.length===0?<Empty t="Aucun incident"/>:(
+          <div>{rows.map((r,i)=>(
+            <div key={r.id} style={{padding:"13px 16px",borderBottom:i<rows.length-1?`1px solid ${T.border}`:"none"}}>
+              <div style={{display:"flex",gap:8,alignItems:"center",marginBottom:4,flexWrap:"wrap"}}>
+                <span style={{fontSize:12,fontWeight:700,color:T.text,textTransform:"uppercase",letterSpacing:"0.04em"}}>{r.type}</span>
+                <span style={{fontSize:11,color:T.t3}}>·</span>
+                <span style={{fontSize:12,color:T.t2}}>{r.zone} — {r.station}</span>
+                <Pill s={r.status}/>
               </div>
+              <div style={{fontSize:12,color:T.t2,lineHeight:1.55,marginBottom:4}}>{r.description}</div>
+              <div style={{fontSize:10,color:T.t3,fontFamily:T.mono}}>{ft(r.created_at)} · {r.reported_by}</div>
             </div>
           ))}</div>
         )}
@@ -447,33 +502,115 @@ function IncidentsPanel(){
   );
 }
 
-function AgentsPanel(){
+/* ╔══════════════════════════════════════════════════════════════════════╗
+   ║ PROJETS                                                              ║
+   ╚══════════════════════════════════════════════════════════════════════╝ */
+function Projets(){
+  const [rows,setRows]=useState<Projet[]>([]);
+  const [loading,setLoading]=useState(true);
+  const [open,setOpen]=useState(false);
+  const [busy,setBusy]=useState(false);
+  const [f,setF]=useState({nom:"",type:PROJ_TYPES[0],zone:ZONES[0],statut:"planifié",budget_gnf:"",depense_gnf:"0",date_debut:"",date_fin:"",chef_projet:"",description:""});
+  const load=useCallback(async()=>{const d=await fetch("/api/data/projects").then(r=>r.json());setRows(d||[]);setLoading(false);},[]);
+  useEffect(()=>{load();},[load]);
+  const sub=async(e:React.FormEvent)=>{e.preventDefault();setBusy(true);const r=await fetch("/api/data/projects",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({...f,budget_gnf:Number(f.budget_gnf),depense_gnf:Number(f.depense_gnf)})});if(r.ok){setF({nom:"",type:PROJ_TYPES[0],zone:ZONES[0],statut:"planifié",budget_gnf:"",depense_gnf:"0",date_debut:"",date_fin:"",chef_projet:"",description:""});setOpen(false);await load();}setBusy(false);};
+  const totBudget=rows.reduce((s,r)=>s+r.budget_gnf,0);
+  const totSpent=rows.reduce((s,r)=>s+r.depense_gnf,0);
+  const active=rows.filter(r=>r.statut==="en_cours").length;
+  return(
+    <div style={{display:"flex",flexDirection:"column",gap:18}}>
+      <div style={{display:"grid",gridTemplateColumns:"repeat(4,1fr)",border:`1px solid ${T.border}`,borderRadius:8,overflow:"hidden",background:T.card}}>
+        <Stat label="Projets actifs" value={String(active)} c={T.blue}/>
+        <Stat label="Budget total" value={`${(totBudget/1e6).toFixed(0)}M`} sub="GNF" c={T.t2}/>
+        <Stat label="Dépensé" value={`${(totSpent/1e6).toFixed(0)}M`} sub={`${totBudget>0?Math.round((totSpent/totBudget)*100):0}% du budget`} c={T.amber}/>
+        <Stat label="Disponible" value={`${((totBudget-totSpent)/1e6).toFixed(0)}M`} sub="GNF restant" c={T.green}/>
+      </div>
+      <div style={{border:`1px solid ${T.border}`,borderRadius:8,overflow:"hidden",background:T.card}}>
+        <div style={{padding:"12px 16px",borderBottom:`1px solid ${T.border}`,display:"flex",justifyContent:"space-between",alignItems:"center"}}>
+          <span style={{fontSize:10,fontWeight:700,color:T.t3,textTransform:"uppercase",letterSpacing:"0.09em"}}>Tous les projets</span>
+          <Btn ch={open?"Fermer":"+ Nouveau projet"} onClick={()=>setOpen(!open)}/>
+        </div>
+        {open&&(
+          <form onSubmit={sub} style={{padding:16,borderBottom:`1px solid ${T.border}`,background:T.card2}}>
+            <div style={{display:"grid",gridTemplateColumns:"repeat(3,1fr)",gap:10,marginBottom:10}}>
+              <div style={{gridColumn:"span 2"}}><label style={lbl}>Nom du projet</label><input required value={f.nom} onChange={e=>setF(x=>({...x,nom:e.target.value}))} style={inp} placeholder="Ex: Extension réseau Ratoma Nord"/></div>
+              <div><label style={lbl}>Type</label><select value={f.type} onChange={e=>setF(x=>({...x,type:e.target.value}))} style={inp}>{PROJ_TYPES.map(t=><option key={t} value={t}>{t.charAt(0).toUpperCase()+t.slice(1)}</option>)}</select></div>
+              <div><label style={lbl}>Zone</label><select value={f.zone} onChange={e=>setF(x=>({...x,zone:e.target.value}))} style={inp}>{ZONES.map(z=><option key={z}>{z}</option>)}</select></div>
+              <div><label style={lbl}>Statut</label><select value={f.statut} onChange={e=>setF(x=>({...x,statut:e.target.value}))} style={inp}>{PROJ_STATUS.map(s=><option key={s} value={s}>{s.charAt(0).toUpperCase()+s.slice(1).replace("_"," ")}</option>)}</select></div>
+              <div><label style={lbl}>Chef de projet</label><input required value={f.chef_projet} onChange={e=>setF(x=>({...x,chef_projet:e.target.value}))} style={inp} placeholder="Nom"/></div>
+              <div><label style={lbl}>Budget (GNF)</label><input type="number" required value={f.budget_gnf} onChange={e=>setF(x=>({...x,budget_gnf:e.target.value}))} style={inp} placeholder="0"/></div>
+              <div><label style={lbl}>Dépensé (GNF)</label><input type="number" value={f.depense_gnf} onChange={e=>setF(x=>({...x,depense_gnf:e.target.value}))} style={inp} placeholder="0"/></div>
+              <div><label style={lbl}>Début</label><input type="date" required value={f.date_debut} onChange={e=>setF(x=>({...x,date_debut:e.target.value}))} style={inp}/></div>
+              <div><label style={lbl}>Fin prévue</label><input type="date" required value={f.date_fin} onChange={e=>setF(x=>({...x,date_fin:e.target.value}))} style={inp}/></div>
+              <div style={{gridColumn:"span 3"}}><label style={lbl}>Description</label><textarea value={f.description} onChange={e=>setF(x=>({...x,description:e.target.value}))} style={{...inp,minHeight:56,resize:"vertical" as const}} placeholder="Objectifs et portée..."/></div>
+            </div>
+            <div style={{display:"flex",gap:8}}><Btn ch={busy?"Création...":"Créer le projet"} type="submit" dis={busy}/><Btn ch="Annuler" v="ghost" onClick={()=>setOpen(false)}/></div>
+          </form>
+        )}
+        {loading?<Spin/>:rows.length===0?<Empty t="Aucun projet enregistré"/>:(
+          <div>{rows.map((r,i)=>{
+            const p=fp(r.depense_gnf,r.budget_gnf);
+            return(
+              <div key={r.id} style={{padding:"14px 16px",borderBottom:i<rows.length-1?`1px solid ${T.border}`:"none"}}>
+                <div style={{display:"flex",gap:8,alignItems:"flex-start"}}>
+                  <div style={{flex:1,minWidth:0}}>
+                    <div style={{display:"flex",gap:8,alignItems:"center",marginBottom:4,flexWrap:"wrap"}}>
+                      <span style={{fontSize:13,fontWeight:600,color:T.text}}>{r.nom}</span>
+                      <Pill s={r.statut}/>
+                      <span style={{fontSize:10,color:T.t3}}>{r.type}</span>
+                    </div>
+                    <div style={{fontSize:11,color:T.t2,marginBottom:10,fontFamily:T.mono}}>
+                      {r.zone} · Chef: {r.chef_projet} · {fd(r.date_debut)} → {fd(r.date_fin)}
+                    </div>
+                    <ProgressBar v={p} c={p>90?"red":p>70?"amber":"blue"}/>
+                    <div style={{display:"flex",justifyContent:"space-between",marginTop:5}}>
+                      <span style={{fontSize:10,color:T.t3}}>{p}% du budget consommé</span>
+                      <span style={{fontSize:10,color:T.t3,fontFamily:T.mono,fontVariantNumeric:"tabular-nums"}}>{fg(r.depense_gnf)} / {fg(r.budget_gnf)}</span>
+                    </div>
+                    {r.description&&<div style={{fontSize:11,color:T.t3,marginTop:8}}>{r.description}</div>}
+                  </div>
+                </div>
+              </div>
+            );
+          })}</div>
+        )}
+      </div>
+    </div>
+  );
+}
+
+/* ╔══════════════════════════════════════════════════════════════════════╗
+   ║ AGENTS                                                               ║
+   ╚══════════════════════════════════════════════════════════════════════╝ */
+function Agents(){
   const [agents,setAgents]=useState<Agent[]>([]);
   const [stats,setStats]=useState({messages_today:0,total_conversations:0});
   const [loading,setLoading]=useState(true);
-
-  useEffect(()=>{fetch("/api/data/agents").then(r=>r.json()).then(d=>{setAgents(d.logs||[]);setStats(d.stats||{messages_today:0,total_conversations:0});}).finally(()=>setLoading(false));},[]);
-
-  if(loading)return <Loading/>;
+  useEffect(()=>{fetch("/api/data/agents").then(r=>r.json()).then(d=>{setAgents(d.logs||[]);setStats(d.stats||{messages_today:0,total_conversations:0});setLoading(false);});},[]);
   return(
     <div style={{display:"flex",flexDirection:"column",gap:18}}>
-      <div style={{display:"grid",gridTemplateColumns:"repeat(3,1fr)",gap:14}}>
-        <KpiCard label="Agents actifs" value={String(agents.filter(a=>a.statut==="actif").length)} color={T.success}/>
-        <KpiCard label="Messages aujourd'hui" value={String(stats.messages_today)} color={T.accent}/>
-        <KpiCard label="Conversations totales" value={String(stats.total_conversations)} color={T.text2}/>
+      <div style={{display:"grid",gridTemplateColumns:"repeat(3,1fr)",border:`1px solid ${T.border}`,borderRadius:8,overflow:"hidden",background:T.card}}>
+        <Stat label="Agents actifs" value={String(agents.filter(a=>a.statut==="actif").length)} c={T.green}/>
+        <Stat label="Messages aujourd'hui" value={String(stats.messages_today)} c={T.blue}/>
+        <Stat label="Conversations" value={String(stats.total_conversations)} c={T.t2}/>
       </div>
-      <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fill,minmax(280px,1fr))",gap:14}}>
-        {agents.length===0?<Empty msg="Aucun agent configuré"/>:agents.map(a=>(
-          <div key={a.id} style={{background:T.surface,border:`1px solid ${T.border}`,borderRadius:12,padding:18,display:"flex",flexDirection:"column",gap:12}}>
-            <div style={{display:"flex",alignItems:"center",gap:12}}>
-              <div style={{width:42,height:42,borderRadius:10,background:T.accentDim,display:"flex",alignItems:"center",justifyContent:"center",fontSize:20,flexShrink:0}}>{a.icon}</div>
-              <div style={{flex:1,minWidth:0}}><div style={{fontSize:13,fontWeight:600,color:T.text}}>{a.agent}</div><div style={{marginTop:4}}><Badge status={a.statut}/></div></div>
-              <div style={{fontSize:10,color:T.text3,textAlign:"right",flexShrink:0}}>{fTime(a.heure_execution)}</div>
+      {loading?<Spin/>:(
+        <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fill,minmax(296px,1fr))",gap:12}}>
+          {agents.length===0?<Empty t="Aucun agent"/>:agents.map(a=>(
+            <div key={a.id} style={{border:`1px solid ${T.border}`,borderRadius:8,padding:16,background:T.card,display:"flex",flexDirection:"column",gap:12}}>
+              <div style={{display:"flex",gap:10,alignItems:"center"}}>
+                <div style={{width:38,height:38,borderRadius:7,background:T.blueDim,display:"flex",alignItems:"center",justifyContent:"center",fontSize:18,flexShrink:0}}>{a.icon}</div>
+                <div style={{flex:1,minWidth:0}}>
+                  <div style={{fontSize:12,fontWeight:600,color:T.text}}>{a.agent}</div>
+                  <div style={{marginTop:3}}><Pill s={a.statut}/></div>
+                </div>
+                <div style={{fontSize:10,color:T.t3,fontFamily:T.mono,flexShrink:0}}>{ft(a.heure_execution)}</div>
+              </div>
+              <div style={{fontSize:12,color:T.t2,lineHeight:1.6}}>{a.insight}</div>
             </div>
-            <div style={{fontSize:12,color:T.text2,lineHeight:1.6}}>{a.insight}</div>
-          </div>
-        ))}
-      </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 }
