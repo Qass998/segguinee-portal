@@ -5,7 +5,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 interface ProductionEntry { id:string;volume_m3:number;station:string;zone:string;recorded_by:string;recorded_at:string; }
 interface Invoice { id:string;customer_phone:string;customer_name:string;amount_gnf:number;reference:string;description:string;due_date:string;status:"pending"|"paid"|"overdue"|"cancelled";signed:boolean;paid_at:string|null;created_at:string; }
 interface Incident { id:string;type:string;description:string;zone:string;station:string;status:"open"|"in_progress"|"resolved"|"closed";reported_by:string;created_at:string; }
-interface Agent { id:string;agent:string;icon:string;statut:string;insight:string;heure_execution:string; }
+interface Agent { id:string;agent:string;agent_id:string;icon:string;statut:string;insight:string;heure_execution:string; }
 interface Projet { id:string;nom:string;type:string;zone:string;statut:string;budget_gnf:number;depense_gnf:number;date_debut:string;date_fin:string;chef_projet:string;description:string; }
 interface Task { id:string;command:string;status:"pending"|"executing"|"done"|"failed";result:string;action_taken:string;created_at:string;executed_at:string; }
 
