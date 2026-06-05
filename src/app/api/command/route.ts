@@ -48,12 +48,15 @@ export async function POST(req: Request) {
       atList('staff', { maxRecords: 20 }),
     ]);
 
-    const overdueInvoices = invoices.filter(r => r.fields.Status === 'overdue');
-    const pendingInvoices = invoices.filter(r => r.fields.Status === 'pending');
-    const openIncidents   = incidents.filter(r => r.fields.Status === 'open' || r.fields.Status === 'in_progress');
-    const activeProjects  = projects.filter(r => r.fields.Statut === 'en_cours');
+    // singleSelect fields return as {name, color} objects from Airtable — normalise
+    const sel = (v: any) => (typeof v === 'object' && v?.name) ? v.name : (v || '');
+
+    const overdueInvoices = invoices.filter(r => sel(r.fields.Status) === 'overdue');
+    const pendingInvoices = invoices.filter(r => sel(r.fields.Status) === 'pending');
+    const openIncidents   = incidents.filter(r => ['open','in_progress'].includes(sel(r.fields.Status)));
+    const activeProjects  = projects.filter(r => sel(r.fields.Statut) === 'en_cours');
     const totalProduction = production.reduce((s, r) => s + (r.fields.Volume_m3 || 0), 0);
-    const collectedGNF    = invoices.filter(r => r.fields.Status === 'paid').reduce((s, r) => s + (r.fields.Amount_GNF || 0), 0);
+    const collectedGNF    = invoices.filter(r => sel(r.fields.Status) === 'paid').reduce((s, r) => s + (r.fields.Amount_GNF || 0), 0);
     const pendingGNF      = pendingInvoices.reduce((s, r) => s + (r.fields.Amount_GNF || 0), 0);
     const overdueGNF      = overdueInvoices.reduce((s, r) => s + (r.fields.Amount_GNF || 0), 0);
 
