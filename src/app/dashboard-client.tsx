@@ -700,7 +700,7 @@ function AgentChat({ agent, onClose }: { agent: Agent; onClose: () => void }) {
   ]);
   const [input, setInput] = useState("");
   const [busy, setBusy] = useState(false);
-  const bottomRef = useCallback((el: HTMLDivElement | null) => { if (el) el.scrollIntoView({ behavior: "smooth" }); }, [msgs]);
+  const bottomRef = useCallback((el: HTMLDivElement | null) => { if (el) el.scrollIntoView({ behavior: "smooth" }); }, []);
 
   const send = async () => {
     if (!input.trim() || busy) return;
