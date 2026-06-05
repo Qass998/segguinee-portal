@@ -47,3 +47,20 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: e.message }, { status: 500 });
   }
 }
+
+export async function DELETE(req: Request) {
+  try {
+    const { id } = await req.json();
+    if (!id) return NextResponse.json({ error: 'No id' }, { status: 400 });
+    const BASE_ID = process.env.SEGGUINEE_AIRTABLE_BASE ?? '';
+    const TOKEN   = process.env.AIRTABLE_TOKEN ?? '';
+    const res = await fetch(`https://api.airtable.com/v0/${BASE_ID}/projects/${id}`, {
+      method: 'DELETE',
+      headers: { Authorization: `Bearer ${TOKEN}` },
+    });
+    if (!res.ok) throw new Error(`Airtable delete: ${res.status}`);
+    return NextResponse.json({ deleted: id });
+  } catch (e: any) {
+    return NextResponse.json({ error: e.message }, { status: 500 });
+  }
+}

@@ -428,6 +428,7 @@ function Production(){
   const load=useCallback(async()=>{const d=await fetch("/api/data/production").then(r=>r.json());setRows(d||[]);setLoading(false);},[]);
   useEffect(()=>{load();},[load]);
   const sub=async(e:React.FormEvent)=>{e.preventDefault();setBusy(true);const r=await fetch("/api/data/production",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({...f,volume_m3:Number(f.volume_m3)})});if(r.ok){setF({volume_m3:"",station:"",zone:ZONES[0],recorded_by:""});setOpen(false);await load();}setBusy(false);};
+  const del=async(id:string)=>{if(!confirm("Supprimer ce relevé?"))return;await fetch("/api/data/production",{method:"DELETE",headers:{"Content-Type":"application/json"},body:JSON.stringify({id})});setRows(r=>r.filter(x=>x.id!==id));};
   const total=rows.reduce((s,e)=>s+e.volume_m3,0);
   return(
     <div style={{display:"flex",flexDirection:"column",gap:18}}>
@@ -454,13 +455,14 @@ function Production(){
         )}
         {loading?<Spin/>:rows.length===0?<Empty t="Aucun relevé"/>:(
           <table>
-            <TH cols={["Date","Volume m³","Station","Zone","Par"]}/>
+            <TH cols={["Date","Volume m³","Station","Zone","Par",""]}/>
             <tbody>{rows.map((r,i)=><tr key={r.id} style={{borderBottom:i<rows.length-1?`1px solid ${T.border}`:"none"}}>
               <td style={{padding:"10px 16px",fontSize:11,color:T.t2,fontFamily:T.mono}}>{fd(r.recorded_at)}</td>
               <td style={{padding:"10px 16px",fontSize:13,fontWeight:700,color:T.text,fontFamily:T.mono,fontVariantNumeric:"tabular-nums"}}>{r.volume_m3.toLocaleString("fr-FR")}</td>
               <td style={{padding:"10px 16px",fontSize:12,color:T.text}}>{r.station}</td>
               <td style={{padding:"10px 16px",fontSize:11,color:T.t2}}>{r.zone}</td>
               <td style={{padding:"10px 16px",fontSize:11,color:T.t3}}>{r.recorded_by}</td>
+              <td style={{padding:"10px 8px"}}><button onClick={()=>del(r.id)} style={{background:"none",border:"none",color:T.t3,cursor:"pointer",fontSize:14,padding:"2px 6px"}} title="Supprimer">×</button></td>
             </tr>)}</tbody>
           </table>
         )}
@@ -482,6 +484,7 @@ function Invoices(){
   const [f,setF]=useState({customer_name:"",customer_phone:"",amount_gnf:"",description:"",due_date:""});
   const load=useCallback(async()=>{const d=await fetch("/api/data/invoices?status=all").then(r=>r.json());setRows(d||[]);setLoading(false);},[]);
   useEffect(()=>{load();},[load]);
+  const del=async(id:string)=>{if(!confirm("Supprimer cette facture?"))return;await fetch("/api/data/invoices",{method:"DELETE",headers:{"Content-Type":"application/json"},body:JSON.stringify({id})});setRows(r=>r.filter(x=>x.id!==id));};
   const sub=async(e:React.FormEvent)=>{
     e.preventDefault();setBusy(true);
     const r=await fetch("/api/data/invoices",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({...f,amount_gnf:Number(f.amount_gnf)})});
@@ -527,13 +530,14 @@ function Invoices(){
         )}
         {loading?<Spin/>:shown.length===0?<Empty t="Aucune facture"/>:(
           <table>
-            <TH cols={["Référence","Client","Montant","Échéance","Statut"]}/>
+            <TH cols={["Référence","Client","Montant","Échéance","Statut",""]}/>
             <tbody>{shown.map((r,i)=><tr key={r.id} style={{borderBottom:i<shown.length-1?`1px solid ${T.border}`:"none"}}>
               <td style={{padding:"10px 16px",fontSize:10,color:T.t3,fontFamily:T.mono}}>{r.reference}</td>
               <td style={{padding:"10px 16px"}}><div style={{fontSize:12,fontWeight:500,color:T.text}}>{r.customer_name||"—"}</div><div style={{fontSize:10,color:T.t3,marginTop:1}}>{r.customer_phone}</div></td>
               <td style={{padding:"10px 16px",fontSize:12,fontWeight:700,color:T.text,fontFamily:T.mono,fontVariantNumeric:"tabular-nums"}}>{fg(r.amount_gnf)}</td>
               <td style={{padding:"10px 16px",fontSize:11,color:T.t2,fontFamily:T.mono}}>{fd(r.due_date)}</td>
               <td style={{padding:"10px 16px"}}><Pill s={r.status}/></td>
+              <td style={{padding:"10px 8px"}}><button onClick={()=>del(r.id)} style={{background:"none",border:"none",color:T.t3,cursor:"pointer",fontSize:14,padding:"2px 6px"}} title="Supprimer">×</button></td>
             </tr>)}</tbody>
           </table>
         )}
@@ -553,6 +557,7 @@ function Incidents(){
   const [f,setF]=useState({type:INC_TYPES[0],description:"",zone:ZONES[0],station:"",reported_by:""});
   const load=useCallback(async()=>{const d=await fetch("/api/data/incidents").then(r=>r.json());setRows(d||[]);setLoading(false);},[]);
   useEffect(()=>{load();},[load]);
+  const del=async(id:string)=>{if(!confirm("Supprimer cet incident?"))return;await fetch("/api/data/incidents",{method:"DELETE",headers:{"Content-Type":"application/json"},body:JSON.stringify({id})});setRows(r=>r.filter(x=>x.id!==id));};
   const sub=async(e:React.FormEvent)=>{e.preventDefault();setBusy(true);const r=await fetch("/api/data/incidents",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(f)});if(r.ok){setF({type:INC_TYPES[0],description:"",zone:ZONES[0],station:"",reported_by:""});setOpen(false);await load();}setBusy(false);};
   const openN=rows.filter(r=>r.status==="open").length;
   const inP=rows.filter(r=>r.status==="in_progress").length;
@@ -589,6 +594,7 @@ function Incidents(){
                 <span style={{fontSize:11,color:T.t3}}>·</span>
                 <span style={{fontSize:12,color:T.t2}}>{r.zone} — {r.station}</span>
                 <Pill s={r.status}/>
+                <button onClick={()=>del(r.id)} style={{marginLeft:"auto",background:"none",border:"none",color:T.t3,cursor:"pointer",fontSize:14,padding:"2px 6px"}} title="Supprimer">×</button>
               </div>
               <div style={{fontSize:12,color:T.t2,lineHeight:1.55,marginBottom:4}}>{r.description}</div>
               <div style={{fontSize:10,color:T.t3,fontFamily:T.mono}}>{ft(r.created_at)} · {r.reported_by}</div>
@@ -611,6 +617,7 @@ function Projets(){
   const [f,setF]=useState({nom:"",type:PROJ_TYPES[0],zone:ZONES[0],statut:"planifié",budget_gnf:"",depense_gnf:"0",date_debut:"",date_fin:"",chef_projet:"",description:""});
   const load=useCallback(async()=>{const d=await fetch("/api/data/projects").then(r=>r.json());setRows(d||[]);setLoading(false);},[]);
   useEffect(()=>{load();},[load]);
+  const del=async(id:string)=>{if(!confirm("Supprimer ce projet?"))return;await fetch("/api/data/projects",{method:"DELETE",headers:{"Content-Type":"application/json"},body:JSON.stringify({id})});setRows(r=>r.filter(x=>x.id!==id));};
   const sub=async(e:React.FormEvent)=>{e.preventDefault();setBusy(true);const r=await fetch("/api/data/projects",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({...f,budget_gnf:Number(f.budget_gnf),depense_gnf:Number(f.depense_gnf)})});if(r.ok){setF({nom:"",type:PROJ_TYPES[0],zone:ZONES[0],statut:"planifié",budget_gnf:"",depense_gnf:"0",date_debut:"",date_fin:"",chef_projet:"",description:""});setOpen(false);await load();}setBusy(false);};
   const totBudget=rows.reduce((s,r)=>s+r.budget_gnf,0);
   const totSpent=rows.reduce((s,r)=>s+r.depense_gnf,0);
@@ -656,6 +663,7 @@ function Projets(){
                       <span style={{fontSize:13,fontWeight:600,color:T.text}}>{r.nom}</span>
                       <Pill s={r.statut}/>
                       <span style={{fontSize:10,color:T.t3}}>{r.type}</span>
+                      <button onClick={()=>del(r.id)} style={{marginLeft:"auto",background:"none",border:"none",color:T.t3,cursor:"pointer",fontSize:14,padding:"2px 6px"}} title="Supprimer">×</button>
                     </div>
                     <div style={{fontSize:11,color:T.t2,marginBottom:10,fontFamily:T.mono}}>
                       {r.zone} · Chef: {r.chef_projet} · {fd(r.date_debut)} → {fd(r.date_fin)}
