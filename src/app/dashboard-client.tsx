@@ -717,7 +717,7 @@ function AgentChat({ agent, onClose }: { agent: Agent; onClose: () => void }) {
     setMsgs(m => [...m, { role: "user", content: userMsg }]);
     setBusy(true);
     try {
-      const res = await fetch("/api/command", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ command: userMsg }) });
+      const res = await fetch("/api/command", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ command: userMsg, agent_id: agent.agent_id, agent_name: agent.agent, agent_role: meta.role, agent_caps: meta.caps }) });
       const d = await res.json();
       setMsgs(m => [...m, { role: "assistant", content: d.result || "Commande exécutée." }]);
     } catch {

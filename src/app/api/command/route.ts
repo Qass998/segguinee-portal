@@ -27,7 +27,7 @@ export async function GET() {
 }
 
 export async function POST(req: Request) {
-  const { command } = await req.json();
+  const { command, agent_id, agent_name, agent_role, agent_caps } = await req.json();
   if (!command?.trim()) return NextResponse.json({ error: 'No command' }, { status: 400 });
 
   const record = await atCreate('tasks', {
@@ -78,32 +78,35 @@ Données SEGGUINÉE en temps réel:
       messages: [
         {
           role: 'system',
-          content: `Tu es l'IA opérationnelle de SEGGUINÉE (société des eaux de Guinée). Tu exécutes les instructions du directeur.
+          content: `Tu es l'IA opérationnelle de SEGGUINÉE (société des eaux de Guinée).${agent_name ? `\n\nTu incarnes le rôle de "${agent_name}" — ${agent_role || ''}. Tes domaines: ${(agent_caps || []).join(', ')}.` : ''}
 
 Actions disponibles:
 - CREATE_INVOICE: créer une facture (params: customer_name, customer_phone, amount_gnf, description, due_date)
 - SEND_WHATSAPP: envoyer WhatsApp (params: phone, message)
-- SEND_REMINDER: rappels de paiement aux clients en retard (pas de params — utilise les données contexte)
+- SEND_REMINDER: rappels de paiement aux clients en retard
 - LOG_INCIDENT: signaler incident (params: type, description, zone, station, reported_by)
-- RESOLVE_INCIDENT: résoudre un incident (params: zone, station — cherche dans contexte)
+- RESOLVE_INCIDENT: résoudre un incident (params: zone, station)
 - ADD_PRODUCTION: relevé de production (params: volume_m3, station, zone, recorded_by)
-- DISPATCH_TEAM: déployer équipe terrain (params: zone, mission, team_phone — cherche dans contexte staff)
+- DISPATCH_TEAM: déployer équipe terrain (params: zone, mission, team_phone)
 - SUMMARIZE: résumé complet de la situation actuelle
-- DAILY_BRIEFING: briefing détaillé pour le directeur (KPIs + priorités + recommandations)
-- BOARD_REPORT: préparer résumé rapport conseil d'administration
+- DAILY_BRIEFING: briefing détaillé KPIs + priorités + recommandations
+- BOARD_REPORT: rapport conseil d'administration
 - SEND_INVOICE_LINK: envoyer lien de signature à un client (params: customer_name_or_phone)
-- UNKNOWN: non reconnu
+- CHAT: répondre à une question conversationnelle, présentation, explication de rôle, salutation (params: response — ta réponse en français, en caractère, 2-4 phrases max)
+
+Utilise CHAT quand: le directeur salue, demande qui tu es, ce que tu fais, comment tu peux aider, ou pose une question générale non opérationnelle.
+Utilise les actions opérationnelles quand: le directeur donne une instruction concrète.
 
 Réponds UNIQUEMENT en JSON valide:
 {
   "action": "ACTION_NAME",
   "params": {},
-  "agent": "Nom du responsable qui exécute (ex: Chef de Cabinet, Coordinateur Opérationnel...)",
+  "agent": "${agent_name || 'Système'}",
   "explanation": "Ce que tu fais en 1 phrase",
-  "message_to_director": "Confirmation concise pour le directeur"
+  "message_to_director": "Ta réponse au directeur"
 }`,
         },
-        { role: 'user', content: `Contexte:\n${context}\n\nInstruction: "${command}"` },
+        { role: 'user', content: `Contexte:\n${context}\n\nMessage du directeur: "${command}"` },
       ],
       temperature: 0.1,
     });
@@ -276,8 +279,12 @@ Réponds UNIQUEMENT en JSON valide:
       result = `✓ [${agentLabel}] Message envoyé à ${params.phone || DIRECTOR_PHONE}`;
     }
 
+    else if (action === 'CHAT') {
+      result = params.response || message_to_director || parsed.explanation || 'Bonjour, comment puis-je vous aider?';
+    }
+
     else {
-      result = `[Système] Commande non reconnue. Essayez: "résume la situation", "envoie les rappels", "déploie l'équipe à [zone]", "briefing du jour"`;
+      result = `[${agentLabel}] Je n'ai pas compris cette instruction. Essayez: "résume la situation", "envoie les rappels", "briefing du jour", ou posez-moi une question sur mon rôle.`;
     }
 
     await atUpdate('tasks', taskId, {
