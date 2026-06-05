@@ -2,6 +2,9 @@ import { NextResponse } from 'next/server';
 import { atCreate, atUpdate, atList } from '@/lib/airtable';
 import { sendMessage } from '@/lib/whatsapp';
 import OpenAI from 'openai';
+import { randomUUID } from 'crypto';
+
+const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || 'https://segguinee-portal.vercel.app';
 
 const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 const DIRECTOR_PHONE = process.env.SEGGUINEE_DIRECTOR_PHONE || '';
@@ -122,7 +125,9 @@ Réponds UNIQUEMENT en JSON valide:
     // ── EXECUTE ────────────────────────────────────────────────────────────
 
     if (action === 'CREATE_INVOICE') {
-      const ref = `INV-${Date.now().toString(36).toUpperCase().slice(-6)}`;
+      const ref   = `INV-${Date.now().toString(36).toUpperCase().slice(-6)}`;
+      const token = randomUUID().replace(/-/g, '').slice(0, 24);
+      const signLink = `${BASE_URL}/sign/${token}`;
       await atCreate('invoices', {
         Reference:      ref,
         Customer_name:  params.customer_name  || '',
@@ -131,11 +136,27 @@ Réponds UNIQUEMENT en JSON valide:
         Description:    params.description    || '',
         Due_date:       params.due_date        || '',
         Status:         'pending',
+        Sign_token:     token,
         Created_at:     new Date().toISOString(),
       });
-      result = `✓ [${agentLabel}] Facture ${ref} créée — ${Number(params.amount_gnf).toLocaleString('fr-FR')} GNF pour ${params.customer_name}`;
+      const amountFmt = Number(params.amount_gnf).toLocaleString('fr-FR');
+      result = `✓ [${agentLabel}] Facture ${ref} créée — ${amountFmt} GNF pour ${params.customer_name}\n📄 Lien de signature: ${signLink}`;
       if (params.customer_phone) {
-        await sendMessage(params.customer_phone, `Bonjour ${params.customer_name}, votre facture SEGGUINÉE de ${Number(params.amount_gnf).toLocaleString('fr-FR')} GNF a été émise. Référence: ${ref}. Merci.`).catch(() => null);
+        const msg = [
+          `Bonjour ${params.customer_name},`,
+          ``,
+          `La *SEGGUINÉE* vous adresse une facture de *${amountFmt} GNF*.`,
+          ``,
+          `📄 Référence: ${ref}`,
+          params.description ? `📝 Objet: ${params.description}` : '',
+          params.due_date ? `📅 Échéance: ${new Date(params.due_date).toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' })}` : '',
+          ``,
+          `Consultez et confirmez votre facture ici:`,
+          signLink,
+          ``,
+          `_Service Facturation SEGGUINÉE_`,
+        ].filter(Boolean).join('\n');
+        await sendMessage(params.customer_phone, msg).catch(() => null);
       }
     }
 
