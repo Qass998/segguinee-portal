@@ -564,6 +564,7 @@ export default async function SignPage({
                   token={token}
                   amount={fmtGNF(f.Amount_GNF)}
                   reference={f.Reference || ""}
+                  alreadySigned={isSigned}
                 />
               </div>
             </div>

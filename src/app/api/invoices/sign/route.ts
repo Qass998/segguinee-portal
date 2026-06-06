@@ -29,15 +29,17 @@ export async function POST(req: Request) {
       Status:    "paid",
     });
 
-    // Notify director
+    // Notify director with link to signed document
     const directorPhone = process.env.SEGGUINEE_DIRECTOR_PHONE || "";
+    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://segguinee-portal.vercel.app";
+    const docLink = `${baseUrl}/sign/${token}`;
     if (directorPhone) {
       const signedAt = new Date(now).toLocaleString("fr-FR", {
         day: "numeric", month: "long", hour: "2-digit", minute: "2-digit",
       });
       await sendMessage(
         directorPhone,
-        `✅ *Facture confirmée*\n\nRéférence: ${record.fields.Reference || invoiceId}\nClient: ${record.fields.Customer_name || record.fields.Customer_phone || "—"}\nMontant: ${(record.fields.Amount_GNF || 0).toLocaleString("fr-FR")} GNF\nSignée le: ${signedAt}\n\n_Agent Facturation SEGGUINÉE_`,
+        `✅ *Facture signée*\n\nRéférence: ${record.fields.Reference || invoiceId}\nClient: ${record.fields.Customer_name || record.fields.Customer_phone || "—"}\nMontant: ${(record.fields.Amount_GNF || 0).toLocaleString("fr-FR")} GNF\nSignée le: ${signedAt}\n\n📄 *Document signé:*\n${docLink}\n_(Ouvrir pour voir et télécharger en PDF)_\n\n_Contrôleur de Créances · SEGGUINÉE_`,
       );
     }
 
